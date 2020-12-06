@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
+use DB;
 
 class UtilizadorController extends Controller
 {
@@ -50,23 +51,12 @@ class UtilizadorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Utilizador  $utilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function show(utilizador $utilizador)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Utilizador  $utilizador
+     * @param  \App\Models\Utilizador  $Utilizador
      * @return \Illuminate\Http\Response
      */
-    public function edit(utilizador $utilizador)
+    public function edit(Utilizador $utilizador)
     {
         //
     }
@@ -75,10 +65,10 @@ class UtilizadorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Utilizador  $utilizador
+     * @param  \App\Models\Utilizador  $Utilizador
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, utilizador $utilizador)
+    public function update(Request $request, Utilizador $utilizador)
     {
         //
     }
@@ -86,11 +76,53 @@ class UtilizadorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Utilizador  $utilizador
+     * @param  \App\Models\Utilizador  $Utilizador
      * @return \Illuminate\Http\Response
      */
-    public function destroy(utilizador $utilizador)
+    public function destroy(Utilizador $utilizador)
     {
         //
+    }
+
+    public function realizarLogin()
+    {
+        if(isset($_SESSION["utilizador"])) {
+            //Redirecionar para a respetiva página de utilizador
+        }
+
+        $nome = $_POST["nome"];
+        $password = $_POST["password"];
+
+        $user = self::getUserNome($nome);
+
+        if($user != null) {
+            if($user->password == $password) {
+                $_SESSION["utilizador"] = $user;
+                if($user->tipoUtilizador == 0) {
+                    return view("userAdmin");
+                }
+                else {
+                    return view("userColaborador");
+                }   
+            }
+            else {
+                return view("login")->with("msg", 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!');
+            }
+        }
+        else {
+            return view("login")->with("msg", 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!');
+        }
+    }
+
+    public function getUserId($id)
+    {
+        return ['user' => User::findOrFail($id)];
+    }
+
+    public function getUserNome($nome)
+    {
+        $user = DB::table('utilizador')->where('nome', $nome)->first();
+        return $user;
+
     }
 }
