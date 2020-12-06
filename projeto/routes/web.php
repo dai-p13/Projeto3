@@ -23,3 +23,5 @@ Route::get('login', 'UtilizadorController@notAllowed');
 Route::resource('utilizadores', UtilizadorController::class);
 
 Route::resource('projetos', ProjetoController::class);
+
+Route::resource('agrupamentos', AgrupamentoController::class);

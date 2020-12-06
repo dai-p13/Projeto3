@@ -11,9 +11,9 @@
 <td>Id</td>
 <td>Nome</td>
 <td>Objetivos</td>
-<td>regulamento</td>
-<td>publicoAlvo</td>
-<td>observacoes</td>
+<td>Regulamento</td>
+<td>Publico Alvo</td>
+<td>Observacoes</td>
 </tr>
 @foreach ($projetos as $proj)
 <tr>
