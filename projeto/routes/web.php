@@ -25,3 +25,17 @@ Route::resource('utilizadores', UtilizadorController::class);
 Route::resource('projetos', ProjetoController::class);
 
 Route::resource('agrupamentos', AgrupamentoController::class);
+
+Route::resource('cargos', CargoProfController::class);
+
+Route::resource('cod_postal', CodPostalController::class);
+
+Route::resource('cod_postal_rua', CodPostalRuaController::class);
+
+Route::resource('concelhos', ConcelhoController::class);
+
+Route::resource('contador_historias', ContadorHistoriaController::class);
+
+Route::resource('entidade_oficial', EntidadeOficialController::class);
+
+
