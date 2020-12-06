@@ -1,3 +1,16 @@
+<?php
+	$utilizador = Session::get('utilizador');
+	if(isset($utilizador)) {
+		if($utilizador->tipoUtilizador == 0) {
+			header("location:userAdmin");
+			exit();
+		}
+		else {
+			header("location:userColaborador");
+			exit();
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

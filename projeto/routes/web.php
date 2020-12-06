@@ -18,5 +18,8 @@ Route::get('/', function () {
 });
 
 Route::post('login', 'UtilizadorController@realizarLogin');
+Route::get('login', 'UtilizadorController@notAllowed');
 
 Route::resource('utilizadores', UtilizadorController::class);
+
+Route::resource('projetos', ProjetoController::class);

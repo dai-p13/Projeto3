@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Utilizador;
 use Illuminate\Http\Request;
 use DB;
+use Session;
 
 class UtilizadorController extends Controller
 {
@@ -79,15 +80,23 @@ class UtilizadorController extends Controller
      * @param  \App\Models\Utilizador  $Utilizador
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Utilizador $utilizador)
+    public function destroy($id)
     {
-        //
+        $utilizador = posts::find($id);
+        $utilizador->delete();
+        return redirect('/');
     }
 
     public function realizarLogin()
     {
         if(isset($_SESSION["utilizador"])) {
             //Redirecionar para a respetiva página de utilizador
+            if($user->tipoUtilizador == 0) {
+                return view("userAdmin");
+            }
+            else {
+                return view("userColaborador");
+            } 
         }
 
         $nome = $_POST["nome"];
@@ -97,7 +106,7 @@ class UtilizadorController extends Controller
 
         if($user != null) {
             if($user->password == $password) {
-                $_SESSION["utilizador"] = $user;
+                Session::put('utilizador', $user);
                 if($user->tipoUtilizador == 0) {
                     return view("userAdmin");
                 }
@@ -124,5 +133,9 @@ class UtilizadorController extends Controller
         $user = DB::table('utilizador')->where('nome', $nome)->first();
         return $user;
 
+    }
+    
+    public function notAllowed() {
+        return view("login");
     }
 }
