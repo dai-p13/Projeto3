@@ -6,6 +6,7 @@ use App\Models\Utilizador;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use Auth;
 
 class UtilizadorController extends Controller
 {
@@ -18,7 +19,7 @@ class UtilizadorController extends Controller
     {
         $utilizadores = Utilizador::all();
 
-        return view('viewUsers', ['utilizadores' => $utilizadores]);
+        return view('admin.layoutUtilizadores', ['utilizadores' => $utilizadores]);
     }
 
     /**
@@ -92,10 +93,10 @@ class UtilizadorController extends Controller
         if(isset($_SESSION["utilizador"])) {
             //Redirecionar para a respetiva página de utilizador
             if($user->tipoUtilizador == 0) {
-                return view("userAdmin");
+                return redirect()->route('dashboardAdmin');
             }
             else {
-                return view("userColaborador");
+                return redirect()->route("colaborador/pagInicial");
             } 
         }
 
@@ -106,12 +107,12 @@ class UtilizadorController extends Controller
 
         if($user != null) {
             if($user->password == $password) {
-                Session::put('utilizador', $user);
+                $_SESSION["utilizador"] = $user;
                 if($user->tipoUtilizador == 0) {
-                    return view("userAdmin");
+                    return redirect()->route('dashboardAdmin');
                 }
                 else {
-                    return view("userColaborador");
+                    return redirect()->route("colaborador/pagInicial");
                 }   
             }
             else {
@@ -121,6 +122,14 @@ class UtilizadorController extends Controller
         else {
             return view("login")->with("msg", 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!');
         }
+    }
+    public function realizarLogout()
+    {
+        session_start();
+        session_unset();
+        session_destroy();
+        session_write_close();
+        return redirect()->route('paginaLogin');
     }
 
     public function getUserId($id)

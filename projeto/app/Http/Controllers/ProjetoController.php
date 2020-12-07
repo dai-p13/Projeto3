@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Projeto;
 use Illuminate\Http\Request;
+use DB;
+use Session;
 
 class ProjetoController extends Controller
 {
@@ -14,9 +16,36 @@ class ProjetoController extends Controller
      */
     public function index()
     {
-        $projetos = Projeto::all();
+        $utilizador = Session::get('utilizador');
+        if(isset($utilizador)) {
+            $projetos = Projeto::all();
+            if($utilizador->tipoUtilizador == 0) {
+                return view('admin/pagInicial', ['projetos' => $projetos]);
+            }
+            else {
+                return view('colaborador/pagInicial', ['projetos' => $projetos]);
+            }
+        }
+        return view('login');
+    }
 
-        return view('viewProjets', ['projetos' => $projetos]);
+    public function getProjetoPorId($id)
+    {
+        $utilizador = Session::get('utilizador');
+        if(isset($utilizador)) {
+            $projeto = DB::table('projeto')
+            ->where('id_projeto', $id)->first();
+            if($projeto != null) {
+                $objProjeto = new \stdClass();
+                $objProjeto->id_projeto = $projeto->id_projeto;
+                $objProjeto->nome = $projeto->nome;
+                $objProjeto->objetivos = $projeto->objetivos;
+                $objProjeto->publicoAlvo = $projeto->publicoAlvo;
+                $objProjeto->observacoes = $projeto->observacoes;
+                return response()->json(array('sucesso' => true, 'projeto' => $objProjeto));
+            }
+        }
+        return view('login');
     }
 
     /**

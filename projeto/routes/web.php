@@ -15,11 +15,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view("login");
-});
+})->name("paginaLogin");
 
+//ROUTES PARA O USER ADMIN
+Route::get('admin/dashboardAdmin', 'ProjetoController@index')->name("dashboardAdmin");
+Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId');
+Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout');
+
+// ROUTES DE LOGIN
 Route::post('login', 'UtilizadorController@realizarLogin');
 Route::get('login', 'UtilizadorController@notAllowed');
 
+// ROUTES PARA O USER COLABORADOR
 Route::resource('utilizadores', UtilizadorController::class);
 
 Route::resource('projetos', ProjetoController::class);

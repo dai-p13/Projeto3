@@ -1,12 +1,12 @@
 <?php
-	$utilizador = Session::get('utilizador');
-	if(isset($utilizador)) {
+	if(isset($_SESSION["utilizador"])) {
+		$utilizador = $_SESSION["utilizador"];
 		if($utilizador->tipoUtilizador == 0) {
-			header("location:userAdmin");
+			header("location:login");
 			exit();
 		}
 		else {
-			header("location:userColaborador");
+			header("location:colaborador/dashboardColaborador");
 			exit();
 		}
 	}
