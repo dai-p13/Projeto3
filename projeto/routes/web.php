@@ -82,3 +82,5 @@ Route::resource('projeto_rbe', ProjetoRBEController::class);
 Route::resource('projeto_universidade', ProjetoUniversidadeController::class);
 
 Route::resource('projeto_utilizador', ProjetoUtilizadorController::class);
+
+Route::resource('uni_prof_faculdade', UniversidadeProfFaculdadeController::class);
