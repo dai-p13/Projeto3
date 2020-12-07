@@ -45,3 +45,7 @@ Route::resource('formacao', FormacaoController::class);
 Route::resource('ilustrador_solidario', IlustradorSolidarioController::class);
 
 Route::resource('juri', JuriController::class);
+
+Route::resource('professor', ProfessorController::class);
+
+Route::resource('professor_faculdade', ProfessorFaculdadeController::class);
