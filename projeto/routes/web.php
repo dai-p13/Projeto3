@@ -38,4 +38,10 @@ Route::resource('contador_historias', ContadorHistoriaController::class);
 
 Route::resource('entidade_oficial', EntidadeOficialController::class);
 
+Route::resource('escola_solidaria', EscolaSolidariaController::class);
 
+Route::resource('formacao', FormacaoController::class);
+
+Route::resource('ilustrador_solidario', IlustradorSolidarioController::class);
+
+Route::resource('juri', JuriController::class);
