@@ -49,3 +49,9 @@ Route::resource('juri', JuriController::class);
 Route::resource('professor', ProfessorController::class);
 
 Route::resource('professor_faculdade', ProfessorFaculdadeController::class);
+
+Route::resource('rbe', RBEController::class);
+
+Route::resource('universidade', UniversidadeController::class);
+
+Route::resource('troca_agrupamento', TrocaAgrupamentoController::class);
