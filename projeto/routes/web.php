@@ -62,3 +62,23 @@ Route::resource('rbe', RBEController::class);
 Route::resource('universidade', UniversidadeController::class);
 
 Route::resource('troca_agrupamento', TrocaAgrupamentoController::class);
+
+Route::resource('projeto_contador', ProjetoContadorController::class);
+
+Route::resource('projeto_entidade', ProjetoEntidadeController::class);
+
+Route::resource('projeto_escola', ProjetoEscolaController::class);
+
+Route::resource('projeto_ilustrador', ProjetoIlustradorController::class);
+
+Route::resource('projeto_juri', ProjetoJuriController::class);
+
+Route::resource('projeto_professor', ProjetoProfessorController::class);
+
+Route::resource('projeto_professor_facul', ProjetoProfessorFaculController::class);
+
+Route::resource('projeto_rbe', ProjetoRBEController::class);
+
+Route::resource('projeto_universidade', ProjetoUniversidadeController::class);
+
+Route::resource('projeto_utilizador', ProjetoUtilizadorController::class);
