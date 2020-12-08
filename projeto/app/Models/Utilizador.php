@@ -14,20 +14,25 @@ class Utilizador extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'nome',
+        'nomeUtilizador',
         'telemovel',
         'telefone',
         'email',
         'tipoUtilizador',
         'departamento',
-        'password'
+        'password',
+        'nome'
     ];
-
-
     
     /*
     public function projetos()
     {
         return $this->hasMany('App\Models\Utilizador_Projeto');
+    }
+
+    public function delete() {
+        $this->checks()->delete();
+        $this->results()->delete();
+        parent::delete();
     }*/
 }

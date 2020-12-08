@@ -1,8 +1,8 @@
 <?php
-	if(isset($_SESSION["utilizador"])) {
-		$utilizador = $_SESSION["utilizador"];
+	$utilizador = session()->get("utilizador");
+	if(isset($utilizador)) {
 		if($utilizador->tipoUtilizador == 0) {
-			header("location:login");
+			header("location:admin/dashboardAdmin");
 			exit();
 		}
 		else {

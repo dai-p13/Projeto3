@@ -17,17 +17,26 @@ Route::get('/', function () {
     return view("login");
 })->name("paginaLogin");
 
-//ROUTES PARA O USER ADMIN
-Route::get('admin/dashboardAdmin', 'ProjetoController@index')->name("dashboardAdmin");
-Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId');
-Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout');
+Route::get('/{msg}', function ($msg) {
+    return view("login")->with("msg", $msg);
+})->name("paginaLoginErro");
 
+//ROUTES PARA O USER ADMIN
+/*Cada route tem de ter um middleware que verifica se o utilizador fez login antes de concretizar o pedido*/
+Route::get('admin/dashboardAdmin','ProjetoController@index')->name("dashboardAdmin")->middleware(['checkLogIn']);
+Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId')->middleware(['checkLogIn']);
+
+Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogIn']);
+Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogIn']);
+Route::post('admin/utilizadores/deleteUtilizador/{id}', 'UtilizadorController@destroy')->middleware(['checkLogIn']);
+Route::post('admin/utilizadores/editUtilizador/{id}', 'UtilizadorController@update')->middleware(['checkLogIn']);
+Route::post('admin/utilizadores/addUtilizador', 'UtilizadorController@store')->middleware(['checkLogIn']);
+
+Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogIn']);
 // ROUTES DE LOGIN
-Route::post('login', 'UtilizadorController@realizarLogin');
-Route::get('login', 'UtilizadorController@notAllowed');
+Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
 
 // ROUTES PARA O USER COLABORADOR
-Route::resource('utilizadores', UtilizadorController::class);
 
 Route::resource('projetos', ProjetoController::class);
 

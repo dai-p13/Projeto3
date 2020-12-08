@@ -24,9 +24,9 @@
 
 <body>
     <div class="d-flex" id="wrapper">
-        @include("sideBar")
+        @include("admin/sideBar")
         <div id="page-content-wrapper">
-            @include("topBar")
+            @include("admin/topBar")
             <div class="container-fluid">
                 <div class="container-xl">
                     <div class="table-responsive">

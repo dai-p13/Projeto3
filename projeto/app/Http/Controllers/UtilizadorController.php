@@ -10,87 +10,82 @@ use Auth;
 
 class UtilizadorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function index()
     {
         $utilizadores = Utilizador::all();
 
-        return view('admin.layoutUtilizadores', ['utilizadores' => $utilizadores]);
+        return view('admin.utilizadores', ['utilizadores' => $utilizadores]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $utilizador = new Utilizador();
+        $nomeUtilizador = $request->get("nomeUtilizador");
+        $nome = $request->get("nome");
+        $password = $request->get("password");
+        $departamento = $request->get("departamento");
+        $tipoUtilizador = \intval($request->get("tipoUtilizador"));
+        $telefone = $request->get("telefone");
+        $telemovel = $request->get("telemovel");
+        $email = $request->get("email");
 
-        $utilizador->nome = $request->nome;
-        $utilizador->telemovel = $request->telemovel;
-        $utilizador->telefone = $request->telefone;
-        $utilizador->email = $request->email;
-        $utilizador->tipoUtilizador = $request->tipoUtilizador;
-        $utilizador->departamento = $request->departamento;
+        $utilizador = self::getUserNome($nomeUtilizador);
+        if($utilizador == null) {
+            $user = new Utilizador();
+            
+            $user->nomeUtilizador = $nomeUtilizador;   
+            $user->nome = $nome;  
+            $user->password = $password;  
+            $user->departamento = $departamento;  
+            $user->tipoUtilizador = $tipoUtilizador;  
+            $user->telefone = $telefone;  
+            $user->telemovel = $telemovel;  
+            $user->email = $email; 
 
-        $utilizador->save();
+            $user->save();
+            return redirect()->route("utilizadores");
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Utilizador  $Utilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Utilizador $utilizador)
+    public function update($id, Request $request)
     {
-        //
+        $id_utilizador = \intval($id);
+        $nomeUtilizador = $request->get("nomeUtilizador");
+        $nome = $request->get("nome");
+        $password = $request->get("password");
+        $departamento = $request->get("departamento");
+        $tipoUtilizador = \intval($request->get("tipoUtilizador"));
+        $telefone = $request->get("telefone");
+        $telemovel = $request->get("telemovel");
+        $email = $request->get("email");
+        
+        $user = Utilizador::find($id_utilizador);
+        if($user != null) {
+            $user->nomeUtilizador = $nomeUtilizador;   
+            $user->nome = $nome;  
+            $user->password = $password;  
+            $user->departamento = $departamento;  
+            $user->tipoUtilizador = $tipoUtilizador;  
+            $user->telefone = $telefone;  
+            $user->telemovel = $telemovel;  
+            $user->email = $email; 
+
+            $user->save();
+            return redirect()->route("utilizadores");
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Utilizador  $Utilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Utilizador $utilizador)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Utilizador  $Utilizador
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $utilizador = posts::find($id);
+        $utilizador = Utilizador::find($id);
         $utilizador->delete();
-        return redirect('/');
+        return redirect()->route("utilizadores");
     }
 
     public function realizarLogin()
     {
-        if(isset($_SESSION["utilizador"])) {
+        $user = session()->get('utilizador');
+        if(isset($user)) {
             //Redirecionar para a respetiva página de utilizador
             if($user->tipoUtilizador == 0) {
                 return redirect()->route('dashboardAdmin');
@@ -100,14 +95,14 @@ class UtilizadorController extends Controller
             } 
         }
 
-        $nome = $_POST["nome"];
+        $nomeUtilizador = $_POST["nome"];
         $password = $_POST["password"];
 
-        $user = self::getUserNome($nome);
+        $user = self::getUserNome($nomeUtilizador);
 
         if($user != null) {
             if($user->password == $password) {
-                $_SESSION["utilizador"] = $user;
+                session()->put("utilizador", $user);
                 if($user->tipoUtilizador == 0) {
                     return redirect()->route('dashboardAdmin');
                 }
@@ -116,19 +111,16 @@ class UtilizadorController extends Controller
                 }   
             }
             else {
-                return view("login")->with("msg", 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!');
+                return redirect()->route("paginaLoginErro", ['msg' => 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!']);
             }
         }
         else {
-            return view("login")->with("msg", 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!');
+            return redirect()->route("paginaLoginErro",  ['msg' => 'Não existe nenhuma conta com a combinação do nome de utilizador e password inseridos!']);
         }
     }
     public function realizarLogout()
     {
-        session_start();
-        session_unset();
-        session_destroy();
-        session_write_close();
+        session()->flush();
         return redirect()->route('paginaLogin');
     }
 
@@ -137,14 +129,22 @@ class UtilizadorController extends Controller
         return ['user' => User::findOrFail($id)];
     }
 
-    public function getUserNome($nome)
+    public function getUserNome($nomeUtilizador)
     {
-        $user = DB::table('utilizador')->where('nome', $nome)->first();
+        $user = DB::table('utilizador')->where('nomeUtilizador', $nomeUtilizador)->first();
         return $user;
 
     }
-    
-    public function notAllowed() {
-        return view("login");
+
+    public function getUserPorId($id) {
+        
+        $user = DB::table('utilizador')->where('id_utilizador', $id)->first();
+        if($user != null) {
+            return response()->json($user);  
+        }
+        else {
+            return null;
+        }
+        
     }
 }
