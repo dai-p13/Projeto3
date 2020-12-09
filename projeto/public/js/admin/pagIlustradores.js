@@ -5,7 +5,7 @@ var totalElementos = 0
         $(document).ready(function () {
 
             $.ajax({
-                url: "utilizadores/pagUtilizadores",
+                url: "ilustradores/pag",
                 method: "GET",
                 dataType: "json",
                 success: function (response) {
@@ -17,7 +17,7 @@ var totalElementos = 0
             })
 
             $.ajax({
-                url: "utilizadores/getNumUsers",
+                url: "ilustradores/getNum",
                 method: "GET",
                 dataType: "json",
                 success: function (response) {
@@ -81,7 +81,7 @@ var totalElementos = 0
         }
 
         function pagNum(numPagina) {
-            urlPag = "http://projeto3/admin/utilizadores/pagUtilizadores?page=" + numPagina
+            urlPag = "http://projeto3/admin/ilustradores/pag?page=" + numPagina
             $.ajax({
                 url: urlPag,
                 method: "GET",
@@ -127,24 +127,22 @@ var totalElementos = 0
         }
 
         function editar(id) {
-            var url = "utilizadores/getPorId/" + id;
+            var url = "ilustradores/getPorId/" + id;
             $.ajax({
                 url: url,
                 method: "GET",
                 dataType: "json",
-                success: function (user) {
-                    if(user != null) {
-                        url = 'utilizadores/editUtilizador/' + user.id_utilizador
+                success: function (professor) {
+                    if(professor != null) {
+                        url = 'ilustradores/edit/' + professor.id_utilizador
                         $('#formEditarUtilizador').attr('action', url)
-                        $('#nomeUtilizador').val(user.nomeUtilizador)
-                        $('#nome').val(user.nome)
-                        $('#password').val(user.password)
-                        $('#departamento').val(user.departamento)
-                        var tipoUser = user.tipoUtilizador
-                        $('#tipoUtilizador').val(tipoUser.toString())
-                        $('#telefone').val(user.telefone)
-                        $('#telemovel').val(user.telemovel)
-                        $('#email').val(user.email)  
+                        $('#nomeUtilizador').val(professor.nomeUtilizador)
+                        $('#nome').val(professor.nome)
+                        $('#password').val(professor.password)
+                        $('#departamento').val(professor.departamento)
+                        $('#telefone').val(professor.telefone)
+                        $('#telemovel').val(professor.telemovel)
+                        $('#email').val(professor.email)  
                     }  
                 },
                 error: function (error) {
@@ -154,6 +152,6 @@ var totalElementos = 0
         }
 
         function remover(id) {
-            url = 'utilizadores/deleteUtilizador/' + id
-            $('#formDeleteUtilizador').attr('action', url)
+            url = 'ilustradores/delete/' + id
+            $('#formDelete').attr('action', url)
         }

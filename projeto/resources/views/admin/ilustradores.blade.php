@@ -179,7 +179,7 @@
                 <div id="edit" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="" id="formEditarUtilizador">
+                            <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Editar Utilizador</h4>
@@ -234,7 +234,7 @@
                 <div id="delete" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="" id="formDeleteUtilizador">
+                            <form method="POST" action="" id="formDelete">
                                 @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Remover Utilizador</h4>
