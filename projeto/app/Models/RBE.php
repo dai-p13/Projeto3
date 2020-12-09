@@ -18,4 +18,8 @@ class RBE extends Model
         'nomeCoordenador',
         'id_concelho'
     ];
+
+    public function concelho() {
+        return $this->hasOne(Concelho::class);
+    }
 }

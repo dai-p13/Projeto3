@@ -10,11 +10,11 @@ class UniversidadeProfFaculdade extends Model
     use HasFactory;
 
     protected $table = 'universidade_prof_faculdade';
-    //public $primaryKey = 'id_professorFaculdade';
-    public $primaryKey = 'id_universidade';
+    public $primaryKey = ['id_universidade', 'id_professorFaculdade'];
     public $timestamps = false;
 
     protected $fillable = [
-        'id_professorFaculdade'
+        'id_professorFaculdade',
+        'id_universidade'
     ];
 }

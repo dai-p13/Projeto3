@@ -24,7 +24,7 @@ class Utilizador extends Model
         'nome'
     ];
     
-    /*
+    
     public function projetos()
     {
         return $this->hasMany('App\Models\Utilizador_Projeto');
@@ -34,5 +34,5 @@ class Utilizador extends Model
         $this->checks()->delete();
         $this->results()->delete();
         parent::delete();
-    }*/
+    }
 }
