@@ -128,6 +128,8 @@ Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
 
 // ROUTES PARA O USER COLABORADOR
 
+/*As routes abaixo depois de criar as que estão em cima não vão ser
+precisas */
 Route::resource('projetos', ProjetoController::class);
 
 Route::resource('agrupamentos', AgrupamentoController::class);

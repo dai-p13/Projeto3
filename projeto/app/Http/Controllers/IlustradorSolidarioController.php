@@ -7,34 +7,23 @@ use Illuminate\Http\Request;
 
 class IlustradorSolidarioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $ilusolidario = IlustradorSolidario::all();
-
-        return view('viewIlustradorSolidario', ['ilusolidario' => $ilusolidario]);
+        $user = session()->get("utilizador");
+        $ilustradores = IlustradorSolidario::all();
+        if($user->tipoUtilizador == 0) {
+            return view('admin/ilustradores', ['ilustradores' => $ilustradores]);
+        }
+        else {
+            return view('colaborador/ilustradores', ['ilustradores' => $ilustradores]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $ilusolidario = new IlustradorSolidario();
@@ -50,46 +39,21 @@ class IlustradorSolidarioController extends Controller
         $ilusolidario->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\IlustradorSolidario  $ilusolidario
-     * @return \Illuminate\Http\Response
-     */
     public function show(ilusolidario $ilusolidario)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\IlustradorSolidario  $ilusolidario
-     * @return \Illuminate\Http\Response
-     */
     public function edit(ilusolidario $ilusolidario)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\IlustradorSolidario  $ilusolidario
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, ilusolidario $ilusolidario)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\IlustradorSolidario  $ilusolidario
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(ilusolidario $ilusolidario)
     {
         //

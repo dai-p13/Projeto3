@@ -14,9 +14,14 @@ class AgrupamentoController extends Controller
      */
     public function index()
     {
+        $user = session()->get("utilizador");
         $agrupamentos = Agrupamento::all();
-
-        return view('viewAgrupamento', ['agrupamentos' => $agrupamentos]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin/agrupamentos', ['data' => $agrupamentos]);
+        }
+        else {
+            return view('colaborador/agrupamentos', ['data' => $agrupamentos]);
+        }
     }
 
     /**
