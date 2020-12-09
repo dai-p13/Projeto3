@@ -147,4 +147,30 @@ class UtilizadorController extends Controller
         }
         
     }
+
+    public function getNextPage() {
+
+        $users = DB::table('utilizador')->simplePaginate(5);
+        
+        if($users != null) {
+            return response()->json($users);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumUsers() {
+
+        $utilizadores = Utilizador::all();
+        
+        if($utilizadores != null) {
+            return \count($utilizadores);
+        }
+        else {
+            return 0;
+        }
+        
+    }
 }

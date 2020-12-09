@@ -19,29 +19,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script>
-        $(document).ready(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-
-            var checkbox = $('table tbody input[type="checkbox"]');
-            $("#selectAll").click(function () {
-                if (this.checked) {
-                    checkbox.each(function () {
-                        this.checked = true;
-                    });
-                } else {
-                    checkbox.each(function () {
-                        this.checked = false;
-                    });
-                }
-            });
-            checkbox.click(function () {
-                if (!this.checked) {
-                    $("#selectAll").prop("checked", false);
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -77,7 +54,7 @@
                                         <th>Tipo de utilizador</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tableBody">
                                     <?php
                                         $contagem = 0;
                                         $numUtilizadores = 0;
@@ -88,7 +65,7 @@
                                                 if($contagem == 5) {
                                                     break;
                                                 }
-                                                $dados = "<tr>";
+                                                $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$user->nomeUtilizador.'</td>';
                                                 $dados = $dados.'<td>'.$user->nome.'</td>';
                                                 $dados = $dados.'<td>'.$user->password.'</td>';
@@ -119,23 +96,23 @@
                                 </tbody>
                             </table>
                             <div class="clearfix">
-                                <div class="hint-text">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numUtilizadores != 0) {echo $numUtilizadores;}?></b> registos</div>
+                                <div class="hint-text" id="numResultados">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numUtilizadores != 0) {echo $numUtilizadores;}?></b> registos</div>
                                 <ul class="pagination">
                                     <?php
                                         if($numUtilizadores != 0) {
                                             $i = 1;
                                             $numPaginas = ceil($numUtilizadores / 5);
-                                            $paginas = '<li class="page-item disabled"><a onclick="paginaAnterior('.$paginaAtual.')">Anterior</a></li>';
+                                            $paginas = '<li class="page-item"><a onclick="paginaAnterior()" class="page-link">Anterior</a></li>';
                                             while($i <= $numPaginas) {
                                                 if($i == $paginaAtual) {
-                                                    $paginas = $paginas.'<li class="page-item" active><a onclick="paginaSeguinte('.$paginaAtual.')" class="page-link">'.$i.'</a></li>';
+                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
                                                 }
                                                 else {
-                                                    $paginas = $paginas.'<li class="page-item"><a onclick="paginaSeguinte('.$paginaAtual.')" class="page-link">'.$i.'</a></li>';
+                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
                                                 }
                                                 $i = $i + 1;
                                             }
-                                            $paginas = $paginas.'<li class="page-item"><a onclick="paginaSeguinte('.$paginaAtual.')" class="page-link">Next</a></li>';
+                                            $paginas = $paginas.'<li class="page-item"><a onclick="paginaSeguinte()" class="page-link">Next</a></li>';
                                             echo $paginas;
                                         }
                                     ?>
@@ -280,52 +257,7 @@
         </div>
     </div>
     </div>
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-
-        function paginaAnterior(paginaAtual) {
-            console.log(paginaAtual);
-        }
-
-        function paginaSeguinte(paginaAtual) {
-            console.log(paginaAtual);
-        }
-
-        function editarUtilizador(id) {
-            var url = "utilizadores/getPorId/" + id;
-            $.ajax({
-                url: url,
-                method: "GET",
-                dataType: "json",
-                success: function (user) {
-                    if(user != null) {
-                        url = 'utilizadores/editUtilizador/' + user.id_utilizador
-                        $('#formEditarUtilizador').attr('action', url)
-                        $('#nomeUtilizador').val(user.nomeUtilizador)
-                        $('#nome').val(user.nome)
-                        $('#password').val(user.password)
-                        $('#departamento').val(user.departamento)
-                        var tipoUser = user.tipoUtilizador
-                        $('#tipoUtilizador').val(tipoUser.toString())
-                        $('#telefone').val(user.telefone)
-                        $('#telemovel').val(user.telemovel)
-                        $('#email').val(user.email)  
-                    }  
-                },
-                error: function (error) {
-                    
-                }
-            })
-        }
-
-        function removerUtilizador(id) {
-            url = 'utilizadores/deleteUtilizador/' + id
-            $('#formDeleteUtilizador').attr('action', url)
-        }
-    </script>
+    <script src="{{ asset('js/admin/pagUtilizadores.js') }}"></script>
 </body>
 
 </html>

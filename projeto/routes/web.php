@@ -28,6 +28,9 @@ Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId')-
 
 Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogIn']);
 Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogIn']);
+Route::get('admin/utilizadores/pagUtilizadores', 'UtilizadorController@getNextPage')->middleware(['checkLogIn']);
+Route::get('admin/utilizadores/getNumUsers', 'UtilizadorController@getNumUsers')->middleware(['checkLogIn']);
+
 Route::post('admin/utilizadores/deleteUtilizador/{id}', 'UtilizadorController@destroy')->middleware(['checkLogIn']);
 Route::post('admin/utilizadores/editUtilizador/{id}', 'UtilizadorController@update')->middleware(['checkLogIn']);
 Route::post('admin/utilizadores/addUtilizador', 'UtilizadorController@store')->middleware(['checkLogIn']);
