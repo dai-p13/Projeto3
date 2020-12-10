@@ -10,13 +10,20 @@ class ProjetoJuri extends Model
     use HasFactory;
 
     protected $table = 'projeto_juri';
-    //public $primaryKey = 'id_projeto';
-    //public $primaryKey = 'id_juri';
-    public $primaryKey = 'anoParticipacao';
+    public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_juri'];
     public $timestamps = false;
 
     protected $fillable = [
         'id_projeto',
-        'id_juri'
+        'id_juri',
+        'anoParticipacao'
     ];
+
+    public function projeto() {
+        $this->hasOne("'App\Models\Projeto'");
+    }
+
+    public function juri() {
+        $this->hasOne("'App\Models\Juri'");
+    }
 }

@@ -19,4 +19,8 @@ class Juri extends Model
         'telefone',
         'telemovel'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoJuri'");
+    }
 }

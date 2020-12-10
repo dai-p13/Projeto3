@@ -19,7 +19,11 @@ class RBE extends Model
         'id_concelho'
     ];
 
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoRBE'");
+    }
+
     public function concelho() {
-        return $this->hasOne(Concelho::class);
+        $this->hasOne("'App\Models\Concelho'");
     }
 }

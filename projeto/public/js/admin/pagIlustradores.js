@@ -106,18 +106,19 @@ var totalElementos = 0
 
         function criarLinha(elemento) {
                 var linha = "<tr>"
-                linha = linha + `<td>${elemento.nomeUtilizador}</td>`
+                linha = linha + `<td>${elemento.id_ilustradorSolidario}</td>`
                 linha = linha + `<td>${elemento.nome}</td>`
-                linha = linha + `<td>${elemento.password}</td>`
-                linha = linha + `<td>${elemento.email}</td>`
-                linha = linha + `<td>${elemento.telemovel}</td>`
                 linha = linha + `<td>${elemento.telefone}</td>`
-                linha = linha + `<td>${elemento.departamento}</td>`
+                linha = linha + `<td>${elemento.telemovel}</td>`
+                linha = linha + `<td>${elemento.email}</td>`
+                linha = linha + `<td>${elemento.observacoes}</td>`
+                linha = linha + `<td>${elemento.volumeLivro}</td>`
+                linha = linha + `<td>${elemento.disponivel}</td>`
                 linha = linha + `<td>
-                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_utilizador})"><i
+                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_ilustradorSolidario})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Edit">&#xE254;</i></a>
-                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_utilizador})"><i
+                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_ilustradorSolidario})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Delete">&#xE872;</i></a>
                 <td>`
@@ -132,17 +133,18 @@ var totalElementos = 0
                 url: url,
                 method: "GET",
                 dataType: "json",
-                success: function (professor) {
-                    if(professor != null) {
-                        url = 'ilustradores/edit/' + professor.id_utilizador
-                        $('#formEditarUtilizador').attr('action', url)
-                        $('#nomeUtilizador').val(professor.nomeUtilizador)
-                        $('#nome').val(professor.nome)
-                        $('#password').val(professor.password)
-                        $('#departamento').val(professor.departamento)
-                        $('#telefone').val(professor.telefone)
-                        $('#telemovel').val(professor.telemovel)
-                        $('#email').val(professor.email)  
+                success: function (ilustrador) {
+                    if(ilustrador != null) {
+                        url = 'ilustradores/edit/' + ilustrador.id_ilustradorSolidario
+                        $('#formEditar').attr('action', url)
+                        $('#nome').val(ilustrador.nome)
+                        $('#telefone').val(ilustrador.telefone)
+                        $('#telemovel').val(ilustrador.telemovel)
+                        $('#email').val(ilustrador.email) 
+                        $('#volumeLivro').val(ilustrador.volumeLivro)
+                        var disp = ilustrador.disponivel
+                        $('#disponibilidade').val(disp.toString())
+                        $('#obs').val(ilustrador.observacoes)
                     }  
                 },
                 error: function (error) {

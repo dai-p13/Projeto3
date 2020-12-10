@@ -10,13 +10,20 @@ class ProjetoRBE extends Model
     use HasFactory;
 
     protected $table = 'projeto_rbe';
-    //public $primaryKey = 'id_projeto';
-    //public $primaryKey = 'id_rbe';
-    public $primaryKey = 'anoParticipacao';
+    public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_rbe'];
     public $timestamps = false;
 
     protected $fillable = [
         'id_projeto',
-        'id_rbe'
+        'id_rbe',
+        'anoParticipacao'
     ];
+
+    public function projeto() {
+        $this->hasOne("'App\Models\Projeto'");
+    }
+
+    public function rbe() {
+        $this->hasOne("'App\Models\RBE'");
+    }
 }

@@ -22,4 +22,8 @@ class IlustradorSolidario extends Model
         'email',
         'observacoes'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoIlustrador'");
+    }
 }

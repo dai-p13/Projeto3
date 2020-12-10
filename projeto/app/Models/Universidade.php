@@ -21,4 +21,12 @@ class Universidade extends Model
         'telemovel',
         'email'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoUniversidade'");
+    }
+
+    public function professores() {
+        $this->hasMany("'App\Models\UniversidadeProfFaculdade'");
+    }
 }

@@ -20,4 +20,22 @@ class Professor extends Model
         'email',
         'id_agrupamento'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoProfessor'");
+    }
+
+    public function escolas() {
+        $this->hasMany("'App\Models\EscolaSolidariaProf'");
+    }
+    
+    public function trocasAgrupamento() {
+        $this->hasMany("'App\Models\TrocaAgrupamento'");
+    }
+
+    public function agrupamento() {
+        $this->hasOne("'App\Models\Agrupamento'");
+    }
+
+    
 }

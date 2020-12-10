@@ -19,4 +19,8 @@ class TrocaAgrupamento extends Model
         'telemovelobservacoes',
         'id_professor'
     ];
+
+    public function professor() {
+        $this->hasOne("'App\Models\Professor'");
+    }
 }

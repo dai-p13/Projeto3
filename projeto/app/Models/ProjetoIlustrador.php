@@ -10,13 +10,20 @@ class ProjetoIlustrador extends Model
     use HasFactory;
 
     protected $table = 'projeto_ilustrador';
-    //public $primaryKey = 'id_projeto';
-    //public $primaryKey = 'id_ilustradorSolidario';
-    public $primaryKey = 'anoParticipacao';
+    public $primaryKey = ['id_projeto', 'id_ilustradorSolidario', 'anoParticipacao'];
     public $timestamps = false;
 
     protected $fillable = [
         'id_projeto',
-        'id_ilustradorSolidario'
+        'id_ilustradorSolidario',
+        'anoParticipacao'
     ];
+
+    public function projeto() {
+        $this->hasOne("'App\Models\Projeto'");
+    }
+
+    public function ilustrador() {
+        $this->hasOne("'App\Models\IlustradorSolidario'");
+    }
 }

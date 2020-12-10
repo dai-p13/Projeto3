@@ -19,4 +19,16 @@ class Agrupamento extends Model
         'email',
         'nomeDiretor'
     ];
+
+    public function codPostal() {
+        $this->hasOne("'App\Models\CodPostal'", 'codPostal', 'id_agrupamento');
+    }
+
+    public function escolas() {
+        $this->hasMany("'App\Models\EscolaSolidaria'");
+    }
+
+    public function professores() {
+        $this->hasMany("'App\Models\Professor'");
+    }
 }

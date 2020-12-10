@@ -16,4 +16,8 @@ class Concelho extends Model
     protected $fillable = [
         'nome',
     ];
+
+    public function rbes() {
+        $this->hasMany("'App\Models\RBE'");
+    }
 }

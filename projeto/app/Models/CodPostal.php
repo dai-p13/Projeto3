@@ -16,4 +16,8 @@ class CodPostal extends Model
     protected $fillable = [
         'localidade'
     ];
+
+    public function codPostalRua() {
+        $this->hasMany("'App\Models\CodPostalRua'");
+    }
 }

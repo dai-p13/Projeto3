@@ -16,4 +16,8 @@ class CargoProf extends Model
     protected $fillable = [
         'nomeCargo',
     ];
+
+    public function projetosProfessor() {
+        $this->hasMany("'App\Models\ProjetoProfessor'");
+    }
 }

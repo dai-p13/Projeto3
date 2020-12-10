@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\IlustradorSolidario;
 use Illuminate\Http\Request;
-
+use DB;
+use Session;
 class IlustradorSolidarioController extends Controller
 {
     public function index()
@@ -12,16 +13,11 @@ class IlustradorSolidarioController extends Controller
         $user = session()->get("utilizador");
         $ilustradores = IlustradorSolidario::all();
         if($user->tipoUtilizador == 0) {
-            return view('admin/ilustradores', ['ilustradores' => $ilustradores]);
+            return view('admin/ilustradores', ['data' => $ilustradores]);
         }
         else {
-            return view('colaborador/ilustradores', ['ilustradores' => $ilustradores]);
+            return view('colaborador/ilustradores', ['data' => $ilustradores]);
         }
-    }
-
-    public function create()
-    {
-        //
     }
 
     public function store(Request $request)
@@ -34,28 +30,87 @@ class IlustradorSolidarioController extends Controller
         $ilusolidario->telefone = $request->telefone;
         $ilusolidario->telemovel = $request->telemovel;
         $ilusolidario->email = $request->email;
-        $ilusolidario->observacoes = $request->observacoes;
+        $ilusolidario->observacoes = $request->obs;
 
         $ilusolidario->save();
+        return redirect()->route("ilustradores");
     }
 
-    public function show(ilusolidario $ilusolidario)
+    public function update($id, Request $request)
     {
-        //
+        $id_ilustradorSolidario = \intval($id);
+        $volumeLivro = $request->volumeLivro;
+        $disponivel = $request->disponibilidade;
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $email = $request->email;
+        $observacoes = $request->obs;
+        
+        $ilusolidario = IlustradorSolidario::find($id_ilustradorSolidario);
+        if($ilusolidario != null) {
+            $ilusolidario->volumeLivro = $volumeLivro;
+            $ilusolidario->disponivel = $disponivel;
+            $ilusolidario->nome = $nome;
+            $ilusolidario->telefone = $telefone;
+            $ilusolidario->telemovel = $telemovel;
+            $ilusolidario->email = $email;
+            $ilusolidario->observacoes = $observacoes; 
+
+            $ilusolidario->save();
+            return redirect()->route("ilustradores");
+        }
     }
 
-    public function edit(ilusolidario $ilusolidario)
+    public function destroy($id)
     {
-        //
+        $ilustrador = IlustradorSolidario::find($id);
+        $ilustrador->delete();
+        return redirect()->route("ilustradores");
     }
 
-    public function update(Request $request, ilusolidario $ilusolidario)
+    public function getUserNome($nomeUtilizador)
     {
-        //
+        $user = DB::table('utilizador')->where('nomeUtilizador', $nomeUtilizador)->first();
+        return $user;
+
     }
 
-    public function destroy(ilusolidario $ilusolidario)
-    {
-        //
+    public function getIlustradorPorId($id) {
+        
+        $ilustrador = DB::table('ilustrador_solidario')->where('id_ilustradorSolidario', $id)->first();
+        if($ilustrador != null) {
+            return response()->json($ilustrador);  
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNextPage() {
+
+        $ilustradores = DB::table('ilustrador_solidario')->simplePaginate(5);
+        
+        if($ilustradores != null) {
+            return response()->json($ilustradores);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumIlustradores() {
+
+        $ilustradores = IlustradorSolidario::all();
+        
+        if($ilustradores != null) {
+            return \count($ilustradores);
+        }
+        else {
+            return 0;
+        }
+        
     }
 }

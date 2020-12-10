@@ -10,13 +10,20 @@ class ProjetoEscola extends Model
     use HasFactory;
 
     protected $table = 'projeto_escola';
-    //public $primaryKey = 'id_projeto';
-    //public $primaryKey = 'id_escolaSolidaria';
-    public $primaryKey = 'anoParticipacao';
+    public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_escolaSolidaria'];
     public $timestamps = false;
 
     protected $fillable = [
         'id_projeto',
-        'id_escolaSolidaria'
+        'id_escolaSolidaria',
+        'anoParticipacao'
     ];
+
+    public function projeto() {
+        $this->hasOne("'App\Models\Projeto'");
+    }
+
+    public function escola() {
+        $this->hasOne("'App\Models\EscolaSolidaria'");
+    }
 }

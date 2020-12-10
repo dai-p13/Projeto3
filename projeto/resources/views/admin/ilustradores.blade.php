@@ -44,14 +44,14 @@
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Nome de utilizador</th>
+                                        <th>Número identificador</th>
                                         <th>Nome</th>
-                                        <th>Password</th>
-                                        <th>Email</th>
                                         <th>Telemovel</th>
                                         <th>Telefone</th>
-                                        <th>Departamento</th>
-                                        <th>Tipo de utilizador</th>
+                                        <th>Email</th>
+                                        <th>Observações</th>
+                                        <th>Volume do Livro</th>
+                                        <th>Disponibilidade</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
@@ -66,24 +66,24 @@
                                                     break;
                                                 }
                                                 $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$user->nomeUtilizador.'</td>';
+                                                $dados = $dados.'<td>'.$user->id_ilustradorSolidario.'</td>';
                                                 $dados = $dados.'<td>'.$user->nome.'</td>';
-                                                $dados = $dados.'<td>'.$user->password.'</td>';
-                                                $dados = $dados.'<td>'.$user->email.'</td>';
-                                                $dados = $dados.'<td>'.$user->telemovel.'</td>';
                                                 $dados = $dados.'<td>'.$user->telefone.'</td>';
-                                                $dados = $dados.'<td>'.$user->departamento.'</td>';
-                                                if($user->tipoUtilizador == 0) {
-                                                    $dados = $dados.'<td>Administrador</td>';    
+                                                $dados = $dados.'<td>'.$user->telemovel.'</td>';
+                                                $dados = $dados.'<td>'.$user->email.'</td>';
+                                                $dados = $dados.'<td>'.$user->observacoes.'</td>';
+                                                $dados = $dados.'<td>'.$user->volumeLivro.'</td>';
+                                                if($user->disponivel == 1) {
+                                                    $dados = $dados.'<td>Disponível</td>';
                                                 }
                                                 else {
-                                                    $dados = $dados.'<td>Colaborador</td>'; 
+                                                    $dados = $dados.'<td>Indisponível</td>';    
                                                 }
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$user->id_utilizador.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$user->id_ilustradorSolidario.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$user->id_utilizador.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$user->id_ilustradorSolidario.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
@@ -96,7 +96,7 @@
                                 </tbody>
                             </table>
                             <div class="clearfix">
-                                <div class="hint-text" id="numResultados">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numEntidades != 0) {echo $numEntidades;}?></b> registos</div>
+                                <div class="hint-text" id="numResultados">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numEntidades != 0) {echo $numEntidades;}?></b> resultados.</div>
                                 <ul class="pagination">
                                     <?php
                                         if($numEntidades != 0) {
@@ -124,7 +124,7 @@
                 <div id="add" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="utilizadores/addUtilizador">
+                            <form method="POST" action="ilustradores/add">
                                 @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Adicionar Utilizador</h4>
@@ -133,27 +133,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>Nome de utilizador</label>
-                                        <input type="text" name="nomeUtilizador" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" name="password" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome Completo</label>
+                                        <label>Nome</label>
                                         <input type="text" name="nome" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Departamento</label>
-                                        <input type="text" name="departamento" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Tipo de Utilizador</label>
-                                        <select name="tipoUtilizador">
-                                            <option value="0">Administrador</option>
-                                            <option value="1">Colaborador</option>
-                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Telefone</label>
@@ -166,6 +147,21 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email" name="email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Volume do Livro</label>
+                                        <input type="text" name="volumeLivro" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Disponibilidade</label>
+                                        <select name="disponibilidade">
+                                            <option value="0">Disponivel</option>
+                                            <option value="1">Indisponivel</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Observações</label>
+                                        <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -188,27 +184,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>Nome de utilizador</label>
-                                        <input type="text" id="nomeUtilizador" name="nomeUtilizador" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label>
-                                        <input type="password" id="password" name="password" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Nome Completo</label>
+                                        <label>Nome</label>
                                         <input type="text" id="nome" name="nome" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Departamento</label>
-                                        <input type="text" id="departamento" name="departamento" class="form-control" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Tipo de Utilizador</label>
-                                        <select id="tipoUtilizador" name="tipoUtilizador" required>
-                                            <option value="0">Administrador</option>
-                                            <option value="1">Colaborador</option>
-                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Telefone</label>
@@ -221,6 +198,21 @@
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email" id="email" name="email" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Volume do Livro</label>
+                                        <input type="text" id="volumeLivro" name="volumeLivro" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Disponibilidade</label>
+                                        <select name="disponibilidade" id="disponibilidade">
+                                            <option value="1">Disponivel</option>
+                                            <option value="0">Indisponivel</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Observações</label>
+                                        <textarea id="obs" name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -237,12 +229,12 @@
                             <form method="POST" action="" id="formDelete">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Remover Utilizador</h4>
+                                    <h4 class="modal-title">Remover Ilustrador Solidário</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Tem a certeza que deseja remover o utilizador?</p>
+                                    <p>Tem a certeza que deseja remover o ilustrador solidário?</p>
                                     <p class="text-warning"><small>Esta ação não pode ser retrocedida.</small></p>
                                 </div>
                                 <div class="modal-footer">

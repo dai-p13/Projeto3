@@ -20,4 +20,12 @@ class EscolaSolidaria extends Model
         'contactoAssPais',
         'id_agrupamento'
     ];
+
+    public function professores() {
+        $this->hasMany("'App\Models\EscolaSolidariaProfessor'");
+    }
+
+    public function agrupamento() {
+        $this->hasOne("'App\Models\Agrupamento'");
+    }
 }

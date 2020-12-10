@@ -27,7 +27,7 @@ class Utilizador extends Model
     
     public function projetos()
     {
-        return $this->hasMany('App\Models\Utilizador_Projeto');
+        return $this->hasMany('App\Models\ProjetoUtilizador');
     }
 
     public function delete() {

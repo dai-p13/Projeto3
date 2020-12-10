@@ -20,4 +20,8 @@ class ContadorHistoria extends Model
         'telemovel',
         'observacoes'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoContador'");
+    }
 }

@@ -21,4 +21,8 @@ class EntidadeOficial extends Model
         'telemovel',
         'observacoes'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoEntidade'");
+    }
 }

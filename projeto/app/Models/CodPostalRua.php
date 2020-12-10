@@ -10,13 +10,17 @@ class CodPostalRua extends Model
     use HasFactory;
 
     protected $table = 'cod_postal_rua';
-    public $primaryKey = 'codPostal';
+    public $primaryKey = ['codPostal', 'codPostalRua'];
     public $timestamps = false;
 
     protected $fillable = [
         'codPostal',
+        'codPostalRua',
         'rua',
         'numPorta'
-        
     ];
+
+    public function codPostal() {
+        $this->hasOne("'App\Models\CodPostal'");
+    }
 }

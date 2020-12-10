@@ -21,4 +21,12 @@ class ProfessorFaculdade extends Model
         'email',
         'observacoes'
     ];
+
+    public function projetos() {
+        $this->hasMany("'App\Models\ProjetoProfessorFacul'");
+    }
+
+    public function universidades() {
+        $this->hasMany("'App\Models\Universidade'");
+    }
 }

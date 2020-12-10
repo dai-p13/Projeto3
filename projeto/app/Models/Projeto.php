@@ -20,4 +20,25 @@ class Projeto extends Model
         'publicoAlvo',
         'observacoes'
     ];
+
+    public function utilizadores() {
+        $this->hasMany("'App\Models\Utilizador'");
+    }
+
+    public function ilustradores() {
+        $this->hasMany("'App\Models\ProjetoIlustrador'");
+    }
+
+    public function juris() {
+        $this->hasMany("'App\Models\ProjetoJuri'");
+    }
+
+    public function professores() {
+        $this->hasMany("'App\Models\ProjetoProfessor'");
+    }
+
+    public function professoresFacul() {
+        $this->hasMany("'App\Models\ProjetoProfessorFacul'");
+    }
+
 }
