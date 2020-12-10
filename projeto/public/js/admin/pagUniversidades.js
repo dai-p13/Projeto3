@@ -106,18 +106,17 @@ var totalElementos = 0
 
         function criarLinha(elemento) {
                 var linha = "<tr>"
-                linha = linha + `<td>${elemento.nomeUtilizador}</td>`
+                linha = linha + `<td>${elemento.curso}</td>`
+                linha = linha + `<td>${elemento.tipo}</td>`
                 linha = linha + `<td>${elemento.nome}</td>`
-                linha = linha + `<td>${elemento.password}</td>`
-                linha = linha + `<td>${elemento.email}</td>`
-                linha = linha + `<td>${elemento.telemovel}</td>`
                 linha = linha + `<td>${elemento.telefone}</td>`
-                linha = linha + `<td>${elemento.departamento}</td>`
+                linha = linha + `<td>${elemento.telemovel}</td>`
+                linha = linha + `<td>${elemento.email}</td>`
                 linha = linha + `<td>
-                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_utilizador})"><i
+                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_universidade})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Edit">&#xE254;</i></a>
-                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_utilizador})"><i
+                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_universidade})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Delete">&#xE872;</i></a>
                 <td>`
@@ -127,24 +126,21 @@ var totalElementos = 0
         }
 
         function editar(id) {
-            var url = "utilizadores/getPorId/" + id;
+            var url = "universidade/getUniPorId/" + id;
             $.ajax({
                 url: url,
                 method: "GET",
                 dataType: "json",
-                success: function (user) {
-                    if(user != null) {
-                        url = 'universidades/editUtilizador/' + user.id_utilizador
-                        $('#formEditarUtilizador').attr('action', url)
-                        $('#nomeUtilizador').val(user.nomeUtilizador)
-                        $('#nome').val(user.nome)
-                        $('#password').val(user.password)
-                        $('#departamento').val(user.departamento)
-                        var tipoUser = user.tipoUtilizador
-                        $('#tipoUtilizador').val(tipoUser.toString())
-                        $('#telefone').val(user.telefone)
-                        $('#telemovel').val(user.telemovel)
-                        $('#email').val(user.email)  
+                success: function (uni) {
+                    if(uni != null) {
+                        url = 'universidades/editUniversidade/' + uni.id_universidade
+                        $('#formEditarUniversidade').attr('action', url)
+                        $('#curso').val(uni.curso)
+                        $('#tipo').val(uni.tipo)
+                        $('#nome').val(uni.nome)
+                        $('#telefone').val(uni.telefone)
+                        $('#telemovel').val(uni.telemovel)
+                        $('#email').val(uni.email)  
                     }  
                 },
                 error: function (error) {
@@ -154,6 +150,6 @@ var totalElementos = 0
         }
 
         function remover(id) {
-            url = 'utilizadores/deleteUtilizador/' + id
-            $('#formDeleteUtilizador').attr('action', url)
+            url = 'universidade/deleteUniversidade/' + id
+            $('#formDeleteUniversidade').attr('action', url)
         }
