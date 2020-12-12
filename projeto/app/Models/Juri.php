@@ -21,6 +21,6 @@ class Juri extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoJuri'");
+        return $this->hasMany(ProjetoJuri::class, 'id_juri');
     }
 }

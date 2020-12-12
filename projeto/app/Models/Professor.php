@@ -22,19 +22,19 @@ class Professor extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoProfessor'");
+        return $this->hasMany(ProjetoProfessor::class, 'id_professor');
     }
 
     public function escolas() {
-        $this->hasMany("'App\Models\EscolaSolidariaProf'");
+        return $this->hasMany(EscolaSolidariaProf::class, 'id_professor');
     }
     
     public function trocasAgrupamento() {
-        $this->hasMany("'App\Models\TrocaAgrupamento'");
+        return $this->hasMany(TrocaAgrupamento::class, 'id_professor');
     }
 
     public function agrupamento() {
-        $this->hasOne("'App\Models\Agrupamento'");
+        return $this->hasOne(Agrupamento::class, 'id_professor');
     }
 
     

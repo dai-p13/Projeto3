@@ -27,12 +27,6 @@ class Utilizador extends Model
     
     public function projetos()
     {
-        return $this->hasMany('App\Models\ProjetoUtilizador');
-    }
-
-    public function delete() {
-        $this->checks()->delete();
-        $this->results()->delete();
-        parent::delete();
+        return $this->hasMany(ProjetoUtilizador::class, 'id_utilizador');
     }
 }

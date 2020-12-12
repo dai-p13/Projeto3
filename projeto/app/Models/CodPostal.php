@@ -18,6 +18,6 @@ class CodPostal extends Model
     ];
 
     public function codPostalRua() {
-        $this->hasMany("'App\Models\CodPostalRua'");
+        return $this->hasMany(CodPostalRua::class, 'codPostal');
     }
 }

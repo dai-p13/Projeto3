@@ -20,10 +20,10 @@ class ProjetoJuri extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function juri() {
-        $this->hasOne("'App\Models\Juri'");
+        return $this->hasOne(Juri::class, 'id_juri');
     }
 }

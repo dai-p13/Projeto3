@@ -19,10 +19,10 @@ class ProjetoProfessorFacul extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function professorFacul() {
-        $this->hasOne("'App\Models\ProfessorFaculdade'");
+        return $this->hasOne(ProfessorFaculdade::class, 'id_professorFaculdade');
     }
 }

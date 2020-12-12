@@ -23,6 +23,6 @@ class EntidadeOficial extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoEntidade'");
+        return $this->hasMany(ProjetoEntidade::class, 'id_entidadeOficial');
     }
 }

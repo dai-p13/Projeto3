@@ -20,10 +20,10 @@ class ProjetoContador extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function contador() {
-        $this->hasOne("'App\Models\ContadorHistorias'");
+        return $this->hasOne(ContadorHistorias::class, 'id_contador');
     }
 }

@@ -20,10 +20,10 @@ class ProjetoEscola extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+       return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function escola() {
-        $this->hasOne("'App\Models\EscolaSolidaria'");
+        return $this->hasOne(EscolaSolidaria::class, 'id_escolaSolidaria');
     }
 }

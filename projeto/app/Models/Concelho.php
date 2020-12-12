@@ -18,6 +18,6 @@ class Concelho extends Model
     ];
 
     public function rbes() {
-        $this->hasMany("'App\Models\RBE'");
+        return $this->hasMany(RBE::class, 'id_concelho');
     }
 }

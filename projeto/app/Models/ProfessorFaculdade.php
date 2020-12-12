@@ -23,10 +23,10 @@ class ProfessorFaculdade extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoProfessorFacul'");
+        return $this->hasMany(ProjetoProfessorFacul::class, 'id_professorFaculdade');
     }
 
     public function universidades() {
-        $this->hasMany("'App\Models\Universidade'");
+        return $this->hasMany(Universidade::class, 'id_professorFaculdade');
     }
 }

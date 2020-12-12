@@ -19,10 +19,10 @@ class ProjetoUtilizador extends Model
     ];
 
     public function utilizador() {
-        $this->hasOne("'App\Models\Utilizador'");
+        return $this->hasOne(Utilizador::class, 'id_utilizador');
     }
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 }

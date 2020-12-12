@@ -21,6 +21,6 @@ class TrocaAgrupamento extends Model
     ];
 
     public function professor() {
-        $this->hasOne("'App\Models\Professor'");
+        return $this->hasOne(Professor::class, 'id_troca');
     }
 }

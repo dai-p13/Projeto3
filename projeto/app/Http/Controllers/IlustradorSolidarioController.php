@@ -65,6 +65,9 @@ class IlustradorSolidarioController extends Controller
     public function destroy($id)
     {
         $ilustrador = IlustradorSolidario::find($id);
+        if($ilustrador->projetos()->first() != null) {
+            $ilustrador->projetos()->where('id_ilustradorSolidario', $id)->delete();
+        }
         $ilustrador->delete();
         return redirect()->route("ilustradores");
     }

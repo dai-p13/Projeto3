@@ -18,6 +18,6 @@ class CargoProf extends Model
     ];
 
     public function projetosProfessor() {
-        $this->hasMany("'App\Models\ProjetoProfessor'");
+        return $this->hasMany(ProjetoProfessor::class, 'id_cargoProfessor');
     }
 }

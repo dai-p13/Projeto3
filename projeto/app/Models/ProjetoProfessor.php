@@ -21,14 +21,14 @@ class ProjetoProfessor extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function professor() {
-        $this->hasOne("'App\Models\Professor'");
+        return $this->hasOne(Professor::class, 'id_professor');
     }
 
     public function cargo() {
-        $this->hasOne("'App\Models\CargoProf'");
+        return $this->hasOne(CargoProf::class, 'id_cargo');
     }
 }

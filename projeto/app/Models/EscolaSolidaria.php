@@ -22,10 +22,10 @@ class EscolaSolidaria extends Model
     ];
 
     public function professores() {
-        $this->hasMany("'App\Models\EscolaSolidariaProfessor'");
+        return $this->hasMany(EscolaSolidariaProfessor::class, 'id_escolaSolidaria');
     }
 
     public function agrupamento() {
-        $this->hasOne("'App\Models\Agrupamento'");
+        return $this->hasOne(Agrupamento::class, 'id_escolaSolidaria');
     }
 }

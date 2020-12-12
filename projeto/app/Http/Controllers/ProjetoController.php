@@ -36,11 +36,6 @@ class ProjetoController extends Controller
         }
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         $projeto = new Projeto();
@@ -54,11 +49,6 @@ class ProjetoController extends Controller
         $projeto->save();
     }
 
-    public function show(projeto $projeto)
-    {
-        //
-    }
-
     public function edit(projeto $projeto)
     {
         //
@@ -69,8 +59,25 @@ class ProjetoController extends Controller
         //
     }
 
-    public function destroy(projeto $projeto)
+    public function destroy($id)
     {
-        //
+        $projeto = Projeto::find($id);
+        if($projeto->utilizadores()->first() != null) {
+            $projeto->utilizadores()->where('id_projeto', $id)->delete();
+        } 
+        if($projeto->ilustradores()->first() != null) {
+            $projeto->ilustradores()->where('id_projeto', $id)->delete();
+        }
+        if($projeto->juris()->first() != null) {
+            $projeto->juris()->where('id_projeto', $id)->delete();
+        }
+        if($projeto->professores()->first() != null) {
+            $projeto->professores()->where('id_projeto', $id)->delete();
+        }
+        if($projeto->professoresFacul()->first() != null) {
+            $projeto->professoresFacul()->where('id_projeto', $id)->delete();
+        }
+        $projeto->delete();
+        return redirect()->route("ilustradores");
     }
 }

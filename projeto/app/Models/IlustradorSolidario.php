@@ -24,6 +24,6 @@ class IlustradorSolidario extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoIlustrador'");
+        return $this->hasMany(ProjetoIlustrador::class, 'id_ilustradorSolidario');
     }
 }

@@ -20,10 +20,10 @@ class ProjetoEntidade extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function entidadeOficial() {
-        $this->hasOne("'App\Models\EntidadeOficial'");
+        return $this->hasOne(EntidadeOficial::class, 'id_entidadeOficial');
     }
 }

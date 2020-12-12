@@ -21,6 +21,6 @@ class CodPostalRua extends Model
     ];
 
     public function codPostal() {
-        $this->hasOne("'App\Models\CodPostal'");
+        return $this->hasOne(CodPostal::class, 'codPostal', 'codPostalRua');
     }
 }

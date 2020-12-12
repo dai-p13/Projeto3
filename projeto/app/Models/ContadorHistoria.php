@@ -22,6 +22,6 @@ class ContadorHistoria extends Model
     ];
 
     public function projetos() {
-        $this->hasMany("'App\Models\ProjetoContador'");
+        return $this->hasMany(ProjetoContador::class, 'id_contadorHistorias');
     }
 }

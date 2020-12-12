@@ -20,10 +20,10 @@ class ProjetoIlustrador extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function ilustrador() {
-        $this->hasOne("'App\Models\IlustradorSolidario'");
+        $this->hasOne(IlustradorSolidario::class, 'id_ilustradorSolidario');
     }
 }

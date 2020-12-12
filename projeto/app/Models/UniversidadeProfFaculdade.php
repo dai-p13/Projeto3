@@ -19,10 +19,10 @@ class UniversidadeProfFaculdade extends Model
     ];
 
     public function universidade() {
-        $this->hasOne("'App\Models\Universidade'");
+        return $this->hasOne(Universidade::class, 'id_universidade');
     }
 
     public function professor() {
-        $this->hasOne("'App\Models\ProfessorFaculdade'");
+        return $this->hasOne(ProfessorFaculdade::class, 'id_professorFaculdade');
     }
 }

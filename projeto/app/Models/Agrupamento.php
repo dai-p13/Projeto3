@@ -21,14 +21,14 @@ class Agrupamento extends Model
     ];
 
     public function codPostal() {
-        $this->hasOne("'App\Models\CodPostal'", 'codPostal', 'id_agrupamento');
+        return $this->hasOne(CodPostal::class, 'codPostal', 'id_agrupamento');
     }
 
     public function escolas() {
-        $this->hasMany("'App\Models\EscolaSolidaria'");
+        return $this->hasMany(EscolaSolidaria::class, 'id_agrupamento');
     }
 
     public function professores() {
-        $this->hasMany("'App\Models\Professor'");
+        return $this->hasMany(Professor::class, 'id_agrupamento');
     }
 }

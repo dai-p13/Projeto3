@@ -20,10 +20,10 @@ class ProjetoRBE extends Model
     ];
 
     public function projeto() {
-        $this->hasOne("'App\Models\Projeto'");
+        return $this->hasOne(Projeto::class, 'id_projeto');
     }
 
     public function rbe() {
-        $this->hasOne("'App\Models\RBE'");
+        return $this->hasOne(RBE::class, 'id_rbe');
     }
 }
