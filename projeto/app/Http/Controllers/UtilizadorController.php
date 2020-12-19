@@ -149,8 +149,8 @@ class UtilizadorController extends Controller
     }
 
     public function getNextPage() {
-
-        $users = DB::table('utilizador')->simplePaginate(5);
+        
+        $users = DB::table('utilizador')->simplePaginate(10);
         
         if($users != null) {
             return response()->json($users);

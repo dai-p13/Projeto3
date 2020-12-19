@@ -18,7 +18,8 @@ class Professor extends Model
         'telefone',
         'telemovel',
         'email',
-        'id_agrupamento'
+        'id_agrupamento',
+        'disponivel'
     ];
 
     public function projetos() {

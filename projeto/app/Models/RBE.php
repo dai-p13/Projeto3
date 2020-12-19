@@ -16,7 +16,8 @@ class RBE extends Model
     protected $fillable = [
         'regiao',
         'nomeCoordenador',
-        'id_concelho'
+        'id_concelho',
+        'disponivel'
     ];
 
     public function projetos() {

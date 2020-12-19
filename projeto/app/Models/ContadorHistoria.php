@@ -18,7 +18,8 @@ class ContadorHistoria extends Model
         'email',
         'telefone',
         'telemovel',
-        'observacoes'
+        'observacoes',
+        'disponivel'
     ];
 
     public function projetos() {

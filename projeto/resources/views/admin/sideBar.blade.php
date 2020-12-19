@@ -1,14 +1,14 @@
 <div class="bg-light border-right" id="sidebar-wrapper" style="height=100%">
       <div class="sidebar-heading">Opções de Gestão</div>
       <div class="list-group list-group-flush">
-        <a href="utilizadores" class="list-group-item list-group-item-action bg-light">Gerir Utilizadores</a>
-        <a href="dashboardAdmin" class="list-group-item list-group-item-action bg-light">Gerir Projetos</a>
-        <a href="professores" class="list-group-item list-group-item-action bg-light">Gerir Professores</a>
-        <a href="escolas" class="list-group-item list-group-item-action bg-light">Gerir Escolas Solidárias</a>
+        <a href="utilizadores" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/users.png')}}" class="sideBarImg"></img>Gerir Utilizadores</a>
+        <a href="dashboardAdmin" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/projecto.png')}}" class="sideBarImg">Gerir Projetos</a>
+        <a href="professores" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/professor.png')}}" class="sideBarImg">Gerir Professores</a>
+        <a href="escolas" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/escola.png')}}" class="sideBarImg">Gerir Escolas Solidárias</a>
         <a href="agrupamentos" class="list-group-item list-group-item-action bg-light">Gerir Agrupamentos</a>
-        <a href="ilustradores" class="list-group-item list-group-item-action bg-light">Gerir Ilustradores Solidários</a>
-        <a href="contadores" class="list-group-item list-group-item-action bg-light">Gerir Contadores de Histórias</a>
-        <a href="entidades" class="list-group-item list-group-item-action bg-light">Gerir Entidades Oficiais</a>
+        <a href="ilustradores" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/ilustrador.png')}}" class="sideBarImg">Gerir Ilustradores Solidários</a>
+        <a href="contadores" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/contador.png')}}" class="sideBarImg">Gerir Contadores de Histórias</a>
+        <a href="entidades" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/entidadeOficial.png')}}" class="sideBarImg">Gerir Entidades Oficiais</a>
         <a href="juris" class="list-group-item list-group-item-action bg-light">Gerir Juris</a>
         <a href="rbes" class="list-group-item list-group-item-action bg-light">Gerir Redes de Bibliotecas Escolares (RBE)</a>
         <a href="universidades" class="list-group-item list-group-item-action bg-light">Gerir Universidades</a>

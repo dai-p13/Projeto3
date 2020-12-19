@@ -25,6 +25,11 @@ Route::get('/{msg}', function ($msg) {
 /*Cada route tem de ter um middleware que verifica se o utilizador fez login antes de concretizar o pedido*/
 Route::get('admin/dashboardAdmin','ProjetoController@index')->name("dashboardAdmin")->middleware(['checkLogInAdmin']);
 Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetos/pag', 'ProjetoController@getNextPage')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetos/getNum', 'ProjetoController@getNumProjetos')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetos/delete/{id}', 'ProjetoController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetos/edit/{id}', 'ProjetoController@update')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetos/add', 'ProjetoController@store')->middleware(['checkLogInAdmin']);
 
 Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogInAdmin']);

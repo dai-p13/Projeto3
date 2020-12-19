@@ -18,7 +18,8 @@ class EscolaSolidaria extends Model
         'telefone',
         'telemovel',
         'contactoAssPais',
-        'id_agrupamento'
+        'id_agrupamento',
+        'disponivel'
     ];
 
     public function professores() {

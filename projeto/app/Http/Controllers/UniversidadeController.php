@@ -10,16 +10,14 @@ class UniversidadeController extends Controller
 {
     public function index()
     {
-        $uni = session()->get("utilizador");
+        $user = session()->get("utilizador");
         $universidades = Universidade::all();
-        if($uni->tipoUtilizador == 0) {
-            return view('admin/universidade', ['universidades' => $universidades]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin/universidades', ['data' => $universidades]);
         }
         else {
-            return view('colaborador/universidade', ['universidades' => $universidades]);
+            return view('colaborador/universidades', ['data' => $universidades]);
         }
-
-        //return view('viewUniversidade', ['universidades' => $universidades]);
     }
 
     public function store(Request $request)
@@ -30,21 +28,20 @@ class UniversidadeController extends Controller
         $telefone = $request->get("telefone");
         $telemovel = $request->get("telemovel");
         $email = $request->get("email");
+        $disponibilidade = $request->get("disponibilidade");
         
-        $universidade = self::getUniNome($nome);
-        if($universidade != null) {
-            $universidade = new Universidade();
+        $universidade = new Universidade();
             
-            $universidade->curso = $request->curso;
-            $universidade->tipo = $request->tipo;
-            $universidade->nome = $request->nome;
-            $universidade->telefone = $request->telefone;
-            $universidade->telemovel = $request->telemovel;
-            $universidade->email = $request->email;
+        $universidade->curso = $curso;
+        $universidade->tipo = $tipo;
+        $universidade->nome = $nome;
+        $universidade->telefone = $telefone;
+        $universidade->telemovel = $telemovel;
+        $universidade->email = $email;
+        $universidade->disponivel = $disponibilidade;
             
-            $universidade->save();
-            return redirect()->route("universidade");
-        }
+        $universidade->save();
+        return redirect()->route("universidades");
         
     }
     
@@ -57,6 +54,7 @@ class UniversidadeController extends Controller
         $telefone = $request->get("telefone");
         $telemovel = $request->get("telemovel");
         $email = $request->get("email");
+        $disponibilidade = $request->get("disponibilidade");
         
         $universidade = Universidade::find($id_universidade);
         if($universidade != null) {            
@@ -66,9 +64,10 @@ class UniversidadeController extends Controller
             $universidade->telefone = $telefone;
             $universidade->telemovel = $telemovel;
             $universidade->email = $email;
+            $universidade->disponivel = $disponibilidade;
             
             $universidade->save();
-            return redirect()->route("universidade");
+            return redirect()->route("universidades");
         }
     }
     
@@ -76,24 +75,12 @@ class UniversidadeController extends Controller
     {
        $universidade = Universidade::find($id);
        $universidade->delete();
-       return redirect()->route("universidade"); 
+       return redirect()->route("universidades"); 
     }
 
-    public function getUniId($id)
-    {
-        return ['universidade' => Universidade::findOrFail($id)];
-    }
-
-    public function getUserNome($nome)
-    {
-        $nomeUni = DB::table('universidade')->where('nome', $nome)->first();
-        return $nomeUni;
-
-    }
-
-    public function getUniPorId($id) {
+    public function getUniversidadePorId($id) {
         
-        $uni = DB::table('universidade')->where('id_uuniversidade', $id)->first();
+        $uni = DB::table('universidade')->where('id_universidade', $id)->first();
         if($uni != null) {
             return response()->json($uni);  
         }
@@ -103,7 +90,20 @@ class UniversidadeController extends Controller
         
     }
 
-    public function getNumUni() {
+    public function getNextPage() {
+
+        $universidades = DB::table('universidade')->simplePaginate(10);
+        
+        if($universidades != null) {
+            return response()->json($universidades);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumUniversidades() {
 
         $universidades = Universidade::all();
         

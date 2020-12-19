@@ -27,7 +27,7 @@
         <div id="page-content-wrapper">
             @include("admin/topBar")
             <div class="container-fluid">
-                <div class="container-xl">
+                <div class="tabelasCrud">
                     <div class="table-responsive">
                         <div class="table-wrapper">
                             <div class="table-title">
@@ -61,29 +61,29 @@
                                         $paginaAtual = 1;
                                         if(isset($data)) {
                                             $numEntidades = count($data);
-                                            foreach($data as $user) {
-                                                if($contagem == 5) {
+                                            foreach($data as $linha) {
+                                                if($contagem == 10) {
                                                     break;
                                                 }
                                                 $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$user->id_ilustradorSolidario.'</td>';
-                                                $dados = $dados.'<td>'.$user->nome.'</td>';
-                                                $dados = $dados.'<td>'.$user->telefone.'</td>';
-                                                $dados = $dados.'<td>'.$user->telemovel.'</td>';
-                                                $dados = $dados.'<td>'.$user->email.'</td>';
-                                                $dados = $dados.'<td>'.$user->observacoes.'</td>';
-                                                $dados = $dados.'<td>'.$user->volumeLivro.'</td>';
-                                                if($user->disponivel == 1) {
+                                                $dados = $dados.'<td>'.$linha->id_ilustradorSolidario.'</td>';
+                                                $dados = $dados.'<td>'.$linha->nome.'</td>';
+                                                $dados = $dados.verificaNull($linha->telefone);
+                                                $dados = $dados.verificaNull($linha->telemovel);
+                                                $dados = $dados.verificaNull($linha->email);
+                                                $dados = $dados.verificaNull($linha->observacoes);
+                                                $dados = $dados.verificaNull($linha->volumeLivro);
+                                                if($linha->disponivel == 1) {
                                                     $dados = $dados.'<td>Disponível</td>';
                                                 }
                                                 else {
                                                     $dados = $dados.'<td>Indisponível</td>';    
                                                 }
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$user->id_ilustradorSolidario.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_ilustradorSolidario.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$user->id_ilustradorSolidario.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_ilustradorSolidario.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
@@ -92,32 +92,18 @@
                                                 $contagem = $contagem + 1;
                                             }
                                         }
+                                        function verificaNull($valor) {
+                                            if($valor != null) {
+                                                return '<td>'.$valor.'</td>';    
+                                            }
+                                            else {
+                                                return '<td> --- </td>';
+                                            }
+                                        }
                                     ?>
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <div class="hint-text" id="numResultados">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numEntidades != 0) {echo $numEntidades;}?></b> resultados.</div>
-                                <ul class="pagination">
-                                    <?php
-                                        if($numEntidades != 0) {
-                                            $i = 1;
-                                            $numPaginas = ceil($numEntidades / 5);
-                                            $paginas = '<li class="page-item"><a onclick="paginaAnterior()" class="page-link">Anterior</a></li>';
-                                            while($i <= $numPaginas) {
-                                                if($i == $paginaAtual) {
-                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
-                                                }
-                                                else {
-                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
-                                                }
-                                                $i = $i + 1;
-                                            }
-                                            $paginas = $paginas.'<li class="page-item"><a onclick="paginaSeguinte()" class="page-link">Next</a></li>';
-                                            echo $paginas;
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
+                            @include('paginacao')
                         </div>
                     </div>
                 </div>
@@ -212,7 +198,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea id="obs" name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea id="observacoes" name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -249,6 +235,7 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('js/paginacao.js') }}"></script>
     <script src="{{ asset('js/admin/pagIlustradores.js') }}"></script>
 </body>
 

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
+    <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -27,7 +28,7 @@
         <div id="page-content-wrapper">
             @include("admin/topBar")
             <div class="container-fluid">
-                <div class="container-xl">
+                <div class="tabelasCrud">
                     <div class="table-responsive">
                         <div class="table-wrapper">
                             <div class="table-title">
@@ -45,7 +46,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nome de utilizador</th>
-                                        <th>Nome</th>
+                                        <th onclick="ordenarPorNome()">Nome</th>
                                         <th>Password</th>
                                         <th>Email</th>
                                         <th>Telemovel</th>
@@ -57,21 +58,21 @@
                                 <tbody id="tableBody">
                                     <?php
                                         $contagem = 0;
-                                        $numUtilizadores = 0;
+                                        $numEntidades = 0;
                                         $paginaAtual = 1;
                                         if(isset($utilizadores)) {
-                                            $numUtilizadores = count($utilizadores);
+                                            $numEntidades = count($utilizadores);
                                             foreach($utilizadores as $user) {
-                                                if($contagem == 5) {
+                                                if($contagem == 10) {
                                                     break;
                                                 }
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$user->nomeUtilizador.'</td>';
                                                 $dados = $dados.'<td>'.$user->nome.'</td>';
                                                 $dados = $dados.'<td>'.$user->password.'</td>';
-                                                $dados = $dados.'<td>'.$user->email.'</td>';
-                                                $dados = $dados.'<td>'.$user->telemovel.'</td>';
-                                                $dados = $dados.'<td>'.$user->telefone.'</td>';
+                                                $dados = $dados.verificaNull($user->email);
+                                                $dados = $dados.verificaNull($user->telemovel);
+                                                $dados = $dados.verificaNull($user->telefone);
                                                 $dados = $dados.'<td>'.$user->departamento.'</td>';
                                                 if($user->tipoUtilizador == 0) {
                                                     $dados = $dados.'<td>Administrador</td>';    
@@ -92,32 +93,18 @@
                                                 $contagem = $contagem + 1;
                                             }
                                         }
+                                        function verificaNull($valor) {
+                                            if($valor != null) {
+                                                return '<td>'.$valor.'</td>';    
+                                            }
+                                            else {
+                                                return '<td> --- </td>';
+                                            }
+                                        }
                                     ?>
                                 </tbody>
                             </table>
-                            <div class="clearfix">
-                                <div class="hint-text" id="numResultados">A mostrar <b><?php echo $contagem?></b> de <b><?php if($numUtilizadores != 0) {echo $numUtilizadores;}?></b> registos</div>
-                                <ul class="pagination">
-                                    <?php
-                                        if($numUtilizadores != 0) {
-                                            $i = 1;
-                                            $numPaginas = ceil($numUtilizadores / 5);
-                                            $paginas = '<li class="page-item"><a onclick="paginaAnterior()" class="page-link">Anterior</a></li>';
-                                            while($i <= $numPaginas) {
-                                                if($i == $paginaAtual) {
-                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
-                                                }
-                                                else {
-                                                    $paginas = $paginas.'<li class="page-item"><a onclick="pagNum('.$i.')" class="page-link">'.$i.'</a></li>';
-                                                }
-                                                $i = $i + 1;
-                                            }
-                                            $paginas = $paginas.'<li class="page-item"><a onclick="paginaSeguinte()" class="page-link">Next</a></li>';
-                                            echo $paginas;
-                                        }
-                                    ?>
-                                </ul>
-                            </div>
+                            @include('paginacao')
                         </div>
                     </div>
                 </div>
@@ -257,6 +244,7 @@
         </div>
     </div>
     </div>
+    <script src="{{ asset('js/paginacao.js') }}"></script>
     <script src="{{ asset('js/admin/pagUtilizadores.js') }}"></script>
 </body>
 

@@ -19,7 +19,8 @@ class Universidade extends Model
         'nome',
         'telefone',
         'telemovel',
-        'email'
+        'email',
+        'disponivel'
     ];
 
     public function projetos() {

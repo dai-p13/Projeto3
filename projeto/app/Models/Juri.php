@@ -17,7 +17,8 @@ class Juri extends Model
         'nome',
         'email',
         'telefone',
-        'telemovel'
+        'telemovel',
+        'disponivel'
     ];
 
     public function projetos() {

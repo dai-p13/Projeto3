@@ -221,4 +221,12 @@ table.table .avatar {
 }	
 .modal form label {
 	font-weight: normal;
-}	
+}
+
+.tabelasCrud {
+	width: 100%;
+    padding-right: 3%;
+    padding-left: 3%;
+    margin-right: auto;
+    margin-left: auto;
+}

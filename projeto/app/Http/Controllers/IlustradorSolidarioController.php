@@ -25,7 +25,7 @@ class IlustradorSolidarioController extends Controller
         $ilusolidario = new IlustradorSolidario();
 
         $ilusolidario->volumeLivro = $request->volumeLivro;
-        $ilusolidario->disponivel = $request->disponivel;
+        $ilusolidario->disponivel = $request->disponibilidade;
         $ilusolidario->nome = $request->nome;
         $ilusolidario->telefone = $request->telefone;
         $ilusolidario->telemovel = $request->telemovel;
@@ -71,14 +71,7 @@ class IlustradorSolidarioController extends Controller
         $ilustrador->delete();
         return redirect()->route("ilustradores");
     }
-
-    public function getUserNome($nomeUtilizador)
-    {
-        $user = DB::table('utilizador')->where('nomeUtilizador', $nomeUtilizador)->first();
-        return $user;
-
-    }
-
+    
     public function getIlustradorPorId($id) {
         
         $ilustrador = DB::table('ilustrador_solidario')->where('id_ilustradorSolidario', $id)->first();
@@ -93,7 +86,7 @@ class IlustradorSolidarioController extends Controller
 
     public function getNextPage() {
 
-        $ilustradores = DB::table('ilustrador_solidario')->simplePaginate(5);
+        $ilustradores = DB::table('ilustrador_solidario')->simplePaginate(10);
         
         if($ilustradores != null) {
             return response()->json($ilustradores);

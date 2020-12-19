@@ -19,7 +19,8 @@ class EntidadeOficial extends Model
         'entidade',
         'telefone',
         'telemovel',
-        'observacoes'
+        'observacoes',
+        'disponivel'
     ];
 
     public function projetos() {
