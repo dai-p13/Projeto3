@@ -19,7 +19,8 @@ class ProfessorFaculdade extends Model
         'telefone',
         'telemovel',
         'email',
-        'observacoes'
+        'observacoes',
+        'disponivel'
     ];
 
     public function projetos() {
@@ -27,6 +28,6 @@ class ProfessorFaculdade extends Model
     }
 
     public function universidades() {
-        return $this->hasMany(Universidade::class, 'id_professorFaculdade');
+        return $this->hasMany(UniversidadeProfFaculdade::class, 'id_professorFaculdade');
     }
 }

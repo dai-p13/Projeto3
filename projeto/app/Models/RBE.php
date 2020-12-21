@@ -25,6 +25,6 @@ class RBE extends Model
     }
 
     public function concelho() {
-        return $this->hasOne(Concelho::class, 'id_rbe');
+        return $this->hasOne(Concelho::class, 'id_concelho');
     }
 }

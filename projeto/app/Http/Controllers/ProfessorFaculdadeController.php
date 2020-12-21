@@ -4,37 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\ProfessorFaculdade;
 use Illuminate\Http\Request;
+use DB;
+use Session;
+use Auth;
 
 class ProfessorFaculdadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $user = session()->get("utilizador");
         $profacul = ProfessorFaculdade::all();
-
-        return view('viewProfessorFaculdade', ['profacul' => $profacul]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin\profs_faculdade', ['data' => $profacul]);
+        }
+        else {
+            return view('colaborador\profs_faculdade', ['data' => $profacul]);
+        }
+        
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $profacul = new ProfessorFaculdade();
@@ -45,52 +33,86 @@ class ProfessorFaculdadeController extends Controller
         $profacul->telemovel = $request->telemovel;
         $profacul->email = $request->email;
         $profacul->observacoes = $request->observacoes;
+        $profacul->disponivel = $request->disponibilidade;
 
         $profacul->save();
+        return redirect()->route("profsFaculdade");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProfessorFaculdade  $profacul
-     * @return \Illuminate\Http\Response
-     */
-    public function show(profacul $profacul)
+    public function update($id, Request $request)
     {
-        //
+        $id_profacul = \intval($id);
+        $cargo = $request->cargo;
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $email = $request->email;
+        $observacoes = $request->observacoes;
+        $disponibilidade = $request->disponibilidade;
+        
+        $prof = ProfessorFaculdade::find($id_profacul);
+        if($prof != null) {
+            $prof->cargo = $cargo;
+            $prof->nome = $nome;
+            $prof->telefone = $telefone;
+            $prof->telemovel = $telemovel;
+            $prof->email = $email;
+            $prof->observacoes = $observacoes;
+            $prof->disponivel = $disponibilidade;
+
+            $prof->save();
+            return redirect()->route("profsFaculdade");
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProfessorFaculdade  $profacul
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(profacul $profacul)
+    public function destroy($id)
     {
-        //
+        $profacul = ProfessorFaculdade::find($id);
+        if($profacul->projetos()->first() != null) {
+            $profacul->projetos()->where('id_professorFaculdade', $id)->delete();
+        }
+        if($profacul->universidades()->first() != null) {
+            $profacul->universidades()->where('id_professorFaculdade', $id)->delete();
+        } 
+        $profacul->delete();
+        return redirect()->route("profsFaculdade");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProfessorFaculdade  $profacul
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, profacul $profacul)
-    {
-        //
+    public function getProfPorId($id) {
+        
+        $profacul = DB::table('professor_faculdade')->where('id_professorFaculdade', $id)->first();
+        if($profacul != null) {
+            return response()->json($profacul);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProfessorFaculdade  $profacul
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(profacul $profacul)
-    {
-        //
+    public function getNextPage() {
+
+        $profs = DB::table('professor_faculdade')->simplePaginate(10);
+        
+        if($profs != null) {
+            return response()->json($profs);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumProfs() {
+
+        $profs = ProfessorFaculdade::all();
+        
+        if($profs != null) {
+            return \count($profs);
+        }
+        else {
+            return 0;
+        }
+        
     }
 }

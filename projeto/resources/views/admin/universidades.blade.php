@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
+    <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -73,7 +74,7 @@
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->telemovel);
                                                 $dados = $dados.verificaNull($linha->email);
-                                                if($linha->disponivel == 1) {
+                                                if($linha->disponivel == 0) {
                                                     $dados = $dados.'<td>Disponível</td>';
                                                 }
                                                 else {
@@ -124,7 +125,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tipo</label>
-                                        <input type="text" name="tipo" class="form-control" placeholder="Tecnologia e Gestão, Saúde, ...">
+                                        <input type="text" name="tipo" class="form-control" placeholder="Tecnologia e Gestão, Saúde, ..." required>
                                     </div>
                                     <div class="form-group">
                                         <label>Curso</label>
@@ -175,7 +176,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Tipo</label>
-                                        <input type="text" id="tipo" name="tipo" class="form-control" placeholder="Tecnologia e Gestão, Saúde, ...">
+                                        <input type="text" id="tipo" name="tipo" class="form-control" placeholder="Tecnologia e Gestão, Saúde, ..." required>
                                     </div>
                                     <div class="form-group">
                                         <label>Curso</label>
@@ -196,8 +197,8 @@
                                     <div class="form-group">
                                         <label>Disponibilidade</label>
                                         <select name="disponibilidade" id="disponibilidade">
-                                            <option value="1">Disponivel</option>
-                                            <option value="0">Indisponivel</option>
+                                            <option value="0">Disponivel</option>
+                                            <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
                                 </div>

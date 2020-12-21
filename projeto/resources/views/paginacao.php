@@ -2,7 +2,7 @@
     <div class="hint-text" id="numResultados">A mostrar <b>
         <?php echo $contagem?>
         </b> de <b>
-            <?{echo $numEntidades;}?>
+        <?php echo $numEntidades?>
         </b> registos</div>
     <ul class="pagination">
         <?php

@@ -40,7 +40,12 @@ function criarLinha(elemento) {
     linha = linha + `<td>${elemento.telefone}</td>`
     linha = linha + `<td>${elemento.telemovel}</td>`
     linha = linha + `<td>${elemento.email}</td>`
-    linha = linha + `<td>${elemento.disponivel}</td>`
+    if(elemento.disponivel == 0) {
+        linha = linha + `<td>Disponível</td>`    
+    }
+    else {
+        linha = linha + `<td>Indisponível</td>` 
+    }
     linha = linha + `<td>
                     <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_universidade})"><i
                             class="material-icons" data-toggle="tooltip"
@@ -70,6 +75,8 @@ function editar(id) {
                 $('#telefone').val(uni.telefone)
                 $('#telemovel').val(uni.telemovel)
                 $('#email').val(uni.email)
+                var disp = uni.disponivel
+                $('#disponibilidade').val(disp.toString())
             }
         },
         error: function (error) {

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
+    <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
@@ -73,7 +74,7 @@
                                                 $dados = $dados.verificaNull($linha->email);
                                                 $dados = $dados.verificaNull($linha->observacoes);
                                                 $dados = $dados.verificaNull($linha->volumeLivro);
-                                                if($linha->disponivel == 1) {
+                                                if($linha->disponivel == 0) {
                                                     $dados = $dados.'<td>Disponível</td>';
                                                 }
                                                 else {
@@ -113,7 +114,7 @@
                             <form method="POST" action="ilustradores/add">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Adicionar Utilizador</h4>
+                                    <h4 class="modal-title">Adicionar Ilustrador Solidário</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -164,7 +165,7 @@
                             <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Editar Utilizador</h4>
+                                    <h4 class="modal-title">Editar Ilustrador Solidário</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -192,8 +193,8 @@
                                     <div class="form-group">
                                         <label>Disponibilidade</label>
                                         <select name="disponibilidade" id="disponibilidade">
-                                            <option value="1">Disponivel</option>
-                                            <option value="0">Indisponivel</option>
+                                            <option value="0">Disponivel</option>
+                                            <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
                                     <div class="form-group">

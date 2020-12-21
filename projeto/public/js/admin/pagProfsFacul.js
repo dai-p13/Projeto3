@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     $.ajax({
-        url: "ilustradores/pag",
+        url: "profsFaculdade/pag",
         method: "GET",
         dataType: "json",
         success: function (response) {
@@ -14,7 +14,7 @@ $(document).ready(function () {
     })
 
     $.ajax({
-        url: "ilustradores/getNum",
+        url: "profsFaculdade/getNum",
         method: "GET",
         dataType: "json",
         success: function (response) {
@@ -33,13 +33,13 @@ $("#menu-toggle").click(function (e) {
 
 function criarLinha(elemento) {
     var linha = "<tr>"
-    linha = linha + `<td>${elemento.id_ilustradorSolidario}</td>`
+    linha = linha + `<td>${elemento.id_professorFaculdade}</td>`
     linha = linha + `<td>${elemento.nome}</td>`
-    linha = linha + `<td>${elemento.telefone}</td>`
+    linha = linha + `<td>${elemento.cargo}</td>`
     linha = linha + `<td>${elemento.telemovel}</td>`
+    linha = linha + `<td>${elemento.telefone}</td>`
     linha = linha + `<td>${elemento.email}</td>`
     linha = linha + `<td>${elemento.observacoes}</td>`
-    linha = linha + `<td>${elemento.volumeLivro}</td>`
     if(elemento.disponivel == 0) {
         linha = linha + `<td>Disponível</td>`    
     }
@@ -47,10 +47,10 @@ function criarLinha(elemento) {
         linha = linha + `<td>Indisponível</td>` 
     }
     linha = linha + `<td>
-                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_ilustradorSolidario})"><i
+                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_professorFaculdade})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Edit">&#xE254;</i></a>
-                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_ilustradorSolidario})"><i
+                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_professorFaculdade})"><i
                             class="material-icons" data-toggle="tooltip"
                             title="Delete">&#xE872;</i></a>
                 <td>`
@@ -60,23 +60,23 @@ function criarLinha(elemento) {
 }
 
 function editar(id) {
-    var url = "ilustradores/getPorId/" + id;
+    var url = "profsFaculdade/getPorId/" + id;
     $.ajax({
         url: url,
         method: "GET",
         dataType: "json",
-        success: function (ilustrador) {
-            if (ilustrador != null) {
-                url = 'ilustradores/edit/' + ilustrador.id_ilustradorSolidario
+        success: function (profFacul) {
+            if (profFacul != null) {
+                url = 'profsFaculdade/edit/' + profFacul.id_professorFaculdade
                 $('#formEditar').attr('action', url)
-                $('#nome').val(ilustrador.nome)
-                $('#telefone').val(ilustrador.telefone)
-                $('#telemovel').val(ilustrador.telemovel)
-                $('#email').val(ilustrador.email)
-                $('#volumeLivro').val(ilustrador.volumeLivro)
-                var disp = ilustrador.disponivel
+                $('#nome').val(profFacul.nome)
+                $('#cargo').val(profFacul.cargo)
+                $('#telemovel').val(profFacul.telemovel)
+                $('#telefone').val(profFacul.telefone)
+                $('#email').val(profFacul.email)
+                var disp = profFacul.disponivel
                 $('#disponibilidade').val(disp.toString())
-                $('#observacoes').val(ilustrador.observacoes)
+                $('#observacoes').val(profFacul.observacoes)
             }
         },
         error: function (error) {
@@ -86,6 +86,6 @@ function editar(id) {
 }
 
 function remover(id) {
-    url = 'ilustradores/delete/' + id
+    url = 'profsFaculdade/delete/' + id
     $('#formDelete').attr('action', url)
 }
