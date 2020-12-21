@@ -59,7 +59,7 @@ function editar(id) {
         dataType: "json",
         success: function (agrupamento) {
             if (agrupamento != null) {
-                url = 'agrupamentos/edit/' + agrupamento.id_ilustradorSolidario
+                url = 'agrupamentos/edit/' + agrupamento.id_agrupamento
                 $('#formEditar').attr('action', url)
                 $('#nome').val(agrupamento.nome)
                 $('#email').val(agrupamento.email)

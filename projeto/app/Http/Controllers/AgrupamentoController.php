@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agrupamento;
 use Illuminate\Http\Request;
-
+use DB;
+use Session;
 class AgrupamentoController extends Controller
 {
     public function index()
@@ -34,7 +35,7 @@ class AgrupamentoController extends Controller
     
     public function update($id ,Request $request)
     {
-        $id_agrupamento = \invtal($id);
+        $id_agrupamento = \intval($id);
         $nome = $request->nome;
         $telefone = $request->telefone;
         $email = $request->email;
@@ -54,7 +55,18 @@ class AgrupamentoController extends Controller
     
     public function destroy($id)
     {
-        
+        $agrupamento = Agrupamento::find($id);
+        if($agrupamento->codpostal()->first() != null){
+            $agrupamento->codpostal()->where('id_agrupamento', $id)->delete();
+        }
+        if($agrupamento->escolas()->first() != null){
+            $agrupamento->escolas()->where('id_agrupamento', $id)->delete();
+        }
+        if($agrupamento->professores()->first() != null){
+            $agrupamento->professores()->where('id_agrupamento', $id)->delete();
+        }
+        $agrupamento->delete();
+        return redirect()->route("agrupamentos");
     }
 
     public function getAgrupamentoPorId($id) {

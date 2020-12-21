@@ -99,7 +99,7 @@
                 <div id="add" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="ilustradores/add">
+                            <form method="POST" action="agrupamentos/add">
                                 @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Adicionar Utilizador</h4>
