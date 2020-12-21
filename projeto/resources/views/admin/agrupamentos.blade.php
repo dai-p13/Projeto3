@@ -102,7 +102,7 @@
                             <form method="POST" action="agrupamentos/add">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Adicionar Utilizador</h4>
+                                    <h4 class="modal-title">Adicionar Agrupamento</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -138,7 +138,7 @@
                             <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Editar Utilizador</h4>
+                                    <h4 class="modal-title">Editar Agrupamento</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
