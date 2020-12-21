@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class AgrupamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $user = session()->get("utilizador");
@@ -24,22 +19,6 @@ class AgrupamentoController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $agrupamento = new Agrupamento();
@@ -50,50 +29,70 @@ class AgrupamentoController extends Controller
         $agrupamento->nomeDiretor = $request->nomeDiretor;
 
         $agrupamento->save();
+        return redirect()->route("agrupamentos");
+    }
+    
+    public function update($id ,Request $request)
+    {
+        $id_agrupamento = \invtal($id);
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $email = $request->email;
+        $nomeDiretor = $request->nomeDiretor;
+
+        $agrupamento = Agrupamento::find($id_agrupamento);
+        if($agrupamento != null) {
+            $agrupamento->nome = $nome;
+            $agrupamento->telefone = $telefone;
+            $agrupamento->email = $email;
+            $agrupamento->nomeDiretor = $nomeDiretor;
+
+            $agrupamento->save();
+            return redirect()->route("agrupamentos");
+        }
+    }
+    
+    public function destroy($id)
+    {
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Agrupamento  $agrupamento
-     * @return \Illuminate\Http\Response
-     */
-    public function show(agrupamento $agrupamento)
-    {
-        //
+    public function getAgrupamentoPorId($id) {
+        
+        $agrupamento = DB::table('agrupamento')->where('id_agrupamento', $id)->first();
+        if($agrupamento != null) {
+            return response()->json($agrupamento);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Agrupamento  $agrupamento
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(agrupamento $agrupamento)
-    {
-        //
+    public function getNextPage() {
+
+        $agrupamento = DB::table('agrupamento')->simplePaginate(10);
+        
+        if($agrupamento != null) {
+            return response()->json($agrupamento);
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Agrupamento  $agrupamento
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, agrupamento $agrupamento)
-    {
-        //
-    }
+    public function getNumAgrupamentos() {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Agrupamento  $agrupamento
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(agrupamento $agrupamento)
-    {
-        //
+        $agrupamento = Agrupamento::all();
+        
+        if($agrupamento != null) {
+            return \count($agrupamento);
+        }
+        else {
+            return 0;
+        }
+        
     }
+    
 }
