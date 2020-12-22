@@ -120,7 +120,8 @@ Route::post('admin/profsFaculdade/edit/{id}', 'ProfessorFaculdadeController@upda
 Route::post('admin/profsFaculdade/add', 'ProfessorFaculdadeController@store')->middleware(['checkLogInAdmin']);
 
 Route::get('admin/concelhos','ConcelhoController@index')->name("concelhos")->middleware(['checkLogInAdmin']);
-Route::get('admin/concelhos/getAll','ConcelhoController@getAll')->name("concelhos")->middleware(['checkLogInAdmin']);
+Route::get('admin/concelhos/verificaRbe/{id}','ConcelhoController@verificaRbes')->middleware(['checkLogInAdmin']);
+Route::get('admin/concelhos/getAll','ConcelhoController@getAll')->middleware(['checkLogInAdmin']);
 Route::get('admin/concelhos/getPorId/{id}', 'ConcelhoController@getConcelhoPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/concelhos/pag', 'ConcelhoController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/concelhos/getNum', 'ConcelhoController@getNumConcelhos')->middleware(['checkLogInAdmin']);

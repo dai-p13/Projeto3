@@ -97,15 +97,6 @@
                                                 return '<td> --- </td>';
                                             }
                                         }
-                                        function getConcelhoPorId($url) {
-                                            $curl = curl_init();
-                                            curl_setopt($curl, CURLOPT_URL, $url);
-                                            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                                            $concelho = curl_exec($curl);
-                                            curl_close($curl);
-                                            echo('<h1>'.$concelho.'</h1>');
-                                            return $concelho;   
-                                        }
                                     ?>
                                 </tbody>
                             </table>
@@ -126,11 +117,11 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Região</label>
-                                        <input type="text" name="nome" class="form-control" required>
+                                        <input type="text" name="regiao" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nome do Coordenador</label>
-                                        <input type="text" name="cargo" class="form-control" requied>
+                                        <input type="text" name="nome" class="form-control" requied>
                                     </div>
                                     <div class="form-group">
                                         <label>Concelhos</label>

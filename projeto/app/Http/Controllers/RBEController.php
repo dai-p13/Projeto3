@@ -28,7 +28,7 @@ class RBEController extends Controller
 
         $rbe->regiao = $request->regiao;
         $rbe->nomeCoordenador = $request->nome;
-        $rbe->id_concelho = $request->id_concelho;
+        $rbe->id_concelho = $request->concelhos;
         $rbe->disponivel = $request->disponibilidade;
 
         $rbe->save();
@@ -40,7 +40,7 @@ class RBEController extends Controller
         $id_rbe = \intval($id);
         $regiao = $request->regiao;
         $nomeCoordenador = $request->nome;
-        $id_concelho = $request->id_concelho;
+        $id_concelho = $request->concelho;
         $disponivel = $request->disponibilidade;
         
         $rbe = RBE::find($id_rbe);

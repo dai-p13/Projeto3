@@ -14,7 +14,7 @@ class ConcelhoController extends Controller
     {
         $concelhos = Concelho::all();
 
-        return view('viewConcelho', ['concelhos' => $concelhos]);
+        return view('admin/concelhos', ['data' => $concelhos]);
     }
 
     public function store(Request $request)
@@ -24,16 +24,41 @@ class ConcelhoController extends Controller
         $concelho->nome = $request->nome;
 
         $concelho->save();
+
+        return redirect()->route("concelhos");
     }
 
-    public function update(Request $request, concelho $concelho)
+    public function update($id, Request $request)
     {
-        //
+        $id_concelho = \intval($id);
+        $nome = $request->nome;
+        
+        $concelho = Concelho::find($id_concelho);
+        if($concelho != null) {
+            $concelho->nome = $nome;
+
+            $concelho->save();
+            return redirect()->route("concelhos");
+        }
     }
 
-    public function destroy(concelho $concelho)
+    public function destroy($id)
     {
-        //
+        $concelho = Concelho::find($id);
+        $concelho->delete(); 
+        return redirect()->route("concelhos");  
+    }
+
+    public function verificaRbes($id) {
+        $concelho = Concelho::find($id);
+        if($concelho->rbes()->first() != null) {
+            $msg = 'O concelho, '.$concelho->nome.', possui Redes de Bibliotecas Escolares Associadas
+            e não pode ser eliminado!';
+            return $msg;
+        }
+        else {
+            return null; 
+        }
     }
 
     public function getAll()
@@ -56,5 +81,43 @@ class ConcelhoController extends Controller
         else {
             return null;
         }
+    }
+
+    public function getConcelhoPorId($id) {
+        
+        $concelho = DB::table('concelho')->where('id_concelho', $id)->first();
+        if($concelho != null) {
+            return response()->json($concelho);  
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNextPage() {
+
+        $concelhos = DB::table('concelho')->simplePaginate(10);
+        
+        if($concelhos != null) {
+            return response()->json($concelhos);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumConcelhos() {
+
+        $concelhos = Concelho::all();
+        
+        if($concelhos != null) {
+            return \count($concelhos);
+        }
+        else {
+            return 0;
+        }
+        
     }
 }
