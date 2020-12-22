@@ -4,37 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Professor;
 use Illuminate\Http\Request;
-
+use DB;
+use Session;
 class ProfessorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $user = session()->get("utilizador");
         $professores = Professor::all();
-
-        return view('viewProfessor', ['professores' => $professores]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin/professores', ['data' => $professores]);
+        }
+        else {
+            return view('colaborador/professores', ['data' => $professores]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $professor = new Professor();
@@ -44,52 +29,86 @@ class ProfessorController extends Controller
         $professor->telemovel = $request->telemovel;
         $professor->email = $request->email;
         $professor->id_agrupamento = $request->id_agrupamento;
-
+        
         $professor->save();
+        return redirect()->route("professores");
+    }
+    
+    public function update($id ,Request $request)
+    {
+        $id_professor = \intval($id);
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $email = $request->email;
+
+        $professor = Professor::find($id_professor);
+        if($professor != null) {
+            $professor->nome = $nome;
+            $professor->telefone = $telefone;
+            $professor->telemovel = $telemovel;
+            $professor->email = $email;
+
+            $professor->save();
+            return redirect()->route("agrupamentos");
+        }
+    }
+    
+    public function destroy($id)
+    {
+        $professor = Professor::find($id);
+        if($professor->projetos()->first() != null) {
+            $professor->projetos()->where('id_professor', $id)->delete();
+        }
+        if($professor->escolas()->first() != null) {
+            $professor->escolas()->where('id_professor', $id)->delete();
+        }
+        if($professor->trocasAgrupamento()->first() != null) {
+            $professor->trocasAgrupamento()->where('id_professor', $id)->delete();
+        }
+        if($professor->agrupamento()->first() != null) {
+            $professor->agrupamento()->where('id_professor', $id)->delete();
+        }
+        $professor->delete();
+        return redirect()->route("professores");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Professor  $professor
-     * @return \Illuminate\Http\Response
-     */
-    public function show(professor $professor)
-    {
-        //
+    public function getProfPorId($id) {
+        
+        $professor = DB::table('professor')->where('id_professor', $id)->first();
+        if($professor != null) {
+            return response()->json($professor);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Professor  $professor
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(professor $professor)
-    {
-        //
+    public function getNextPage() {
+
+        $professor = DB::table('professor')->simplePaginate(10);
+        
+        if($professor != null) {
+            return response()->json($professor);
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Professor  $professor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, professor $professor)
-    {
-        //
-    }
+    public function getNumProfs() {
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Professor  $professor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(professor $professor)
-    {
-        //
+        $professor = Professor::all();
+        
+        if($professor != null) {
+            return \count($professor);
+        }
+        else {
+            return 0;
+        }
+        
     }
+    
 }
