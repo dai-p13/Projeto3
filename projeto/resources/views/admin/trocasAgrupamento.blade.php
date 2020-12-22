@@ -34,7 +34,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h2>Gerir <b>Ilustradores</b></h2>
+                                        <h2>Gerir <b>Trocas Agrupamento</b></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <a href="#add" class="btn btn-success" data-toggle="modal"><i
@@ -68,10 +68,10 @@
                                                 $dados = $dados.verificaNull($linha->novoAgrupamento);
                                                 $dados = $dados.verificaNull($linha->observacoes);
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_ilustradorSolidario.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_troca.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_ilustradorSolidario.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_troca.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';

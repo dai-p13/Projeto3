@@ -14,6 +14,7 @@
         <a href="concelhos" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/portugal.png')}}" class="sideBarImg">Concelhos</a>
         <a href="universidades" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/universidade.png')}}" class="sideBarImg">Universidades</a>
         <a href="profsFaculdade" class="list-group-item list-group-item-action bg-light">Professores de Faculdades</a>
+        <a href="trocasAgrupamento" class="list-group-item list-group-item-action bg-light">Trocas Agrupamento</a>
       </div>
 </div>
 
