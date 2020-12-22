@@ -11,7 +11,7 @@ $(document).ready(function () {
         success: function (response) {
             urlPagSeguinte = response.next_page_url
             urlPagAnterior = response.first_page_url
-            urlPagNum = response.path
+            urlPagNum = "projetos/pag"
             pagAtual = response.current_page
         },
         error: function (error) {

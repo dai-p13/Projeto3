@@ -1,15 +1,14 @@
 var carregamento = false;
-
 $(document).ready(function () {
 
     $.ajax({
-        url: "rbes/pag",
+        url: "escolas/pag",
         method: "GET",
         dataType: "json",
         success: function (response) {
             urlPagSeguinte = response.next_page_url
             urlPagAnterior = response.first_page_url
-            urlPagNum = "rbes/pag"
+            urlPagNum = "escolas/pag"
             pagAtual = response.current_page
         },
         error: function (error) {
@@ -17,7 +16,7 @@ $(document).ready(function () {
     })
 
     $.ajax({
-        url: "rbes/getNum",
+        url: "escolas/getNum",
         method: "GET",
         dataType: "json",
         success: function (response) {
@@ -66,21 +65,22 @@ function criarLinha(elemento) {
 }
 
 function editar(id) {
-    var url = "rbes/getPorId/" + id;
+    var url = "escolas/getPorId/" + id;
     $.ajax({
         url: url,
         method: "GET",
         dataType: "json",
-        success: function (rbe) {
-            if (rbe != null) {
-                url = 'rbes/edit/' + rbe.id_rbe
+        success: function (escola) {
+            if (escola != null) {
+                url = 'escolas/edit/' + escola.id_escolaSolidaria
                 $('#formEditar').attr('action', url)
-                $('#regiao').val(rbe.regiao)
-                $('#nome').val(rbe.nomeCoordenador)
-                carregarConcelhos(false)
-                var concelho = rbe.id_concelho
-                $('#concelho').val(concelho)
-                var disp = rbe.disponivel
+                $('#nome').val(escola.nome)
+                $('#telefone').val(escola.telefone)
+                $('#telemovel').val(escola.telemovel)
+                $('#contactoAssPais').val(escola.contactoAssPais)
+                carregarAgrupamentos(false)
+                $('#agrupamento').val(escola.id_agrupamento.toString())
+                var disp = escola.disponivel
                 $('#disponibilidade').val(disp.toString())
             }
         },
@@ -91,28 +91,28 @@ function editar(id) {
 }
 
 function remover(id) {
-    url = 'rbes/delete/' + id
+    url = 'escolas/delete/' + id
     $('#formDelete').attr('action', url)
 }
 
-function carregarConcelhos(adicionar) {
+function carregarAgrupamentos(adicionar) {
     if(carregamento == false) {
         $.ajax({
-            url: 'concelhos/getAll',
+            url: 'agrupamentos/getAll',
             method: "GET",
             dataType: "json",
-            success: function (concelhos) {
+            success: function (agrupamentos) {
                 var opcoes = ''
-                if (concelhos != null) {
+                if (agrupamentos != null) {
                     carregamento = true;
-                    for(concelho of concelhos) {
-                        opcoes = opcoes + `<option value="${concelho.id_concelho}">${concelho.nome}</option>`
+                    for(agrup of agrupamentos) {
+                        opcoes = opcoes + `<option value="${agrup.id_agrupamento}">${agrup.nome}</option>`
                     }
                     if(adicionar) {
-                        $('#concelhosAdd').append(opcoes)   
+                        $('#agrupamentosAdd').append(opcoes)   
                     }
                     else {
-                        $('#concelho').append(opcoes)   
+                        $('#agrupamentos').append(opcoes)   
                     }
                     
                 }
@@ -123,7 +123,7 @@ function carregarConcelhos(adicionar) {
         })    
     }
 }
-
+/*
 function getNomeConcelho(id) {
     var url = `concelhos/getPorId/` + id
     var nome = ''
@@ -147,4 +147,4 @@ function getNomeConcelho(id) {
     else {
         return null;
     }
-}
+}*/

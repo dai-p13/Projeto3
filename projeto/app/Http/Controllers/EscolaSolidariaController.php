@@ -24,7 +24,8 @@ class EscolaSolidariaController extends Controller
         $escsolidarias->telefone = $request->telefone;
         $escsolidarias->telemovel = $request->telemovel;
         $escsolidarias->contactoAssPais = $request->contactoAssPais;
-        $escsolidarias->id_agrupamento = $request->id_agrupamento;
+        $escsolidarias->id_agrupamento = $request->agrupamento;
+        $escsolidarias = $request->disponibilidade;
 
         $escsolidarias->save();
     }
@@ -36,7 +37,8 @@ class EscolaSolidariaController extends Controller
         $telefone = $request->telefone;
         $telemovel = $request->telemovel;
         $contactoAssPais = $request->contactoAssPais;
-        $id_agrupamento = $request->id_agrupamento;
+        $id_agrupamento = $request->agrupamento;
+        $disponibilidade = $request->disponibilidade;
 
         $escola = EscolaSolidaria::find($id_escola);
         if($escola != null) {
@@ -45,6 +47,7 @@ class EscolaSolidariaController extends Controller
             $escola->telemovel = $telemovel;
             $escola->contactoAssPais = $contactoAssPais;
             $escola->id_agrupamento = $id_agrupamento;
+            $escola->disponivel = $disponibilidade;
 
             $escola->save();
             return redirect()->route("escolas");
@@ -54,11 +57,11 @@ class EscolaSolidariaController extends Controller
     public function destroy($id)
     {
         $escola = EscolaSolidaria::find($id);
+        if($escola->professores()->first() != null) {
+            return redirect()->route("escolas");
+        }
         if($escola->projetos()->first() != null) {
             $escola->projetos()->where('id_escolaSolidaria', $id)->delete();
-        }
-        if($escola->professores()->first() != null) {
-            $escola->professores()->where('id_escolaSolidaria', $id)->delete();
         }
         $escola->delete();
         return redirect()->route("escolas");

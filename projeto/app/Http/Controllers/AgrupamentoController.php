@@ -118,5 +118,18 @@ class AgrupamentoController extends Controller
         }
         
     }
+
+    public function getAll() {
+
+        $agrupamentos = Agrupamento::all();
+        
+        if($agrupamentos != null) {
+            return  response()->json($agrupamentos);
+        }
+        else {
+            return null;
+        }
+        
+    }
     
 }

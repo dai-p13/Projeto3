@@ -56,6 +56,7 @@ Route::post('admin/escolas/edit/{id}', 'EscolaSolidariaController@update')->midd
 Route::post('admin/escolas/add', 'EscolaSolidariaController@store')->middleware(['checkLogInAdmin']);
 
 Route::get('admin/agrupamentos','AgrupamentoController@index')->name("agrupamentos")->middleware(['checkLogInAdmin']);
+Route::get('admin/agrupamentos/getAll', 'AgrupamentoController@getAll')->middleware(['checkLogInAdmin']);
 Route::get('admin/agrupamentos/getPorId/{id}', 'AgrupamentoController@getAgrupamentoPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/agrupamentos/pag', 'AgrupamentoController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/agrupamentos/getNum', 'AgrupamentoController@getNumAgrupamentos')->middleware(['checkLogInAdmin']);
