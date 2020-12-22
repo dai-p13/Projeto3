@@ -4,37 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\TrocaAgrupamento;
 use Illuminate\Http\Request;
-
+use DB;
+use Session;
 class TrocaAgrupamentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        $user = session()->get("utilizador");
         $trocas = TrocaAgrupamento::all();
+        if($user->tipoUtilizador == 0) {
+            return view('admin/trocasAgrupamento', ['data' => $trocas]);
+        }
+        else{
+            return view('colaborador/trocasAgrupamento', ['data' => $trocas]);
+        }
 
-        return view('viewTrocaAgrupamento', ['trocas' => $trocas]);
+        
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    
     public function store(Request $request)
     {
         $trocas = new TrocaAgrupamento();
@@ -45,50 +33,72 @@ class TrocaAgrupamentoController extends Controller
         $trocas->id_professor = $request->id_professor;
 
         $trocas->save();
+        return redirect()->route("trocasAgrupamento");
+    }
+    
+    public function update($id, Request $request)
+    {
+        $id_troca = \intval($id);
+        $agrupamentoAntigo = $request->agrupamentoAntigo;
+        $novoAgrupamento = $request->novoAgrupamento;
+        $observacoes = $request->obs;
+        
+        $troca = TrocaAgrupamento::find($id_troca);
+        if($troca != null) {
+            
+            $troca->observacoes = $observacoes; 
+
+            $troca->save();
+            return redirect()->route("trocasAgrupamento");
+        }
+    }
+    
+    public function destroy($id)
+    {
+        $troca = TrocaAgrupamento::find($id);
+        if($troca->professor()->first() != null) {
+            $troca->professor()->where('id_troca', $id)->delete();
+        }
+        $troca->delete();
+        return redirect()->route("trocasAgrupamento");
+    }
+    
+    public function getTrocaPorId($id) {
+        
+        $troca = DB::table('troca_agrupamento')->where('id_troca', $id)->first();
+        if($troca != null) {
+            return response()->json($troca);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TrocaAgrupamento  $trocas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(trocas $trocas)
-    {
-        //
+    public function getNextPage() {
+
+        $trocas = DB::table('troca_agrupamento')->simplePaginate(10);
+        
+        if($trocas != null) {
+            return response()->json($trocas);
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\TrocaAgrupamento  $trocas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(trocas $trocas)
-    {
-        //
-    }
+    public function getNumTrocas() {
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TrocaAgrupamento  $trocas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, trocas $trocas)
-    {
-        //
+        $trocas = TrocaAgrupamento::all();
+        
+        if($trocas != null) {
+            return \count($trocas);
+        }
+        else {
+            return 0;
+        }
+        
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TrocaAgrupamento  $trocas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(trocas $trocas)
-    {
-        //
-    }
+    
 }
