@@ -26,7 +26,11 @@ class EscolaSolidaria extends Model
         return $this->hasMany(EscolaSolidariaProfessor::class, 'id_escolaSolidaria');
     }
 
+    public function projetos() {
+        return $this->hasMany(ProjetoEscola::class, 'id_escolaSolidaria');
+    }
+
     public function agrupamento() {
-        return $this->hasOne(Agrupamento::class, 'id_escolaSolidaria');
+        return $this->belongsTo(Agrupamento::class, 'id_agrupamento');
     }
 }

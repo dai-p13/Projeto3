@@ -69,6 +69,18 @@ class AgrupamentoController extends Controller
         return redirect()->route("agrupamentos");
     }
 
+    public static function getNomeAgrupamentoPorId($id) {
+        
+        $agrupamento = DB::table('agrupamento')->where('id_agrupamento', $id)->first();
+        if($agrupamento != null) {
+            return $agrupamento->nome;  
+        }
+        else {
+            return null;
+        }
+        
+    }
+
     public function getAgrupamentoPorId($id) {
         
         $agrupamento = DB::table('agrupamento')->where('id_agrupamento', $id)->first();

@@ -4,37 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\EscolaSolidaria;
 use Illuminate\Http\Request;
+use DB;
+use Session;
 
 class EscolaSolidariaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $escsolidarias = EscolaSolidaria::all();
 
-        return view('viewEscolaSolidaria', ['escsolidarias' => $escsolidarias]);
+        return view('admin/escolasSolidarias', ['data' => $escsolidarias]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $escsolidarias = new EscolaSolidaria();
@@ -48,48 +29,76 @@ class EscolaSolidariaController extends Controller
         $escsolidarias->save();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\EscolaSolidaria  $escsolidarias
-     * @return \Illuminate\Http\Response
-     */
-    public function show(escsolidarias $escsolidarias)
+    public function update($id, Request $request)
     {
-        //
+        $id_escola = \intval($id);
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $contactoAssPais = $request->contactoAssPais;
+        $id_agrupamento = $request->id_agrupamento;
+
+        $escola = EscolaSolidaria::find($id_escola);
+        if($escola != null) {
+            $escola->nome = $nome;
+            $escola->telefone = $telefone;
+            $escola->telemovel = $telemovel;
+            $escola->contactoAssPais = $contactoAssPais;
+            $escola->id_agrupamento = $id_agrupamento;
+
+            $escola->save();
+            return redirect()->route("escolas");
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\EscolaSolidaria  $escsolidarias
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(escsolidarias $escsolidarias)
+    public function destroy($id)
     {
-        //
+        $escola = EscolaSolidaria::find($id);
+        if($escola->projetos()->first() != null) {
+            $escola->projetos()->where('id_escolaSolidaria', $id)->delete();
+        }
+        if($escola->professores()->first() != null) {
+            $escola->professores()->where('id_escolaSolidaria', $id)->delete();
+        }
+        $escola->delete();
+        return redirect()->route("escolas");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EscolaSolidaria  $escsolidarias
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, escsolidarias $escsolidarias)
-    {
-        //
+    public function getEscolaPorId($id) {
+        
+        $escola = DB::table('escola_solidaria')->where('id_escolaSolidaria', $id)->first();
+        if($escola != null) {
+            return response()->json($escola);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\EscolaSolidaria  $escsolidarias
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(escsolidarias $escsolidarias)
-    {
-        //
+    public function getNextPage() {
+
+        $escolas = DB::table('escola_solidaria')->simplePaginate(10);
+        
+        if($escolas != null) {
+            return response()->json($escolas);
+        }
+        else {
+            return null;
+        }
+        
+    }
+
+    public function getNumEscolas() {
+
+        $escolas = EscolaSolidaria::all();
+        
+        if($escolas != null) {
+            return \count($escolas);
+        }
+        else {
+            return 0;
+        }
+        
     }
 }
