@@ -108,11 +108,11 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome do Agrupamento Antigo</label>
-                                        <input type="text" name="nomeAntigo" class="form-control" required>
+                                        <input type="text" name="agrupamentoAntigo" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Nome do Novo Agrupamento</label>
-                                        <input type="text" name="novoNome" class="form-control" required>
+                                        <input type="text" name="novoAgrupamento" class="form-control" required>
                                     <div class="form-group">
                                         <label>Observações</label>
                                         <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea id="observacoes" name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea id="obs" name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

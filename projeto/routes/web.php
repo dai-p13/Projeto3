@@ -129,7 +129,7 @@ Route::post('admin/concelhos/delete/{id}', 'ConcelhoController@destroy')->middle
 Route::post('admin/concelhos/edit/{id}', 'ConcelhoController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/concelhos/add', 'ConcelhoController@store')->middleware(['checkLogInAdmin']);
 
-Route::get('admin/trocasAgrupamento', 'TrocaAgrupamentoController@index')->name("trocas")->middleware(['checkLogInAdmin']);
+Route::get('admin/trocasAgrupamento', 'TrocaAgrupamentoController@index')->name("trocasAgrupamento")->middleware(['checkLogInAdmin']);
 Route::get('admin/trocasAgrupamento/getPorId/{id}', 'TrocaAgrupamentoController@getTrocaPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/trocasAgrupamento/pag', 'TrocaAgrupamentoController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/trocasAgrupamento/getNum', 'TrocaAgrupamentoController@getNumTrocas')->middleware(['checkLogInAdmin']);
