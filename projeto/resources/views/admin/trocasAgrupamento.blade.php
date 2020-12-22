@@ -115,7 +115,7 @@
                                         <input type="text" name="novoAgrupamento" class="form-control" required>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea id="obs" name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
