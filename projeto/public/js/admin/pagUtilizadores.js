@@ -6,6 +6,7 @@ $(document).ready(function () {
         success: function (users) {
             urlPagSeguinte = users.next_page_url
             urlPagAnterior = users.first_page_url
+            urlPagNum = users.path
             pagAtual = users.current_page
         },
         error: function (error) {

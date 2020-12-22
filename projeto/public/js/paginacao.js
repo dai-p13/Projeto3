@@ -1,5 +1,6 @@
 var urlPagSeguinte = ""
 var urlPagAnterior = ""
+var urlPagNum = "";
 var pagAtual = 0
 var totalUsers = 0
 
@@ -139,7 +140,7 @@ function paginaSeguinte() {
 }
 
 function pagNum(numPagina) {
-    urlPag = "http://projeto3/admin/utilizadores/pagUtilizadores?page=" + numPagina
+    urlPag = urlPagNum + "?page=" + numPagina
     $.ajax({
         url: urlPag,
         method: "GET",
