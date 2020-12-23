@@ -35,19 +35,38 @@
             ?>
             <form method="POST" action="" class="span8 form-inline formPesq">
                 @csrf
-                <label class="selectTipo">Tipo de Pesquisa:</label>
-                <select name="tipoPesq">
-                    <optgroup label="">
-                        <option value="nome">Nome</option>
-                    </optgroup>
+                <label class="selectTipo">Filtrar tabela por:</label>
+                <select name="tipoParticipante">
                     <optgroup label="Tipo de Participante">
+                        <option value="todos">Todos</option>
                         <option value="ilustrador">Ilustradores Solidários</option>
+                        <option value="contador">Contador de Histórias</option>
+                        <option value="entidade">Entidade Oficial</option>
+                        <option value="escola">Escola Solidária</option>
+                        <option value="juri">Juri</option>
+                        <option value="professor">Professor</option>
+                        <option value="profFac">Professor de Faculdade</option>
+                        <option value="rbe">Rede de Bibliotecas Escolares (RBE)</option>
+                        <option value="universidade">Universidade</option>
                     </optgroup>
                 </select>
                 <label class="selectAnos" for="ano">Anos:</label>
                 <select name="ano">
                     <option value="2020">2020</option>
                     <option value="2019">2019</option>
+                    <option value="2018">2018</option>
+                    <option value="2017">2017</option>
+                    <option value="2016">2016</option>
+                    <option value="2015">2015</option>
+                    <option value="2014">2014</option>
+                    <option value="2013">2013</option>
+                    <option value="2012">2012</option>
+                    <option value="2011">2011</option>
+                    <option value="2010">2010</option>
+                    <option value="2009">2009</option>
+                    <option value="2008">2008</option>
+                    <option value="2007">2007</option>
+                    <option value="2006">2006</option>
                 </select>
                 <div class="inputPesq">
                     <input type="text" name="pesquisa" class="span1">
@@ -67,49 +86,45 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <a href="#add" class="btn btn-success" data-toggle="modal"><i
-                                                class="material-icons">&#xE147;</i> <span>Criar um novo Agrupamento</span></a>
+                                                class="material-icons">&#xE147;</i> <span>Adicionar um novo Participante</span></a>
                                     </div>
                                 </div>
                             </div>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Número identificador</th>
                                         <th>Nome</th>
                                         <th>Telefone</th>
+                                        <th>Telemóvel</th>
                                         <th>Email</th>
-                                        <th>Nome do Diretor</th>
+                                        <th>Tipo de Participante</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
                                     <?php
-                                        $contagem = 0;
-                                        $numEntidades = 0;
-                                        $paginaAtual = 1;
                                         if(isset($data)) {
+                                            var_dump($data);
                                             $numEntidades = count($data);
+                                            /*
                                             foreach($data as $linha) {
-                                                if($contagem == 10) {
-                                                    break;
-                                                }
                                                 $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$linha->id_agrupamento.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
                                                 $dados = $dados.verificaNull($linha->telefone);
+                                                $dados = $dados.verificaNull($linha->telemovel);
                                                 $dados = $dados.verificaNull($linha->email);
-                                                $dados = $dados.verificaNull($linha->nomeDiretor);
+                                                $dados = $dados.'<td>Entidade Oficial</td>';
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_agrupamento.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_entidadeOficial.', '.$idProjeto.', '.$linha->anoParticipacao.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_agrupamento.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_entidadeOficial.', '.$idProjeto.', '.$linha->anoParticipacao.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
                                                 $dados = $dados.'</tr>';
                                                 echo $dados;
                                                 $contagem = $contagem + 1;
-                                            }
+                                            }*/
                                         }
                                         function verificaNull($valor) {
                                             if($valor != null) {
@@ -119,10 +134,13 @@
                                                 return '<td> --- </td>';
                                             }
                                         }
+
+                                        function criarLinhaEntidades() {
+                                            
+                                        }
                                     ?>
                                 </tbody>
                             </table>
-                            @include('paginacao')
                         </div>
                     </div>
                 </div>
@@ -229,8 +247,6 @@
         </div>
     </div>
     </div>
-    <script src="{{ asset('js/paginacao.js') }}"></script>
-    <script src="{{ asset('js/admin/pagAgrupamentos.js') }}"></script>
 </body>
 
 </html>
