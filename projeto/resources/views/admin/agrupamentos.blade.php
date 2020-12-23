@@ -123,6 +123,23 @@
                                         <label>Nome do Diretor</label>
                                         <input type="text" name="nomeDiretor" class="form-control">
                                     </div>
+                                    <div class="form-group">
+                                        <label>Rua</label>
+                                        <input type="text" name="rua" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Número da Porta</label>
+                                        <input type="text" name="nPorta" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Localidade</label>
+                                        <input type="text" name="localidade" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Código Postal</label>
+                                        <input type="text" id="codPostal" name="codPostal">
+                                        <input type="text" id="codPostalRua" name="codPostalRua">
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -158,6 +175,18 @@
                                     <div class="form-group">
                                         <label>Nome do Diretor</label>
                                         <input type="text" id="nomeDiretor" name="nomeDiretor" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rua</label>
+                                        <input type="text" name="rua" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Número da Porta</label>
+                                        <input type="text" name="numPorta" class="form-control">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Localidade</label>
+                                        <input type="text" name="localidade" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Código Postal</label>

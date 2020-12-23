@@ -39,6 +39,11 @@ function criarLinha(elemento) {
     linha = linha + `<td>${elemento.telefone}</td>`
     linha = linha + `<td>${elemento.email}</td>`
     linha = linha + `<td>${elemento.nomeDiretor}</td>`
+    linha = linha + `<td>${elemento.rua}</td>`
+    linha = linha + `<td>${elemento.numPorta}</td>`
+    linha = linha + `<td>${elemento.localidade}</td>`
+    linha = linha + `<td>${elemento.codPostal}</td>`
+    linha = linha + `<td>${elemento.codPostalRua}</td>`
     linha = linha + `<td>
                     <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_agrupamento})"><i
                             class="material-icons" data-toggle="tooltip"
