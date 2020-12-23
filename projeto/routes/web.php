@@ -138,6 +138,8 @@ Route::post('admin/trocasAgrupamento/delete/{id}', 'TrocaAgrupamentoController@d
 Route::post('admin/trocasAgrupamento/edit/{id}', 'TrocaAgrupamentoController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/trocasAgrupamento/add', 'TrocaAgrupamentoController@store')->middleware(['checkLogInAdmin']);
 
+Route::get('admin/codPostal/getAll', 'CodPostalController@getAll')->middleware(['checkLogInAdmin']);
+
 Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
 // ROUTES DE LOGIN
 Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
