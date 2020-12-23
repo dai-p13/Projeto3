@@ -78,6 +78,25 @@ class ProjetoController extends Controller
         }
     }
 
+    public function gerirParticipantes($id) {
+        $projeto = Projeto::find($id);
+        $anoAtual = \intval(date("Y"));
+        $id_projeto = \intval($id);
+        
+        $entidades = null;
+        $escolas = null;
+        $ilustradores = null;
+        $juris = null;
+        $professores = null;
+        $profsFacul = null;
+        $rbes = null;
+        $universidades = null;
+
+        $entidades = self::getEntidadesDoProjeto($id_projeto, $anoAtual);
+
+        return view('admin/gerirParticipantesProjeto', ['title' => 'Projeto: '.$projeto->nome]);
+    }
+
     public function getNextPage() {
 
         $projetos = DB::table('projeto')->select('id_projeto','nome', 'objetivos',
@@ -103,5 +122,21 @@ class ProjetoController extends Controller
             return 0;
         }
         
+    }
+
+    public function getEntidadesDoProjeto($id_projeto, $ano)
+    {
+
+        $entidades = DB::table('entidade_oficial')
+                    ->join('projeto_entidade', 'entidade_oficial.id_entidadeOficial', '=', 'projeto_entidade.id_entidadeOficial')
+                    ->select('entidade_oficial.nome', 'entidade_oficial.telefone', 'entidade_oficial.telemovel', 'entidade_oficial.email')
+                    ->where([
+                        ['projeto_entidade.id_projeto', '=', $id_projeto],
+                        ['projeto_entidade.anoParticipacao', '=', $ano],
+                        ['entidade_oficial.disponivel', '=', 0]
+                        ])
+                    ->get();
+        
+        return $entidades;
     }
 }

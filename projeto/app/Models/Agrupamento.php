@@ -17,7 +17,9 @@ class Agrupamento extends Model
         'nome',
         'telefone',
         'email',
-        'nomeDiretor'
+        'nomeDiretor',
+        'codPostal',
+        'codPostalRua'
     ];
 
     public function codPostal() {

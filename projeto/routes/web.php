@@ -31,6 +31,8 @@ Route::post('admin/projetos/delete/{id}', 'ProjetoController@destroy')->middlewa
 Route::post('admin/projetos/edit/{id}', 'ProjetoController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetos/add', 'ProjetoController@store')->middleware(['checkLogInAdmin']);
 
+Route::get('admin/gerirProjeto{id}', 'ProjetoController@gerirParticipantes')->name("gerirProjeto")->middleware(['checkLogInAdmin']);
+
 Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/pagUtilizadores', 'UtilizadorController@getNextPage')->middleware(['checkLogInAdmin']);
