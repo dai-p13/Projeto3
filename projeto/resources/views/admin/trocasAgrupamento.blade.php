@@ -34,7 +34,7 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h2>Gerir <b>Trocas Agrupamento</b></h2>
+                                        <h2>Gerir <b>Trocas de Agrupamento</b></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <a href="#add" class="btn btn-success" data-toggle="modal"><i
@@ -101,7 +101,7 @@
                             <form method="POST" action="trocasAgrupamento/add">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Adicionar Troca Agrupamento</h4>
+                                    <h4 class="modal-title">Adicionar Troca de Agrupamento</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -113,9 +113,10 @@
                                     <div class="form-group">
                                         <label>Nome do Novo Agrupamento</label>
                                         <input type="text" name="novoAgrupamento" class="form-control" required>
+                                    </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea name="observacoes" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -132,22 +133,22 @@
                             <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Editar Troca Agrupamento</h4>
+                                    <h4 class="modal-title">Editar Troca de Agrupamento</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome do Agrupamento Antigo</label>
-                                        <input type="text" id="agrupamentoAntigo" name="agrupamentoAntigo" class="form-control" required>
+                                        <input type="text" id="agrupamentoAntigo" name="agrupamentoAntigo" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Nome do Novo Agrupamento</label>
-                                        <input type="text" id="novoAgrupamento" name="novoAgrupamento" class="form-control" required>
+                                        <input type="text" id="novoAgrupamento" name="novoAgrupamento" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea id="observacoes" name="obs" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -164,7 +165,7 @@
                             <form method="POST" action="" id="formDelete">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Remover Troca Agrupamento</h4>
+                                    <h4 class="modal-title">Remover Troca de Agrupamento</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
