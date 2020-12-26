@@ -10,7 +10,8 @@ class CodPostalRua extends Model
     use HasFactory;
 
     protected $table = 'cod_postal_rua';
-    public $primaryKey = ['codPostal', 'codPostalRua'];
+    protected $primaryKey = ['codPostal', 'codPostalRua'];
+    public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agrupamento;
 use Illuminate\Http\Request;
+use \App\Models\CodPostal;
+use \App\Models\CodPostalRua;
 use DB;
 use Session;
 class AgrupamentoController extends Controller
@@ -23,12 +25,25 @@ class AgrupamentoController extends Controller
     public function store(Request $request)
     {
         $agrupamento = new Agrupamento();
-
+        $cod_postal = new CodPostal();
+        $codPostalRua = new CodPostalRua();
+        
         $agrupamento->nome = $request->nome;
         $agrupamento->telefone = $request->telefone;
         $agrupamento->email = $request->email;
         $agrupamento->nomeDiretor = $request->nomeDiretor;
+        $agrupamento->codPostal = $request->codPostal;
+        $agrupamento->codPostalRua = $request->codPostalRua;
+        $cod_postal->codPostal = $request->codPostal;
+        $cod_postal->localidade = $request->localidade;
+        $codPostalRua->codPostalRua = $request->codPostalRua;
+        $codPostalRua->rua = $request->rua;
+        $codPostalRua->numPorta = $request->numPorta;
+        $codPostalRua->codPostal = $request->codPostal;
 
+        
+        $cod_postal->save();
+        $codPostalRua->save();
         $agrupamento->save();
         return redirect()->route("agrupamentos");
     }

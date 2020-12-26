@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\CodPostalRua;
 use Illuminate\Http\Request;
-
+use DB;
 class CodPostalRuaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $codPostalRuas = CodPostalRua::all();
@@ -19,22 +14,6 @@ class CodPostalRuaController extends Controller
         return view('viewCodPostalRua', ['codPostalRuas' => $codPostalRuas]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $codPostalRua = new CodPostalRua();
@@ -46,49 +25,49 @@ class CodPostalRuaController extends Controller
 
         $codPostalRua->save();
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\CodPostalRua  $codPostalRua
-     * @return \Illuminate\Http\Response
-     */
-    public function show(codPostalRua $codPostalRua)
+    
+    public function update(codPostalRua $cod_postalRua, Request $request)
     {
-        //
+        $codPostalRua = $cod_postalRua;
+        $rua = $request->rua;
+        $numPorta = $request->numPorta;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\CodPostalRua  $codPostalRua
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(codPostalRua $codPostalRua)
+    public function destroy(codPostalRua $cod_postalRua)
     {
-        //
+        $codPostalRua = CodPostalRua::find($cod_postalRua);
+        if($codPostalRua->codPostal()->first() != null){
+            $codPostalRua->codPostal()->where('codPostalRua', $cod_postalRua)->delete();
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\CodPostalRua  $codPostalRua
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, codPostalRua $codPostalRua)
-    {
-        //
+    public static function getCodPostalRua($codPostalRua){
+        $cod_postalRua = DB::table('cod_postal_rua')->where('codPostalRua', $codPostalRua)->first();
+        if($cod_postalRua != null){
+            return $cod_postalRua->codPostalRua;
+        }
+        else{
+            return null;
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CodPostalRua  $codPostalRua
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(codPostalRua $codPostalRua)
-    {
-        //
+    public static function getRua($codPostalRua){
+        $cod_postalRua = DB::table('cod_postal_rua')->where('codPostalRua', $codPostalRua)->first();
+        if($cod_postalRua != null){
+            return $cod_postalRua->rua;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public static function getNumPortaRua($codPostalRua){
+        $cod_postalRua = DB::table('cod_postal_rua')->where('codPostalRua', $codPostalRua)->first();
+        if($cod_postalRua != null){
+            return $cod_postalRua->numPorta;
+        }
+        else{
+            return null;
+        }
     }
 }
