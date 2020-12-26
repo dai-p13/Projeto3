@@ -23,10 +23,11 @@
 }
 
 .buttonSubmit {
-    padding-left: 3%;
     background-color: rgb(31, 180, 39);
     border-radius: 5px;
     color: white;
-    padding-left: 15%;
-    padding-right: 15%;
+}
+
+.modal-lg {
+    max-width: 90% !important;
 }
