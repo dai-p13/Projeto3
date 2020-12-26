@@ -59,6 +59,7 @@
                                 <tbody id="tableBody">
                                     <?php
                                         use \App\Http\Controllers\CodPostalController;
+                                        use \App\Http\Controllers\CodPostalRuaController;
                                         $contagem = 0;
                                         $numEntidades = 0;
                                         $paginaAtual = 1;
@@ -69,14 +70,16 @@
                                                     break;
                                                 }
                                                 $localidade = CodPostalController::getLocalidade($linha->codPostal);
+                                                $rua = CodPostalRuaController::getRua($linha->codPostalRua);
+                                                $nPorta = CodPostalRuaController::getNumPortaRua($linha->codPostalRua);
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$linha->id_agrupamento.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->email);
                                                 $dados = $dados.verificaNull($linha->nomeDiretor);
-                                                $dados = $dados.verificaNull($linha->rua);
-                                                $dados = $dados.verificaNull($linha->nPorta);
+                                                $dados = $dados.'<td>'.$rua.'</td>';
+                                                $dados = $dados.'<td>'.$nPorta.'</td>';
                                                 $dados = $dados.'<td>'.$localidade.'</td>';
                                                 $dados = $dados.verificaNull($linha->codPostal);
                                                 $dados = $dados.verificaNull($linha->codPostalRua);
