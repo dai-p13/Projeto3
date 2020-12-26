@@ -49,10 +49,16 @@
                                         <th>Telefone</th>
                                         <th>Email</th>
                                         <th>Nome do Diretor</th>
+                                        <th>Rua</th>
+                                        <th>Número da Porta</th>
+                                        <th>Localidade</th>
+                                        <th>Código Postal</th>
+                                        <th>Código Postal Rua</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
                                     <?php
+                                        use \App\Http\Controllers\CodPostalController;
                                         $contagem = 0;
                                         $numEntidades = 0;
                                         $paginaAtual = 1;
@@ -62,12 +68,18 @@
                                                 if($contagem == 10) {
                                                     break;
                                                 }
+                                                $localidade = CodPostalController::getLocalidade($linha->codPostal);
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$linha->id_agrupamento.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->email);
                                                 $dados = $dados.verificaNull($linha->nomeDiretor);
+                                                $dados = $dados.verificaNull($linha->rua);
+                                                $dados = $dados.verificaNull($linha->nPorta);
+                                                $dados = $dados.'<td>'.$localidade.'</td>';
+                                                $dados = $dados.verificaNull($linha->codPostal);
+                                                $dados = $dados.verificaNull($linha->codPostalRua);
                                                 $dados = $dados.'<td>
                                                         <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_agrupamento.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
