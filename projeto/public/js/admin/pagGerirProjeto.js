@@ -1,5 +1,7 @@
 var id_projeto = 0;
 var ano = 0;
+var idTipo = 0;
+var inicializada = false;
 
 $(document).ready(function () {
 
@@ -23,7 +25,6 @@ $(document).ready(function () {
         error: function (error) {
         }
     })
-
 });
 
 function carregarAnos() {
@@ -263,3 +264,206 @@ $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
+
+function criarLinhasAdd(elementos) {
+    for(elemento of elementos) {
+        let linha = "<tr>";
+        linha = linha + `<td>${elemento.nome}</td>`
+        linha = linha + verificaNull(elemento.telefone)
+        linha = linha + verificaNull(elemento.telemovel)
+        linha = linha + verificaNull(elemento.email)
+        let idSelect = `elemento.${idTipo}`;
+        linha = linha + `<td>
+                            <button onclick="selecionar(${idSelect})"><img src="http://projeto3/images/select.png"></img></a>
+                        </td>`
+        linha = linha + '</tr>'
+        $('#tableBodyAdd').append(linha)
+    }
+}
+
+function realizarFiltragemTipo() {
+    let tipo = $('#tiposAdd').val();
+    carregarTabela(tipo);
+}
+
+function inicializarDataTable() {
+    $('#tabelaAdd').DataTable( {
+        "language": {
+            "sSearch": "Pesquisar",
+            "lengthMenu": "Mostrar _MENU_ registos por página",
+            "zeroRecords": "Nehum registo encontrado!",
+            "info": "A mostrar a página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nehuns registos disponíveis!",
+            "infoFiltered": "(filtrados _MAX_ do total de registos)",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Seguinte"
+            }
+        }
+    });
+}
+
+function inicializarTabela() {
+    if(!inicializada) {
+        inicializada = true;
+        idTipo = 'id_ilustradorSolidario'
+        $.ajax({
+            url: 'ilustradores/getDisponiveis',
+            method: "GET",
+            dataType: "json",
+            success: function (response) {
+                $("#tableBodyAdd").empty();
+                criarLinhasAdd(response);
+                inicializarDataTable();
+            },
+            error: function (error) {
+            }
+        })
+    }
+}
+
+function carregarTabela(tipo) {
+    var tabela = $('#tabelaAdd').dataTable();
+    tabela.fnDestroy();
+    switch(tipo) {
+        case 'ilustradores':
+            idTipo = 'id_ilustradorSolidario'
+            $.ajax({
+                url: 'ilustradores/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'contadores':
+            idTipo = 'id_contadorHistorias'
+            $.ajax({
+                url: 'contadores/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'entidades':
+            idTipo = 'id_entidadeOficial'
+            $.ajax({
+                url: 'entidades/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'escolas':
+            idTipo = 'id_escolaSolidaria'
+            $.ajax({
+                url: 'escolas/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'juris':
+            idTipo = 'id_escolaSolidaria'
+            $.ajax({
+                url: 'escolas/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'professores':
+            idTipo = 'id_professor'
+            $.ajax({
+                url: 'professores/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'professores_faculdade':
+            idTipo = 'id_professorFaculdade'
+            $.ajax({
+                url: 'profsFaculdade/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'rbes':
+            idTipo = 'id_rbe'
+            $.ajax({
+                url: 'rbes/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+        case 'universidades':
+            idTipo = 'id_universidade'
+            $.ajax({
+                url: 'universidades/getDisponiveis',
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    $("#tableBodyAdd").empty();
+                    criarLinhasAdd(response)
+                    inicializarDataTable()
+                },
+                error: function (error) {
+                }
+            })
+        break;
+    }
+}
+
+function selecionar(id) {
+    alert(id)
+}

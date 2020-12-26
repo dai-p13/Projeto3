@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ContadorHistoria;
 use Illuminate\Http\Request;
+use DB;
 
 class ContadorHistoriaController extends Controller
 {
@@ -91,5 +92,16 @@ class ContadorHistoriaController extends Controller
     public function destroy(contadorHistoria $contadorHistoria)
     {
         //
+    }
+
+    public function getDisponiveis() {
+        $contadores = DB::table('contador_historias')
+                    ->select('contador_historias.id_contadorHistorias', 'contador_historias.telemovel', 'contador_historias.telefone', 'contador_historias.email', 'contador_historias.nome')
+                    ->where([
+                        ['contador_historias.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($contadores);
     }
 }

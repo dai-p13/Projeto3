@@ -15,11 +15,14 @@
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
     <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
     <link href="{{asset('css/form-pesquisa.css')}}" rel="stylesheet">
+    <link type="text/css" href="{{asset('css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/dataTable.bootstrap4.min.js') }}"></script>
 </head>
 
 <body>
@@ -83,7 +86,7 @@
                                         <h2>Gerir <b>Participantes no projeto</b></h2>
                                     </div>
                                     <div class="col-sm-6">
-                                        <a href="#add" class="btn btn-success" data-toggle="modal"><i
+                                        <a href="#add" class="btn btn-success" data-toggle="modal" onclick="inicializarTabela()"><i
                                                 class="material-icons">&#xE147;</i> <span>Adicionar um novo Participante</span></a>
                                     </div>
                                 </div>
@@ -109,8 +112,6 @@
                 <div id="add" class="modal fade">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <form method="POST" action="">
-                                @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Adicionar Participante</h4>
                                     <button type="button" class="close" data-dismiss="modal"
@@ -121,42 +122,43 @@
                                         <label class="selectTipo">Filtrar tabela por:</label>
                                         <select name="tipoParticipante" id="tiposAdd">
                                             <optgroup label="Tipo de Participante">
-                                                <option value="ilustrador_solidario">Ilustradores Solidários</option>
-                                                <option value="contador_historias">Contador de Histórias</option>
-                                                <option value="entidade_oficial">Entidade Oficial</option>
-                                                <option value="escola_solidaria">Escola Solidária</option>
-                                                <option value="juri">Juri</option>
-                                                <option value="professor">Professor</option>
-                                                <option value="professor_faculdade">Professor de Faculdade</option>
-                                                <option value="rbe">Rede de Bibliotecas Escolares (RBE)</option>
-                                                <option value="universidade">Universidade</option>
+                                                <option value="ilustradores">Ilustradores Solidários</option>
+                                                <option value="contadores">Contador de Histórias</option>
+                                                <option value="entidades">Entidade Oficial</option>
+                                                <option value="escolas">Escola Solidária</option>
+                                                <option value="juris">Juri</option>
+                                                <option value="professores">Professor</option>
+                                                <option value="professores_faculdade">Professor de Faculdade</option>
+                                                <option value="rbes">Rede de Bibliotecas Escolares (RBE)</option>
+                                                <option value="universidades">Universidade</option>
                                             </optgroup>
                                         </select>
-                                        <br><br>
-                                        <label class="selectTipo">Pesquisa por nome:</label>
-                                        <input type="text" name="pesquisa" id="pesquisaAdd" class="span1">
-                                        <button onclick="realizarPesquisaNome()">Pesquisar</button>    
+                                        <button onclick="realizarFiltragemTipo()">Filtrar</button>    
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label style="padding-left: 3%;">Selecione o participante a adicionar:</label>
-                                    <table class="table table-striped table-hover" style="padding-left: 3%;padding-right: 3%;">
-                                        <thead>
-                                            <tr>
-                                                <th>Nome</th>
-                                                <th>Tipo de Participante</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tableBodyAdd">
+                                    <div style="padding-left: 3%; padding-right: 3%">
+                                        <label>Selecione o participante a adicionar:</label>
+                                        <table class="display table table-striped table-bordered" id="tabelaAdd">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Telefone</th>
+                                                    <th>Telemóvel</th>
+                                                    <th>Email</th>
+                                                    <th>Selecionar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBodyAdd">
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
                                     <input type="submit" class="btn btn-success" value="Adicionar">
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>

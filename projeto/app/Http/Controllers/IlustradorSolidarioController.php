@@ -109,4 +109,15 @@ class IlustradorSolidarioController extends Controller
         }
         
     }
+
+    public function getDisponiveis() {
+            $ilustradores = DB::table('ilustrador_solidario')
+                        ->select('ilustrador_solidario.id_ilustradorSolidario', 'ilustrador_solidario.telemovel', 'ilustrador_solidario.telefone', 'ilustrador_solidario.nome')
+                        ->where([
+                            ['ilustrador_solidario.disponivel', '=', 0]
+                            ])
+                        ->get();  
+        
+        return \json_encode($ilustradores);
+    }
 }

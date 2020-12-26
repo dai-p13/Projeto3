@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\EntidadeOficial;
 use Illuminate\Http\Request;
+use DB;
 
 class EntidadeOficialController extends Controller
 {
@@ -92,5 +93,16 @@ class EntidadeOficialController extends Controller
     public function destroy(entoficial $entoficial)
     {
         //
+    }
+
+    public function getDisponiveis() {
+        $entidades = DB::table('entidade_oficial')
+                    ->select('entidade_oficial.id_entidadeOficial', 'entidade_oficial.telefone', 'entidade_oficial.telemovel', 'entidade_oficial.email', 'entidade_oficial.nome')
+                    ->where([
+                        ['entidade_oficial.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($entidades);
     }
 }

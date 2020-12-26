@@ -55,6 +55,7 @@ Route::get('admin/escolas','EscolaSolidariaController@index')->name("escolas")->
 Route::get('admin/escolas/getPorId/{id}', 'EscolaSolidariaController@getEscolaPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/escolas/pag', 'EscolaSolidariaController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/escolas/getNum', 'EscolaSolidariaController@getNumEscolas')->middleware(['checkLogInAdmin']);
+Route::get('admin/escolas/getDisponiveis', 'EscolaSolidariaController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/escolas/delete/{id}', 'EscolaSolidariaController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/escolas/edit/{id}', 'EscolaSolidariaController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/escolas/add', 'EscolaSolidariaController@store')->middleware(['checkLogInAdmin']);
@@ -72,6 +73,7 @@ Route::get('admin/ilustradores','IlustradorSolidarioController@index')->name("il
 Route::get('admin/ilustradores/getPorId/{id}', 'IlustradorSolidarioController@getIlustradorPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/ilustradores/pag', 'IlustradorSolidarioController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/ilustradores/getNum', 'IlustradorSolidarioController@getNumIlustradores')->middleware(['checkLogInAdmin']);
+Route::get('admin/ilustradores/getDisponiveis', 'IlustradorSolidarioController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/ilustradores/delete/{id}', 'IlustradorSolidarioController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/ilustradores/edit/{id}', 'IlustradorSolidarioController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/ilustradores/add', 'IlustradorSolidarioController@store')->middleware(['checkLogInAdmin']);
@@ -80,6 +82,7 @@ Route::get('admin/contadores','ContadorHistoriaController@index')->name("contado
 Route::get('admin/contadores/getPorId/{id}', 'ContadorHistoriaController@getContadorPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/contadores/pag', 'ContadorHistoriaController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/contadores/getNum', 'ContadorHistoriaController@getNumContadores')->middleware(['checkLogInAdmin']);
+Route::get('admin/contadores/getDisponiveis', 'ContadorHistoriaController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/contadores/delete/{id}', 'ContadorHistoriaController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/contadores/edit/{id}', 'ContadorHistoriaController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/contadores/add', 'ContadorHistoriaController@store')->middleware(['checkLogInAdmin']);
@@ -88,6 +91,7 @@ Route::get('admin/entidades','EntidadeOficialController@index')->name("entidades
 Route::get('admin/entidades/getPorId/{id}', 'EntidadeOficialController@getEntidadePorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/entidades/pag', 'EntidadeOficialController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/entidades/getNum', 'EntidadeOficialController@getNumEntidades')->middleware(['checkLogInAdmin']);
+Route::get('admin/entidades/getDisponiveis', 'EntidadeOficialController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/entidades/delete/{id}', 'EntidadeOficialController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/entidades/edit/{id}', 'EntidadeOficialController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/entidades/add', 'EntidadeOficialController@store')->middleware(['checkLogInAdmin']);

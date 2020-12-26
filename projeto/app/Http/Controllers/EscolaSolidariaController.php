@@ -104,4 +104,15 @@ class EscolaSolidariaController extends Controller
         }
         
     }
+
+    public function getDisponiveis() {
+        $ilustradores = DB::table('escola_solidaria')
+                    ->select('escola_solidaria.id_escolaSolidaria', 'escola_solidaria.telefone', 'escola_solidaria.telemovel', 'escola_solidaria.nome')
+                    ->where([
+                        ['escola_solidaria.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+    return \json_encode($ilustradores);
+}
 }
