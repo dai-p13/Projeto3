@@ -41,6 +41,16 @@ class CodPostalRuaController extends Controller
         }
     }
 
+    public static function getCodPostalRua($codPostalRua){
+        $cod_postalRua = DB::table('cod_postal_rua')->where('codPostalRua', $codPostalRua)->first();
+        if($cod_postalRua != null){
+            return $cod_postalRua->codPostalRua;
+        }
+        else{
+            return null;
+        }
+    }
+
     public static function getRua($codPostalRua){
         $cod_postalRua = DB::table('cod_postal_rua')->where('codPostalRua', $codPostalRua)->first();
         if($cod_postalRua != null){

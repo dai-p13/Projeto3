@@ -52,6 +52,16 @@ class CodPostalController extends Controller
         
     }
 
+    public static function getCodPostal($codPostal){
+        $cod_postal = DB::table('cod_postal')->where('codPostal', $codPostal)->first();
+        if($cod_postal != null){
+            return $cod_postal->codPostal;
+        }
+        else{
+            return null;
+        }
+    }
+
     public static function getLocalidade($codPostal){
         $cod_postal = DB::table('cod_postal')->where('codPostal', $codPostal)->first();
         if($cod_postal != null){
