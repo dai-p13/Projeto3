@@ -146,8 +146,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Código Postal</label>
-                                        <input type="text" id="codPostal" name="codPostal">
-                                        <input type="text" id="codPostalRua" name="codPostalRua">
+                                        <input type="text" name="codPostal">
+                                        <input type="text" name="codPostalRua">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
