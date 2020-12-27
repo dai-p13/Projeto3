@@ -71,6 +71,9 @@ function editar(id) {
                 $('#email').val(agrupamento.email)
                 $('#telefone').val(agrupamento.telefone)
                 $('#nomeDiretor').val(agrupamento.nomeDiretor)
+                $('#localidade').val(agrupamento.localidade)
+                $('#codPostal').val(agrupamento.codPostal)
+                $('#codPostalRua').val(agrupamento.codPostalRua)
             }
         },
         error: function (error) {

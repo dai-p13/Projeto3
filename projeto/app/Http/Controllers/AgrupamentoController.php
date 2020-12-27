@@ -55,17 +55,30 @@ class AgrupamentoController extends Controller
         $telefone = $request->telefone;
         $email = $request->email;
         $nomeDiretor = $request->nomeDiretor;
+        $codPostal = $request->codPostal;
+        $localidade = $request->localidade;
+        //$codPostalRua = $request->codPostalRua;
 
         $agrupamento = Agrupamento::find($id_agrupamento);
+        $cod_postal = CodPostal::find($codPostal);
         if($agrupamento != null) {
             $agrupamento->nome = $nome;
             $agrupamento->telefone = $telefone;
             $agrupamento->email = $email;
             $agrupamento->nomeDiretor = $nomeDiretor;
+            //$agrupamento->codPostalRua = $codPostalRua;
 
             $agrupamento->save();
-            return redirect()->route("agrupamentos");
+            
         }
+        if($cod_postal != null) {
+            $cod_postal->codPostal = $codPostal;
+            $cod_postal->localidade = $localidade;
+                
+            $cod_postal->save();
+        }
+            
+        return redirect()->route("agrupamentos");
     }
     
     public function destroy($id)
