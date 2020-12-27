@@ -12,6 +12,7 @@ class ProjetoJuri extends Model
     protected $table = 'projeto_juri';
     public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_juri'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

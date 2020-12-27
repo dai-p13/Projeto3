@@ -4,90 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjetoUniversidade;
 use Illuminate\Http\Request;
-
+use DB;
 class ProjetoUniversidadeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $projuniversidades = ProjetoUniversidade::all();
 
-        return view('viewProjetoUniversidade', ['projuniversidades' => $projuniversidades]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $projuniversidade = new ProjetoUniversidade();
 
-        $projuniversidade->id_projeto = $request->id_projeto;
-        $projuniversidade->id_universidade = $request->id_universidade;
-        $projuniversidade->anoParticipacao = $request->anoParticipacao;
+        $projuniversidade->id_projeto = intval($request->id_projeto);
+        $projuniversidade->id_universidade = intval($request->id_elemento);
+        $projuniversidade->anoParticipacao = intval($request->anoParticipacao);
 
         $projuniversidade->save();
+        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProjetoUniversidade  $projuniversidade
-     * @return \Illuminate\Http\Response
-     */
-    public function show(projuniversidade $projuniversidade)
+    public function destroy($id, $id_projeto, $ano)
     {
-        //
+        $linha = DB::table('projeto_universidade')
+                    ->where([
+                        ['projeto_universidade.id_projeto', '=', $id_projeto],
+                        ['projeto_universidade.id_universidade', '=', $id],
+                        ['projeto_universidade.anoParticipacao', '=', $ano]
+                        ]);
+
+        if($linha->first() != null) {
+            $linha->delete(); 
+        }
+        return redirect()->route("gerirProjeto", ['id' => intval($id_projeto)]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProjetoUniversidade  $projuniversidade
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(projuniversidade $projuniversidade)
+    public function verificaAssociacao($id, $id_projeto, $ano)
     {
-        //
-    }
+        $exite = false;
+        $linha = DB::table('projeto_universidade')
+                    ->where([
+                        ['projeto_universidade.id_projeto', '=', $id_projeto],
+                        ['projeto_universidade.id_universidade', '=', $id],
+                        ['projeto_universidade.anoParticipacao', '=', $ano]
+                        ])
+                    ->get();
+        if(count($linha) > 0) {
+            $exite = true;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProjetoUniversidade  $projuniversidade
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, projuniversidade $projuniversidade)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProjetoUniversidade  $projuniversidade
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(projuniversidade $projuniversidade)
-    {
-        //
+        return \json_encode($exite);
     }
 }

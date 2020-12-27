@@ -115,4 +115,15 @@ class ProfessorFaculdadeController extends Controller
         }
         
     }
+
+    public function getDisponiveis() {
+        $professores = DB::table('professor_faculdade')
+                    ->select('professor_faculdade.id_professorFaculdade', 'professor_faculdade.telemovel', 'professor_faculdade.telefone', 'professor_faculdade.nome')
+                    ->where([
+                        ['professor_faculdade.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($professores);
+    }
 }

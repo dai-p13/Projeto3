@@ -83,7 +83,6 @@ function remover(id) {
                 $('#msg').modal('show');
             }
             if(msg == '') {
-                console.log("SHOW MODAL DELETE");
                 url = 'concelhos/delete/' + id
                 $('#formDelete').attr('action', url)
                 $('#delete').modal("show");

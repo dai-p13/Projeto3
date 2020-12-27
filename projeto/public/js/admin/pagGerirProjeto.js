@@ -1,7 +1,9 @@
 var id_projeto = 0;
 var ano = 0;
 var idTipo = 0;
+var tipoSelect = "";
 var inicializada = false;
+var existe = false;
 
 $(document).ready(function () {
 
@@ -14,6 +16,7 @@ $(document).ready(function () {
             ano = response.ano
             carregarAnos()
             carregarEntidades(response)
+            carregarContadores(response)
             carregarEscolas(response)
             carregarIlustradores(response)
             carregarJuris(response)
@@ -25,6 +28,12 @@ $(document).ready(function () {
         error: function (error) {
         }
     })
+
+    $("#formAdd").submit(function (e) {
+        if (existe) {
+            return false;
+        }
+    })
 });
 
 function carregarAnos() {
@@ -32,7 +41,7 @@ function carregarAnos() {
     let i = 1;
     let opcoes = "";
     let novoAno = ano
-    while(i <= numIteracoes) {
+    while (i <= numIteracoes) {
         opcoes = opcoes + `<option value="${novoAno}">${novoAno}</option>`;
         novoAno = novoAno - 1
         i++;
@@ -44,157 +53,176 @@ function carregarAnos() {
 
 function carregarEntidades(response) {
     let entidades = response.entidades
-    if(entidades != null && entidades.length > 0) {
-        for(entidade of entidades) {
+    if (entidades != null && entidades.length > 0) {
+        for (entidade of entidades) {
             let linha = criarLinha(entidade, 'entidade')
             $('#tableBody').append(linha)
-        }    
+        }
+    }
+}
+
+function carregarContadores(response) {
+    let entidades = response.contadores
+    if (entidades != null && entidades.length > 0) {
+        for (entidade of entidades) {
+            let linha = criarLinha(entidade, 'contador')
+            $('#tableBody').append(linha)
+        }
     }
 }
 
 function carregarEscolas(response) {
     let escolas = response.escolas
-    if(escolas != null && escolas.length > 0) {
-        for(escola of escolas) {
+    if (escolas != null && escolas.length > 0) {
+        for (escola of escolas) {
             let linha = criarLinha(escola, 'escola')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarIlustradores(response) {
     let ilustradores = response.ilustradores
-    if(ilustradores != null && ilustradores.length > 0) {
-        for(ilustrador of ilustradores) {
+    if (ilustradores != null && ilustradores.length > 0) {
+        for (ilustrador of ilustradores) {
             let linha = criarLinha(ilustrador, 'ilustrador')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarJuris(response) {
     let juris = response.juris
-    if(juris != null && juris.length > 0) {
-        for(juri of juris) {
+    if (juris != null && juris.length > 0) {
+        for (juri of juris) {
             let linha = criarLinha(juri, 'juri')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarProfessores(response) {
     let professores = response.professores
-    if(professores != null && professores.length > 0) {
-        for(professor of professores) {
+    if (professores != null && professores.length > 0) {
+        for (professor of professores) {
             let linha = criarLinha(professor, 'professor')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarProfsFac(response) {
     let profsFac = response.profsFac
-    if(profsFac != null && profsFac.length > 0) {
-        for(prof of profsFac) {
+    if (profsFac != null && profsFac.length > 0) {
+        for (prof of profsFac) {
             let linha = criarLinha(prof, 'profFacul')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarRbe(response) {
     let rbes = response.rbes
-    if(rbes != null && rbes.length > 0) {
-        for(rbe of rbes) {
+    if (rbes != null && rbes.length > 0) {
+        for (rbe of rbes) {
             let linha = criarLinha(rbe, 'rbe')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function carregarUniversidade(response) {
     let universidades = response.universidades
-    if(universidades != null && universidades.length > 0) {
-        for(uni of universidades) {
+    if (universidades != null && universidades.length > 0) {
+        for (uni of universidades) {
             let linha = criarLinha(uni, 'universidade')
             $('#tableBody').append(linha)
-        }    
+        }
     }
 }
 
 function criarLinha(elemento, tipo) {
     var linha = "<tr>"
-    if(tipo != 'rbe') {
+    if (tipo != 'rbe') {
         linha = linha + `<td>${elemento.nome}</td>`
         linha = linha + verificaNull(elemento.telefone)
         linha = linha + verificaNull(elemento.telemovel)
         linha = linha + verificaNull(elemento.email)
         linha = linha + '<td> --- </td>'
-        switch(tipo) {
+        switch (tipo) {
             case 'entidade':
                 linha = linha + `<td>Entidade Oficial</td>`
                 linha = linha + `<td>
                         <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_entidadeOficial}, 
-                            ${id_projeto}, ${ano})"><i
+                            ${id_projeto}, ${ano}, \'entidade\')"><i
                                 class="material-icons" data-toggle="tooltip"
                                 title="Delete">&#xE872;</i></a>
                     <td>`
-            break;
+                break;
+            case 'contador':
+                linha = linha + `<td>Contador</td>`
+                linha = linha + `<td>
+                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_contadorHistorias}, 
+                            ${id_projeto}, ${ano}, \'contador\')"><i
+                                class="material-icons" data-toggle="tooltip"
+                                title="Delete">&#xE872;</i></a>
+                    <td>`
+                break;
             case 'escola':
                 linha = linha + `<td>Escola Solidária</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_escolaSolidaria}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'escola\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
+                break;
             case 'ilustrador':
                 linha = linha + `<td>Ilustrador Solidário</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_ilustradorSolidario}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'ilustrador\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
+                break;
             case 'juri':
                 linha = linha + `<td>Juri</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_juri}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'juri\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
+                break;
             case 'professor':
                 linha = linha + `<td>Professor</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_professor}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'professor\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
+                break;
             case 'profFacul':
                 linha = linha + `<td>Professor de Faculdade</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_professorFaculdade}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'profFacul\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
+                break;
             case 'universidade':
                 linha = linha + `<td>Universidade</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_universidade}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'universidade\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
-            break;
-        }    
+                break;
+        }
     }
     else {
         linha = linha + `<td>${elemento.nomeCoordenador}</td>`
@@ -203,22 +231,64 @@ function criarLinha(elemento, tipo) {
         linha = linha + '<td> --- </td>'
         linha = linha + `<td>${elemento.regiao}</td>`
         linha = linha + `<td>RBE</td>`
-                linha = linha + `<td>
+        linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_rbe}, 
-                                    ${id_projeto}, ${ano})"><i
+                                    ${id_projeto}, ${ano}, \'rbe\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
     }
-    
+
     linha = linha + '</tr>'
 
     return linha;
 }
 
+function remover(id_elemento, id_projeto, ano, tipo) {
+    console.log(id_elemento, id_projeto, ano, tipo);
+    switch (tipo) {
+        case 'entidade':
+            var urlDelete = 'projetoEntidade/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'contador':
+            var urlDelete = 'projetoContador/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'escola':
+            var urlDelete = 'projetoEscola/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'ilustrador':
+            var urlDelete = 'projetoIlustrador/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'juri':
+            var urlDelete = 'projetoJuri/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'professor':
+            var urlDelete = 'projetoProfessor/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'profFacul':
+            var urlDelete = 'projetoProfFac/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'universidade':
+            var urlDelete = 'projetoUniversidade/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+        case 'rbe':
+            var urlDelete = 'projetoRbe/delete/' + id_elemento + "-" + id_projeto + "-" + ano
+            $('#formDelete').attr('action', urlDelete)
+        break;
+    }
+}
+
 function verificaNull(valor) {
-    if(valor != null) {
-        return `<td>${valor}</td>`;    
+    if (valor != null) {
+        return `<td>${valor}</td>`;
     }
     else {
         return '<td> --- </td>';
@@ -229,7 +299,7 @@ function realizarPesquisa() {
     let tipo = $('#tipos').val();
     let anoSelecionado = $('#anos').val();
     let pesq = $('#pesquisa').val();
-    if(pesq == "") {
+    if (pesq == "") {
         pesq = null;
     }
     let urlPesq = 'gerirProjeto/pesquisaParticipantes/' + tipo + '-' + anoSelecionado + '-' + pesq;
@@ -243,6 +313,7 @@ function realizarPesquisa() {
             ano = response.ano
             carregarEntidades(response)
             carregarEscolas(response)
+            carregarContadores(response)
             carregarIlustradores(response)
             carregarJuris(response)
             carregarProfessores(response)
@@ -255,29 +326,38 @@ function realizarPesquisa() {
     })
 }
 
-function remover(id) {
-    url = 'agrupamentos/delete/' + id
-    $('#formDelete').attr('action', url)
-}
-
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
 
-function criarLinhasAdd(elementos) {
-    for(elemento of elementos) {
-        let linha = "<tr>";
-        linha = linha + `<td>${elemento.nome}</td>`
-        linha = linha + verificaNull(elemento.telefone)
-        linha = linha + verificaNull(elemento.telemovel)
-        linha = linha + verificaNull(elemento.email)
-        let idSelect = `elemento.${idTipo}`;
-        linha = linha + `<td>
-                            <button onclick="selecionar(${idSelect})"><img src="http://projeto3/images/select.png"></img></a>
-                        </td>`
-        linha = linha + '</tr>'
-        $('#tableBodyAdd').append(linha)
+function criarLinhasAdd(elementos, rbe) {
+    if (!rbe) {
+        for (elemento of elementos) {
+            let linha = "<tr>";
+            linha = linha + `<td>${elemento.nome}</td>`
+            linha = linha + verificaNull(elemento.telefone)
+            linha = linha + verificaNull(elemento.telemovel)
+            linha = linha + verificaNull(elemento.email)
+            let idSelect = `elemento.${idTipo}`;
+            linha = linha + '<td><button onclick="selecionar(' + idSelect + ', \'' + elemento.nome + '\')"><img src="http://projeto3/images/select.png"></img></a></td>'
+            linha = linha + '</tr>'
+            $('#tableBodyAdd').append(linha)
+        }
+    }
+    else {
+        for (elemento of elementos) {
+            let linha = "<tr>";
+            linha = linha + `<td>${elemento.nomeCoordenador}</td>`
+            linha = linha + `<td>${elemento.regiao}</td>`
+            linha = linha + `<td>${elemento.nome}</td>`
+            let idSelect = `elemento.${idTipo}`;
+            linha = linha + '<td><button onclick="selecionar(' + idSelect + ', \'' + elemento.nomeCoordenador + '\')"><img src="http://projeto3/images/select.png"></img></a></td>'
+            linha = linha + '</tr>'
+            $('#tableBodyAdd').append(linha)
+        }
+        let newhead = '<tr><th>Nome do Coordenador</th><th>Região</th><th>Concelho</th><th>Selecionar</th></tr>'
+        $('#tableHeadAdd').append(newhead)
     }
 }
 
@@ -287,7 +367,7 @@ function realizarFiltragemTipo() {
 }
 
 function inicializarDataTable() {
-    $('#tabelaAdd').DataTable( {
+    $('#tabelaAdd').DataTable({
         "language": {
             "sSearch": "Pesquisar",
             "lengthMenu": "Mostrar _MENU_ registos por página",
@@ -304,7 +384,10 @@ function inicializarDataTable() {
 }
 
 function inicializarTabela() {
-    if(!inicializada) {
+    $('#divForm').hide();
+    $('#divErro').hide();
+    $('#divErro').empty();
+    if (!inicializada) {
         inicializada = true;
         idTipo = 'id_ilustradorSolidario'
         $.ajax({
@@ -313,7 +396,8 @@ function inicializarTabela() {
             dataType: "json",
             success: function (response) {
                 $("#tableBodyAdd").empty();
-                criarLinhasAdd(response);
+                tipoSelect = "ilustrador"
+                criarLinhasAdd(response, false);
                 inicializarDataTable();
             },
             error: function (error) {
@@ -325,7 +409,16 @@ function inicializarTabela() {
 function carregarTabela(tipo) {
     var tabela = $('#tabelaAdd').dataTable();
     tabela.fnDestroy();
-    switch(tipo) {
+    $("#tableHeadAdd").empty();
+    let newhead = `<tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Telemóvel</th>
+                <th>Email</th>
+                <th>Selecionar</th>
+            </tr>`;
+    $('#tableHeadAdd').append(newhead)
+    switch (tipo) {
         case 'ilustradores':
             idTipo = 'id_ilustradorSolidario'
             $.ajax({
@@ -334,13 +427,14 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "ilustrador"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'contadores':
             idTipo = 'id_contadorHistorias'
             $.ajax({
@@ -349,13 +443,14 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "contador"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'entidades':
             idTipo = 'id_entidadeOficial'
             $.ajax({
@@ -364,13 +459,14 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "entidade"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'escolas':
             idTipo = 'id_escolaSolidaria'
             $.ajax({
@@ -379,28 +475,30 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "escola"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'juris':
-            idTipo = 'id_escolaSolidaria'
+            idTipo = 'id_juri'
             $.ajax({
-                url: 'escolas/getDisponiveis',
+                url: 'juris/getDisponiveis',
                 method: "GET",
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "juri"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'professores':
             idTipo = 'id_professor'
             $.ajax({
@@ -409,13 +507,14 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "professor"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'professores_faculdade':
             idTipo = 'id_professorFaculdade'
             $.ajax({
@@ -424,13 +523,14 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "profFac"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'rbes':
             idTipo = 'id_rbe'
             $.ajax({
@@ -439,13 +539,15 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    $("#tableHeadAdd").empty();
+                    tipoSelect = "rbe"
+                    criarLinhasAdd(response, true)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
         case 'universidades':
             idTipo = 'id_universidade'
             $.ajax({
@@ -454,16 +556,214 @@ function carregarTabela(tipo) {
                 dataType: "json",
                 success: function (response) {
                     $("#tableBodyAdd").empty();
-                    criarLinhasAdd(response)
+                    tipoSelect = "universidade"
+                    criarLinhasAdd(response, false)
                     inicializarDataTable()
                 },
                 error: function (error) {
                 }
             })
-        break;
+            break;
     }
 }
 
-function selecionar(id) {
-    alert(id)
+function selecionar(id, nome) {
+    $('#divForm').show();
+    $('#divErro').hide();
+    $('#divErro').empty();
+    $('#nome').val(nome);
+    $('#anoParticipacao').val(ano);
+    $('#id_projeto').val(id_projeto);
+    $('#id_elemento').val(id);
+    switch (tipoSelect) {
+        case 'ilustrador':
+            var url = 'projetoIlustrador/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoIlustrador/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'contador':
+            var url = 'projetoContador/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoContador/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'entidade':
+            var url = 'projetoEntidade/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoEntidade/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'escola':
+            var url = 'projetoEscola/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoEscola/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'juri':
+            var url = 'projetoJuri/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoJuri/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'professor':
+            var url = 'projetoProfessor/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoProfessor/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'profFac':
+            var url = 'projetoProfFac/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoProfFac/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'rbe':
+            var url = 'projetoRbe/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoRbe/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+        case 'universidade':
+            var url = 'projetoUniversidade/jaAssociado/' + id + "-" + id_projeto + "-" + ano
+            $.ajax({
+                url: url,
+                method: "GET",
+                dataType: "json",
+                success: function (response) {
+                    if (!response) {
+                        $('#formAdd').attr('action', 'projetoUniversidade/add')
+                        existe = false;
+                    }
+                    else {
+                        var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'
+                        $('#divForm').hide()
+                        $('#divErro').append(msg);
+                        $('#divErro').show();
+                        existe = true;
+                    }
+                },
+            })
+            break;
+    }
 }

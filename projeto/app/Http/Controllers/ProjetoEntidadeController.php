@@ -4,44 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjetoEntidade;
 use Illuminate\Http\Request;
+use DB;
 
 class ProjetoEntidadeController extends Controller
 {
-    public function index()
-    {
-        $projentidade = ProjetoEntidade::all();
-
-        return view('viewProjetoEntidade', ['projentidade' => $projentidade]);
-    }
 
     public function store(Request $request)
     {
         $projentidade = new ProjetoEntidade();
 
-        $projentidade->id_projeto = $request->id_projeto;
-        $projentidade->id_entidadeOficial = $request->id_entidadeOficial;
-        $projentidade->anoParticipacao = $request->anoParticipacao;
+        $projentidade->id_projeto = $request->intval($request->$id_projeto);
+        $projentidade->id_entidadeOficial = intval($request->id_elemento);
+        $projentidade->anoParticipacao = intval($request->anoParticipacao);
 
         $projentidade->save();
+        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
     }
 
-    public function show(projentidade $projentidade)
+    public function destroy($id, $id_projeto, $ano)
     {
-        //
+        $linha = DB::table('projeto_entidade')
+                    ->where([
+                        ['projeto_entidade.id_projeto', '=', $id_projeto],
+                        ['projeto_entidade.id_entidadeOficial', '=', $id],
+                        ['projeto_entidade.anoParticipacao', '=', $ano]
+                        ]);
+        if($linha->first() != null) {
+            $linha->delete(); 
+        }
+        return redirect()->route("gerirProjeto", ['id' => intval($id_projeto)]);
     }
 
-    public function edit(projentidade $projentidade)
+    public function verificaAssociacao($id, $id_projeto, $ano)
     {
-        //
-    }
+        $exite = false;
+        $linha = DB::table('projeto_entidade')
+                    ->where([
+                        ['projeto_entidade.id_projeto', '=', $id_projeto],
+                        ['projeto_entidade.id_entidadeOficial', '=', $id],
+                        ['projeto_entidade.anoParticipacao', '=', $ano]
+                        ])
+                    ->get();
+        if(count($linha) > 0) {
+            $exite = true;
+        }
 
-    public function update(Request $request, projentidade $projentidade)
-    {
-        //
-    }
-
-    public function destroy(projentidade $projentidade)
-    {
-        //
+        return \json_encode($exite);
     }
 }

@@ -4,90 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjetoRBE;
 use Illuminate\Http\Request;
-
+use DB;
 class ProjetoRBEController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $projredes = ProjetoRBE::all();
-
-        return view('viewProjetoRBE', ['projredes' => $projredes]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $projrede = new ProjetoRBE();
 
-        $projrede->id_projeto = $request->id_projeto;
-        $projrede->id_rbe = $request->id_rbe;
-        $projrede->anoParticipacao = $request->anoParticipacao;
+        $projrede->id_projeto = intval($request->id_projeto);
+        $projrede->id_rbe = intval($request->id_elemento);
+        $projrede->anoParticipacao = intval($request->anoParticipacao);
 
         $projrede->save();
+        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProjetoRBE  $projrede
-     * @return \Illuminate\Http\Response
-     */
-    public function show(projrede $projrede)
+    public function destroy($id, $id_projeto, $ano)
     {
-        //
+        $linha = DB::table('projeto_rbe')
+                    ->where([
+                        ['projeto_rbe.id_projeto', '=', $id_projeto],
+                        ['projeto_rbe.id_rbe', '=', $id],
+                        ['projeto_rbe.anoParticipacao', '=', $ano]
+                        ]);
+        
+        if($linha->first() != null) {
+            $linha->delete(); 
+        }
+        return redirect()->route("gerirProjeto", ['id' => intval($id_projeto)]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProjetoRBE  $projrede
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(projrede $projrede)
+    public function verificaAssociacao($id, $id_projeto, $ano)
     {
-        //
-    }
+        $exite = false;
+        $linha = DB::table('projeto_rbe')
+                    ->where([
+                        ['projeto_rbe.id_projeto', '=', $id_projeto],
+                        ['projeto_rbe.id_rbe', '=', $id],
+                        ['projeto_rbe.anoParticipacao', '=', $ano]
+                        ])
+                    ->get();
+        
+        if(count($linha) > 0) {
+            $exite = true;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProjetoRBE  $projrede
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, projrede $projrede)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProjetoRBE  $projrede
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(projrede $projrede)
-    {
-        //
+        return \json_encode($exite);
     }
 }

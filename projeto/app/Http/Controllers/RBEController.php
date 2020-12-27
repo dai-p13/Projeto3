@@ -103,4 +103,16 @@ class RBEController extends Controller
         }
         
     }
+
+    public function getDisponiveis() {
+        $professores = DB::table('rbe')
+                    ->select('rbe.id_rbe', 'rbe.regiao', 'rbe.nomeCoordenador', 'concelho.nome')
+                    ->join('concelho', 'rbe.id_concelho', '=', 'concelho.id_concelho')
+                    ->where([
+                        ['rbe.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($professores);
+    }
 }

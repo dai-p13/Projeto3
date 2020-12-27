@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Juri;
 use Illuminate\Http\Request;
-
+use DB;
 class JuriController extends Controller
 {
     /**
@@ -90,5 +90,16 @@ class JuriController extends Controller
     public function destroy(juris $juris)
     {
         //
+    }
+
+    public function getDisponiveis() {
+        $juris = DB::table('juri')
+                    ->select('juri.id_juri', 'juri.telemovel', 'juri.telefone', 'juri.nome')
+                    ->where([
+                        ['juri.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($juris);
     }
 }

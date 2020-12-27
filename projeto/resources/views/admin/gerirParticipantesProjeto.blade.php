@@ -117,9 +117,9 @@
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label class="selectTipo">Filtrar tabela por:</label>
+                                <div class="modal-body" style="margin: 0 auto;">
+                                    <div class="form-group" style="text-align: center;">
+                                        <h4>Filtrar tabela por:</h4>
                                         <select name="tipoParticipante" id="tiposAdd">
                                             <optgroup label="Tipo de Participante">
                                                 <option value="ilustradores">Ilustradores Solidários</option>
@@ -140,7 +140,7 @@
                                     <div style="padding-left: 3%; padding-right: 3%">
                                         <label>Selecione o participante a adicionar:</label>
                                         <table class="display table table-striped table-bordered" id="tabelaAdd">
-                                            <thead>
+                                            <thead id="tableHeadAdd">
                                                 <tr>
                                                     <th>Nome</th>
                                                     <th>Telefone</th>
@@ -155,10 +155,50 @@
                                         </table>
                                     </div>
                                 </div>
+                                <br><br>
+                            <form id="formAdd" method="POST" action="">
+                                @csrf
+                                <div class="form-group" id="elementoSelecionado" style="padding-left: 3%">
+                                    <div id="divErro" class="formAdicionar">
+                                        
+                                    </div>
+                                    <div id="divForm" class="formAdicionar">
+                                        <h4>Participante selecionado a adicionar ao projeto:</h4>
+                                        <br>
+                                        <label>Nome:</label>
+                                        <input type="text" name="nome" id="nome" value="" readonly>
+                                        <br><br>
+                                        <label>Ano:</label>
+                                        <input type="number" name="anoParticipacao" id="anoParticipacao" value="" readonly>
+                                        <input type="hidden" name="id_projeto" id="id_projeto" value="" readonly>
+                                        <input type="hidden" name="id_elemento" id="id_elemento" value="" readonly>
+                                    </div>
+                                </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-                                    <input type="submit" class="btn btn-success" value="Adicionar">
+                                    <input type="submit" id="adicionar" class="btn btn-success" value="Adicionar">
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="msg" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                @csrf
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="titulo" style="color: red"></h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="mensagem"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="OK">
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

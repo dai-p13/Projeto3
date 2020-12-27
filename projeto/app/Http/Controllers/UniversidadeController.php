@@ -115,4 +115,15 @@ class UniversidadeController extends Controller
         }
         
     }
+
+    public function getDisponiveis() {
+        $juris = DB::table('universidade')
+                    ->select('universidade.id_universidade', 'universidade.telemovel', 'universidade.telefone', 'universidade.nome')
+                    ->where([
+                        ['universidade.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($juris);
+    }
 }

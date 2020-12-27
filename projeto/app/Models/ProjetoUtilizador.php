@@ -12,6 +12,7 @@ class ProjetoUtilizador extends Model
     protected $table = 'projeto_utilizador';
     public $primaryKey = ['id_utilizador', 'id_projeto'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

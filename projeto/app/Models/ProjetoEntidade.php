@@ -12,6 +12,7 @@ class ProjetoEntidade extends Model
     protected $table = 'projeto_entidade';
     public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_entidadeOficial'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

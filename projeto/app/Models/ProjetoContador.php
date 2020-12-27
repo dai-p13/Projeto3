@@ -12,6 +12,7 @@ class ProjetoContador extends Model
     protected $table = 'projeto_contador';
     public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_contador'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

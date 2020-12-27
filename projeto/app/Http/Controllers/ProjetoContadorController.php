@@ -4,90 +4,50 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjetoContador;
 use Illuminate\Http\Request;
+use DB;
 
 class ProjetoContadorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $projcontadores = ProjetoContador::all();
-
-        return view('viewProjetoContador', ['projcontadores' => $projcontadores]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $projcontador = new ProjetoContador();
 
-        $projcontador->id_projeto = $request->id_projeto;
-        $projcontador->id_contador = $request->id_contador;
-        $projcontador->anoParticipacao = $request->anoParticipacao;
+        $projcontador->id_projeto = intval($request->id_projeto);
+        $projcontador->id_contador = intval($request->id_elemento);
+        $projcontador->anoParticipacao = intval($request->anoParticipacao);
 
         $projcontador->save();
+        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProjetoContador  $projcontador
-     * @return \Illuminate\Http\Response
-     */
-    public function show(projcontador $projcontador)
+    public function destroy($id, $id_projeto, $ano)
     {
-        //
+        $linha = DB::table('projeto_contador')
+                    ->where([
+                        ['projeto_contador.id_projeto', '=', $id_projeto],
+                        ['projeto_contador.id_contador', '=', $id],
+                        ['projeto_contador.anoParticipacao', '=', $ano]
+                        ]);
+        if($linha->first() != null) {
+            $linha->delete(); 
+        }
+        return redirect()->route("gerirProjeto", ['id' => intval($id_projeto)]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProjetoContador  $projcontador
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(projcontador $projcontador)
+    public function verificaAssociacao($id, $id_projeto, $ano)
     {
-        //
-    }
+        $exite = false;
+        $linha = DB::table('projeto_contador')
+                    ->where([
+                        ['projeto_contador.id_projeto', '=', $id_projeto],
+                        ['projeto_contador.id_contador', '=', $id],
+                        ['projeto_contador.anoParticipacao', '=', $ano]
+                        ])
+                    ->get();
+        if(count($linha) > 0) {
+            $exite = true;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProjetoContador  $projcontador
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, projcontador $projcontador)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProjetoContador  $projcontador
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(projcontador $projcontador)
-    {
-        //
+        return \json_encode($exite);
     }
 }

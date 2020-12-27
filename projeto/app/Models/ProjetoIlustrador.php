@@ -12,6 +12,7 @@ class ProjetoIlustrador extends Model
     protected $table = 'projeto_ilustrador';
     public $primaryKey = ['id_projeto', 'id_ilustradorSolidario', 'anoParticipacao'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

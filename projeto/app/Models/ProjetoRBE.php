@@ -12,6 +12,7 @@ class ProjetoRBE extends Model
     protected $table = 'projeto_rbe';
     public $primaryKey = ['anoParticipacao', 'id_projeto', 'id_rbe'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_projeto',

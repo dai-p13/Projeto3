@@ -111,4 +111,15 @@ class ProfessorController extends Controller
         
     }
     
+    public function getDisponiveis() {
+        $profs = DB::table('professor')
+                    ->select('professor.id_professor', 'professor.telemovel', 'professor.telefone', 'professor.nome')
+                    ->where([
+                        ['professor.disponivel', '=', 0]
+                        ])
+                    ->get();  
+    
+        return \json_encode($profs);
+    }
+    
 }

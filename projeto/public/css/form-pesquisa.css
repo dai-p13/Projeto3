@@ -31,3 +31,12 @@
 .modal-lg {
     max-width: 90% !important;
 }
+
+.formAdicionar {
+    padding-left: 3%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    border:1px solid black;
+    border-radius: 12px;
+    margin-right: 3%;
+}

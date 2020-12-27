@@ -47,6 +47,7 @@ Route::get('admin/professores','ProfessorController@index')->name("professores")
 Route::get('admin/professores/getPorId/{id}', 'ProfessorController@getProfPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/professores/pag', 'ProfessorController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/professores/getNum', 'ProfessorController@getNumProfs')->middleware(['checkLogInAdmin']);
+Route::get('admin/professores/getDisponiveis', 'ProfessorController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/professores/delete/{id}', 'ProfessorController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/professores/edit/{id}', 'ProfessorController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/professores/add', 'ProfessorController@store')->middleware(['checkLogInAdmin']);
@@ -100,6 +101,7 @@ Route::get('admin/juris','JuriController@index')->name("juris")->middleware(['ch
 Route::get('admin/juris/getPorId/{id}', 'JuriController@getJuriPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/juris/pag', 'JuriController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/juris/getNum', 'JuriController@getNumJuris')->middleware(['checkLogInAdmin']);
+Route::get('admin/juris/getDisponiveis', 'JuriController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/juris/delete/{id}', 'JuriController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/juris/edit/{id}', 'JuriController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/juris/add', 'JuriController@store')->middleware(['checkLogInAdmin']);
@@ -108,6 +110,7 @@ Route::get('admin/rbes','RBEController@index')->name("rbes")->middleware(['check
 Route::get('admin/rbes/getPorId/{id}', 'RBEController@getRbePorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/rbes/pag', 'RBEController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/rbes/getNum', 'RBEController@getNumRbes')->middleware(['checkLogInAdmin']);
+Route::get('admin/rbes/getDisponiveis', 'RBEController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/rbes/delete/{id}', 'RBEController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/rbes/edit/{id}', 'RBEController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/rbes/add', 'RBEController@store')->middleware(['checkLogInAdmin']);
@@ -116,6 +119,7 @@ Route::get('admin/universidades','UniversidadeController@index')->name("universi
 Route::get('admin/universidades/getPorId/{id}', 'UniversidadeController@getUniversidadePorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/universidades/pag', 'UniversidadeController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/universidades/getNum', 'UniversidadeController@getNumUniversidades')->middleware(['checkLogInAdmin']);
+Route::get('admin/universidades/getDisponiveis', 'UniversidadeController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/universidades/delete/{id}', 'UniversidadeController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/universidades/edit/{id}', 'UniversidadeController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/universidades/add', 'UniversidadeController@store')->middleware(['checkLogInAdmin']);
@@ -124,6 +128,7 @@ Route::get('admin/profsFaculdade','ProfessorFaculdadeController@index')->name("p
 Route::get('admin/profsFaculdade/getPorId/{id}', 'ProfessorFaculdadeController@getProfPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/profsFaculdade/pag', 'ProfessorFaculdadeController@getNextPage')->middleware(['checkLogInAdmin']);
 Route::get('admin/profsFaculdade/getNum', 'ProfessorFaculdadeController@getNumProfs')->middleware(['checkLogInAdmin']);
+Route::get('admin/profsFaculdade/getDisponiveis', 'ProfessorFaculdadeController@getDisponiveis')->middleware(['checkLogInAdmin']);
 Route::post('admin/profsFaculdade/delete/{id}', 'ProfessorFaculdadeController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/profsFaculdade/edit/{id}', 'ProfessorFaculdadeController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/profsFaculdade/add', 'ProfessorFaculdadeController@store')->middleware(['checkLogInAdmin']);
@@ -149,66 +154,45 @@ Route::post('admin/trocasAgrupamento/add', 'TrocaAgrupamentoController@store')->
 Route::get('admin/codPostal/getAll', 'CodPostalController@getAll')->middleware(['checkLogInAdmin']);
 Route::get('admin/codPostal/add', 'CodPostalController@store')->middleware(['checkLogInAdmin']);
 
+//ROUTES DE VERIFICAÇÃO DA EXISTÊNCIA DE ASSOCIAÇÕES AOS PROJETOS
+
+Route::get('admin/projetoEscola/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoEscolaController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoIlustrador/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoIlustradorController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoContador/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoContadorController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoEntidade/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoEntidadeController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoJuri/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoJuriController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoRbe/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoRBEController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoUniversidade/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoUniversidadeController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoProfFac/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoProfessorFaculController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetoProfessor/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoProfessorController@verificaAssociacao')->middleware(['checkLogInAdmin']);
+
+//ROUTES PARA A ADIÇÃO DE ASSOCIAÇÕES AOS PROJETOS
+
+Route::post('admin/projetoEscola/add', 'ProjetoEscolaController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoIlustrador/add', 'ProjetoIlustradorController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoContador/add', 'ProjetoContadorController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoEntidade/add', 'ProjetoEntidadeController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoJuri/add', 'ProjetoJuriController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoRbe/add', 'ProjetoRBEController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoUniversidade/add', 'ProjetoUniversidadeController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoProfFac/add', 'ProjetoProfessorFaculController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoProfessor/add', 'ProjetoProfessorController@store')->middleware(['checkLogInAdmin']);
+
+//ROUTES PARA A REMOÇÃO DE ASSOCIAÇÕES AOS PROJETOS
+
+Route::post('admin/projetoEscola/delete/{id}-{id_projeto}-{ano}', 'ProjetoEscolaController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoIlustrador/delete/{id}-{id_projeto}-{ano}', 'ProjetoIlustradorController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoContador/delete/{id}-{id_projeto}-{ano}', 'ProjetoContadorController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoEntidade/delete/{id}-{id_projeto}-{ano}', 'ProjetoEntidadeController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoJuri/delete/{id}-{id_projeto}-{ano}', 'ProjetoJuriController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoRbe/delete/{id}-{id_projeto}-{ano}', 'ProjetoRBEController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoUniversidade/delete/{id}-{id_projeto}-{ano}', 'ProjetoUniversidadeController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoProfFac/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorFaculController@destroy')->middleware(['checkLogInAdmin']);
+Route::post('admin/projetoProfessor/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorController@destroy')->middleware(['checkLogInAdmin']);
+
 Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
+
 // ROUTES DE LOGIN
 Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
 
 // ROUTES PARA O USER COLABORADOR
-
-/*As routes abaixo depois de criar as que estão em cima não vão ser
-precisas */
-Route::resource('projetos', ProjetoController::class);
-
-Route::resource('agrupamentos', AgrupamentoController::class);
-
-Route::resource('cargos', CargoProfController::class);
-
-Route::resource('cod_postal', CodPostalController::class);
-
-Route::resource('cod_postal_rua', CodPostalRuaController::class);
-
-Route::resource('concelhos', ConcelhoController::class);
-
-Route::resource('contador_historias', ContadorHistoriaController::class);
-
-Route::resource('entidade_oficial', EntidadeOficialController::class);
-
-Route::resource('escola_solidaria', EscolaSolidariaController::class);
-
-Route::resource('formacao', FormacaoController::class);
-
-Route::resource('ilustrador_solidario', IlustradorSolidarioController::class);
-
-Route::resource('juri', JuriController::class);
-
-Route::resource('professor', ProfessorController::class);
-
-Route::resource('professor_faculdade', ProfessorFaculdadeController::class);
-
-Route::resource('rbe', RBEController::class);
-
-Route::resource('universidade', UniversidadeController::class);
-
-Route::resource('troca_agrupamento', TrocaAgrupamentoController::class);
-
-Route::resource('projeto_contador', ProjetoContadorController::class);
-
-Route::resource('projeto_entidade', ProjetoEntidadeController::class);
-
-Route::resource('projeto_escola', ProjetoEscolaController::class);
-
-Route::resource('projeto_ilustrador', ProjetoIlustradorController::class);
-
-Route::resource('projeto_juri', ProjetoJuriController::class);
-
-Route::resource('projeto_professor', ProjetoProfessorController::class);
-
-Route::resource('projeto_professor_facul', ProjetoProfessorFaculController::class);
-
-Route::resource('projeto_rbe', ProjetoRBEController::class);
-
-Route::resource('projeto_universidade', ProjetoUniversidadeController::class);
-
-Route::resource('projeto_utilizador', ProjetoUtilizadorController::class);
-
-Route::resource('uni_prof_faculdade', UniversidadeProfFaculdadeController::class);
