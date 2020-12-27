@@ -84,32 +84,6 @@ class IlustradorSolidarioController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $ilustradores = DB::table('ilustrador_solidario')->simplePaginate(10);
-        
-        if($ilustradores != null) {
-            return response()->json($ilustradores);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumIlustradores() {
-
-        $ilustradores = IlustradorSolidario::all();
-        
-        if($ilustradores != null) {
-            return \count($ilustradores);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getDisponiveis() {
             $ilustradores = DB::table('ilustrador_solidario')
                         ->select('ilustrador_solidario.id_ilustradorSolidario', 'ilustrador_solidario.telemovel', 'ilustrador_solidario.telefone', 'ilustrador_solidario.nome')

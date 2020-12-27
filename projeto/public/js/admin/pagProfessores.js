@@ -1,56 +1,28 @@
 $(document).ready(function () {
-
-    $.ajax({
-        url: "professores/pag",
-        method: "GET",
-        dataType: "json",
-        success: function (response) {
-            urlPagSeguinte = response.next_page_url
-            urlPagAnterior = response.first_page_url
-            urlPagNum = "professores/pag"
-            pagAtual = response.current_page
-        },
-        error: function (error) {
-        }
-    })
-
-    $.ajax({
-        url: "professores/getNum",
-        method: "GET",
-        dataType: "json",
-        success: function (response) {
-            totalElementos = response;
-        },
-        error: function (error) {
-        }
-    })
-
+    inicializarDataTable();
 });
+
+function inicializarDataTable() {
+    $('#tabelaDados').DataTable({
+        "language": {
+            "sSearch": "Pesquisar",
+            "lengthMenu": "Mostrar _MENU_ registos por página",
+            "zeroRecords": "Nehum registo encontrado!",
+            "info": "A mostrar a página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nehuns registos disponíveis!",
+            "infoFiltered": "(filtrados _MAX_ do total de registos)",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Seguinte"
+            }
+        }
+    });
+}
 
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
-
-function criarLinha(elemento) {
-    var linha = "<tr>"
-    linha = linha + `<td>${elemento.id_professor}</td>`
-    linha = linha + `<td>${elemento.nome}</td>`
-    linha = linha + `<td>${elemento.telefone}</td>`
-    linha = linha + `<td>${elemento.telemovel}</td>`
-    linha = linha + `<td>${elemento.email}</td>`
-    linha = linha + `<td>
-                    <a href="#edit" class="edit" data-toggle="modal" onclick="editar(${elemento.id_ilustradorSolidario})"><i
-                            class="material-icons" data-toggle="tooltip"
-                            title="Edit">&#xE254;</i></a>
-                    <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_ilustradorSolidario})"><i
-                            class="material-icons" data-toggle="tooltip"
-                            title="Delete">&#xE872;</i></a>
-                <td>`
-    linha = linha + '</tr>'
-
-    return linha
-}
 
 function editar(id) {
     var url = "professores/getPorId/" + id;

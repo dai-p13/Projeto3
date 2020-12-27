@@ -74,31 +74,5 @@ class TrocaAgrupamentoController extends Controller
         }
         
     }
-
-    public function getNextPage() {
-
-        $trocas = DB::table('troca_agrupamento')->simplePaginate(10);
-        
-        if($trocas != null) {
-            return response()->json($trocas);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumTrocas() {
-
-        $trocas = TrocaAgrupamento::all();
-        
-        if($trocas != null) {
-            return \count($trocas);
-        }
-        else {
-            return 0;
-        }
-        
-    }
     
 }

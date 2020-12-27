@@ -78,32 +78,6 @@ class RBEController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $rbe = DB::table('rbe')->simplePaginate(10);
-        
-        if($rbe != null) {
-            return response()->json($rbe);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumRbes() {
-
-        $rbes = RBE::all();
-        
-        if($rbes != null) {
-            return \count($rbes);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getDisponiveis() {
         $professores = DB::table('rbe')
                     ->select('rbe.id_rbe', 'rbe.regiao', 'rbe.nomeCoordenador', 'concelho.nome')

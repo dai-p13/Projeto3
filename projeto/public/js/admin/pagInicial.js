@@ -4,53 +4,24 @@ $("#menu-toggle").click(function (e) {
 });
 
 $(document).ready(function () {
-    $.ajax({
-        url: "projetos/pag",
-        method: "GET",
-        dataType: "json",
-        success: function (response) {
-            urlPagSeguinte = response.next_page_url
-            urlPagAnterior = response.first_page_url
-            urlPagNum = "projetos/pag"
-            pagAtual = response.current_page
-        },
-        error: function (error) {
-        }
-    })
-
-    $.ajax({
-        url: "projetos/getNum",
-        method: "GET",
-        dataType: "json",
-        success: function (response) {
-            totalElementos = response;
-        },
-        error: function (error) {
-        }
-    })
-
+    inicializarDataTable();
 });
 
-function criarLinha(elemento) {
-    var linha = "<tr>"
-    linha = linha + `<td>${elemento.id_projeto}</td>`
-    linha = linha + `<td>${elemento.nome}</td>`
-    linha = linha + `<td>${elemento.objetivos}</td>`
-    linha = linha + `<td><button id="${elemento.id_projeto}" onclick="downloadRegulamento(${elemento.id_projeto})">
-                            Download do Regulamento</button></td>`
-    linha = linha + `<td>${elemento.publicoAlvo}</td>`
-    linha = linha + `<td>${elemento.observacoes}</td>`
-    linha = linha + `<td>
-                            <a href="#edit" class="edit" data-toggle="modal" onclick="editarProjeto(${elemento.id_projeto})"><i
-                                    class="material-icons" data-toggle="tooltip"
-                                    title="Edit">&#xE254;</i></a>
-                            <a href="#delete" class="delete" data-toggle="modal" onclick="removerProjeto(${elemento.id_projeto})"><i
-                                    class="material-icons" data-toggle="tooltip"
-                                    title="Delete">&#xE872;</i></a>
-                        <td>`
-    linha = linha + '</tr>'
-
-    return linha
+function inicializarDataTable() {
+    $('#tabelaDados').DataTable({
+        "language": {
+            "sSearch": "Pesquisar",
+            "lengthMenu": "Mostrar _MENU_ registos por página",
+            "zeroRecords": "Nehum registo encontrado!",
+            "info": "A mostrar a página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nehuns registos disponíveis!",
+            "infoFiltered": "(filtrados _MAX_ do total de registos)",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Seguinte"
+            }
+        }
+    });
 }
 
 function downloadRegulamento(id) {

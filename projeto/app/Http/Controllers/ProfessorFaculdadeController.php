@@ -90,32 +90,6 @@ class ProfessorFaculdadeController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $profs = DB::table('professor_faculdade')->simplePaginate(10);
-        
-        if($profs != null) {
-            return response()->json($profs);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumProfs() {
-
-        $profs = ProfessorFaculdade::all();
-        
-        if($profs != null) {
-            return \count($profs);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getDisponiveis() {
         $professores = DB::table('professor_faculdade')
                     ->select('professor_faculdade.id_professorFaculdade', 'professor_faculdade.telemovel', 'professor_faculdade.telefone', 'professor_faculdade.nome')

@@ -90,32 +90,6 @@ class UniversidadeController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $universidades = DB::table('universidade')->simplePaginate(10);
-        
-        if($universidades != null) {
-            return response()->json($universidades);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumUniversidades() {
-
-        $universidades = Universidade::all();
-        
-        if($universidades != null) {
-            return \count($universidades);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getDisponiveis() {
         $juris = DB::table('universidade')
                     ->select('universidade.id_universidade', 'universidade.telemovel', 'universidade.telefone', 'universidade.nome')

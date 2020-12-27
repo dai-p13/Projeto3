@@ -94,30 +94,4 @@ class ConcelhoController extends Controller
         }
         
     }
-
-    public function getNextPage() {
-
-        $concelhos = DB::table('concelho')->simplePaginate(10);
-        
-        if($concelhos != null) {
-            return response()->json($concelhos);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumConcelhos() {
-
-        $concelhos = Concelho::all();
-        
-        if($concelhos != null) {
-            return \count($concelhos);
-        }
-        else {
-            return 0;
-        }
-        
-    }
 }

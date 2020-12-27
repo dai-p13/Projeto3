@@ -78,19 +78,6 @@ class ProjetoController extends Controller
             return response()->json(array('sucesso' => true, 'projeto' => $objProjeto));
         }
     }
-    
-    public function getNumProjetos() {
-
-        $projeto = Projeto::all();
-        
-        if($projeto != null) {
-            return \count($projeto);
-        }
-        else {
-            return 0;
-        }
-        
-    }
 
     public function gerirParticipantes($id) {
         $projeto = Projeto::find($id);

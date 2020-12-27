@@ -8,19 +8,20 @@
     <link rel="stylesheet" href="{{ asset('fonts/font-roboto-varela-round.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/material_icons.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
     <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
+    <link type="text/css" href="{{asset('css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/dataTable.bootstrap4.min.js') }}"></script>
 </head>
-
 <body>
     <div class="d-flex" id="wrapper">
         @include("admin/sideBar")
@@ -41,7 +42,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover" id="tabelaDados">
                                 <thead>
                                     <tr>
                                         <th>Número identificador</th>
@@ -51,20 +52,14 @@
                                         <th>Contacto da Associação de Pais</th>
                                         <th>Agrupamento</th>
                                         <th>Disponibilidade</th>
+                                        <th>Opções</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
                                     <?php
                                         use \App\Http\Controllers\AgrupamentoController;
-                                        $contagem = 0;
-                                        $numEntidades = 0;
-                                        $paginaAtual = 1;
                                         if(isset($data)) {
-                                            $numEntidades = count($data);
                                             foreach($data as $linha) {
-                                                if($contagem == 10) {
-                                                    break;
-                                                }
                                                 $nomeAgrupamento = AgrupamentoController::getNomeAgrupamentoPorId($linha->id_agrupamento);
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$linha->id_escolaSolidaria.'</td>';
@@ -89,7 +84,6 @@
                                                     </td>';
                                                 $dados = $dados.'</tr>';
                                                 echo $dados;
-                                                $contagem = $contagem + 1;
                                             }
                                         }
                                         function verificaNull($valor) {
@@ -103,7 +97,6 @@
                                     ?>
                                 </tbody>
                             </table>
-                            @include('paginacao')
                         </div>
                     </div>
                 </div>
@@ -230,6 +223,5 @@
     </div>
     </div>
 </body>
-<script src="{{ asset('js/paginacao.js') }}"></script>
 <script src="{{ asset('js/admin/pagEscolasSolidarias.js') }}"></script>
 </html>

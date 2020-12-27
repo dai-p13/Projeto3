@@ -50,7 +50,7 @@ class ProfessorController extends Controller
             $professor->email = $email;
 
             $professor->save();
-            return redirect()->route("agrupamentos");
+            return redirect()->route("professores");
         }
     }
     

@@ -1,30 +1,23 @@
 $(document).ready(function () {
-    $.ajax({
-        url: "utilizadores/pagUtilizadores",
-        method: "GET",
-        dataType: "json",
-        success: function (users) {
-            urlPagSeguinte = users.next_page_url
-            urlPagAnterior = users.first_page_url
-            urlPagNum = 'utilizadores/pagUtilizadores'
-            pagAtual = users.current_page
-        },
-        error: function (error) {
-        }
-    })
-
-    $.ajax({
-        url: "utilizadores/getNumUsers",
-        method: "GET",
-        dataType: "json",
-        success: function (users) {
-            totalUsers = users;
-        },
-        error: function (error) {
-        }
-    })
-
+    inicializarDataTable();
 });
+
+function inicializarDataTable() {
+    $('#tabelaDados').DataTable({
+        "language": {
+            "sSearch": "Pesquisar",
+            "lengthMenu": "Mostrar _MENU_ registos por página",
+            "zeroRecords": "Nehum registo encontrado!",
+            "info": "A mostrar a página _PAGE_ de _PAGES_",
+            "infoEmpty": "Nehuns registos disponíveis!",
+            "infoFiltered": "(filtrados _MAX_ do total de registos)",
+            "paginate": {
+                "previous": "Anterior",
+                "next": "Seguinte"
+            }
+        }
+    });
+}
 
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
@@ -38,34 +31,6 @@ function verificaNull(valor) {
     else {
         return `<td>${valor}</td>`;
     }
-}
-
-function criarLinha(user) {
-    var linha = "<tr>"
-    linha = linha + `<td>${user.nomeUtilizador}</td>`
-    linha = linha + `<td>${user.nome}</td>`
-    linha = linha + `<td>${user.password}</td>`
-    linha = linha + verificaNull(user.email)
-    linha = linha + verificaNull(user.telemovel)
-    linha = linha + verificaNull(user.telefone)
-    linha = linha + verificaNull(user.departamento)
-    if (user.tipoUtilizador == 0) {
-        linha = linha + '<td>Administrador</td>'
-    }
-    else {
-        linha = linha + '<td>Colaborador</td>'
-    }
-    linha = linha + `<td>
-                    <a href="#editUtilizador" class="edit" data-toggle="modal" onclick="editarUtilizador(${user.id_utilizador})"><i
-                            class="material-icons" data-toggle="tooltip"
-                            title="Edit">&#xE254;</i></a>
-                    <a href="#deleteUtilizador" class="delete" data-toggle="modal" onclick="removerUtilizador(${user.id_utilizador})"><i
-                            class="material-icons" data-toggle="tooltip"
-                            title="Delete">&#xE872;</i></a>
-                <td>`
-    linha = linha + '</tr>'
-
-    return linha
 }
 
 function editarUtilizador(id) {

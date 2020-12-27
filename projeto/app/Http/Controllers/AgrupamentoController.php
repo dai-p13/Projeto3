@@ -121,32 +121,6 @@ class AgrupamentoController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $agrupamento = DB::table('agrupamento')->simplePaginate(10);
-        
-        if($agrupamento != null) {
-            return response()->json($agrupamento);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumAgrupamentos() {
-
-        $agrupamento = Agrupamento::all();
-        
-        if($agrupamento != null) {
-            return \count($agrupamento);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getAll() {
 
         $agrupamentos = Agrupamento::all();

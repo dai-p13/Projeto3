@@ -79,32 +79,6 @@ class EscolaSolidariaController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $escolas = DB::table('escola_solidaria')->simplePaginate(10);
-        
-        if($escolas != null) {
-            return response()->json($escolas);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
-    public function getNumEscolas() {
-
-        $escolas = EscolaSolidaria::all();
-        
-        if($escolas != null) {
-            return \count($escolas);
-        }
-        else {
-            return 0;
-        }
-        
-    }
-
     public function getDisponiveis() {
         $ilustradores = DB::table('escola_solidaria')
                     ->select('escola_solidaria.id_escolaSolidaria', 'escola_solidaria.telefone', 'escola_solidaria.telemovel', 'escola_solidaria.nome')

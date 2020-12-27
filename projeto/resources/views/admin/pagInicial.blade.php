@@ -9,17 +9,19 @@
     <link rel="stylesheet" href="{{ asset('fonts/font-roboto-varela-round.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/material_icons.css') }}">
-    <link rel="stylesheet"
-        href="{{ asset('fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
     <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
+    <link type="text/css" href="{{asset('css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf8" src="{{ asset('js/dataTable.bootstrap4.min.js') }}"></script>
 </head>
 
 <body>
@@ -42,7 +44,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-striped table-hover">
+                            <table class="table table-striped table-hover" id="tabelaDados">
                                 <thead>
                                     <tr>
                                         <th>Identificador do Projeto</th>
@@ -51,19 +53,13 @@
                                         <th>Regulamento</th>
                                         <th>Público Alvo</th>
                                         <th>Observações</th>
+                                        <th>Opções</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
                                     <?php
-                                        $contagem = 0;
-                                        $numEntidades = 0;
-                                        $paginaAtual = 1;
                                         if(isset($projetos)) {
-                                            $numEntidades = count($projetos);
                                             foreach($projetos as $projeto) {
-                                                if($contagem == 10) {
-                                                    break;
-                                                }
                                                 $dados = "<tr>";
                                                 $dados = $dados.'<td>'.$projeto->id_projeto.'</td>';
                                                 $dados = $dados.'<td>'.$projeto->nome.'</td>';
@@ -80,15 +76,12 @@
                                                         <a href="#delete" class="delete" data-toggle="modal" onclick="removerProjeto('.$projeto->id_projeto.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Remover">&#xE872;</i></a>
+                                                                <br>
                                                         <a href="'.$url.'"><img src="http://projeto3/images/gerirParceiros.png"></img></a>
                                                     </td>';
                                                 $dados = $dados.'</tr>';
-                                                $contagem = $contagem + 1;
                                                 echo $dados;
                                             }
-                                        }
-                                        else {
-                                            echo "<h1>Não existem projetos na Base de dados...</h1>";
                                         }
                                         function verificaNull($valor) {
                                             if($valor != null) {
@@ -101,7 +94,6 @@
                                     ?>
                                 </tbody>
                             </table>
-                            @include('paginacao')
                         </div>
                     </div>
                 </div>
@@ -213,7 +205,6 @@
         </div>
     </div>
     </div>
-    <script src="{{ asset('js/paginacao.js') }}"></script>
     <script src="{{ asset('js/admin/pagInicial.js') }}"></script>
 </body>
 
