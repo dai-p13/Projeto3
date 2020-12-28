@@ -127,7 +127,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -171,7 +171,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Observações</label>
-                                        <textarea id="observacoes" name="obs" class="form-control" placeholder="Observações"></textarea>
+                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

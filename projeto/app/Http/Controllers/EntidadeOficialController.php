@@ -44,7 +44,7 @@ class EntidadeOficialController extends Controller
         $entidade = $request->entidade;
         $telefone = $request->telefone;
         $telemovel = $request->telemovel;
-        $observacoes = $request->obs;
+        $observacoes = $request->observacoes;
 
         $entOficial = EntidadeOficial::find($id_entidadeOficial);
         if($entOficial != null){
