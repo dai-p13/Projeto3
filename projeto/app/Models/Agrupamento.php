@@ -24,7 +24,11 @@ class Agrupamento extends Model
     ];
 
     public function codPostal() {
-        return $this->hasOne(CodPostal::class, 'codPostal', 'id_agrupamento');
+        return $this->hasOne(CodPostal::class, 'codPostal');
+    }
+
+    public function codPostalRua() {
+        return $this->hasOne(CodPostalRua::class, 'codPostalRua');
     }
 
     public function escolas() {

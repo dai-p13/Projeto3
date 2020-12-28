@@ -125,9 +125,14 @@ class AgrupamentoController extends Controller
     public function destroy($id)
     {
         $agrupamento = Agrupamento::find($id);
-        if($agrupamento->codpostal()->first() != null){
-            //$agrupamento->codpostal()->where('id_agrupamento', $id)->delete(); //Não podemos apagar o código postal quando apagamos o agrupamento
+        if($agrupamento->codPostal != null){
+            $agrupamento->codPostal = null;
         }
+        if($agrupamento->codPostalRua != null){
+            $agrupamento->codPostalRua = null;
+            
+        }
+        $agrupamento->save();
         if($agrupamento->escolas()->first() != null){
             $agrupamento->escolas()->where('id_agrupamento', $id)->delete();
         }
