@@ -8,34 +8,18 @@ use DB;
 
 class ContadorHistoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $user = session()->get("utilizador");
         $contadorHistorias = ContadorHistoria::all();
-
-        return view('viewContadorHistoria', ['contadorHistorias' => $contadorHistorias]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin/contadores', ['data' => $contadorHistorias]);
+        }
+        else {
+            return view('colaborador/contadores', ['data' => $contadorHistorias]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $contadorHistoria = new ContadorHistoria();
@@ -44,54 +28,57 @@ class ContadorHistoriaController extends Controller
         $contadorHistoria->email = $request->email;
         $contadorHistoria->telefone = $request->telefone;
         $contadorHistoria->telemovel = $request->telemovel;
-        $contadorHistoria->observacoes = $request->observacoes;
+        $contadorHistoria->disponivel = $request->disponibilidade;
+        $contadorHistoria->observacoes = $request->obs;
 
         $contadorHistoria->save();
+        return redirect()->route("contadores");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ContadorHistoria  $contadorHistoria
-     * @return \Illuminate\Http\Response
-     */
-    public function show(contadorHistoria $contadorHistoria)
+    public function update($id, Request $request)
     {
-        //
+        $id_contadorHistorias = \intval($id);
+        $disponivel = $request->disponibilidade;
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $email = $request->email;
+        $observacoes = $request->obs;
+        
+        $contador = ContadorHistoria::find($id_contadorHistorias);
+        if($contador != null) {
+            $contador->disponivel = $disponivel;
+            $contador->nome = $nome;
+            $contador->telefone = $telefone;
+            $contador->telemovel = $telemovel;
+            $contador->email = $email;
+            $contador->observacoes = $observacoes; 
+
+            $contador->save();
+            return redirect()->route("contadores");
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ContadorHistoria  $contadorHistoria
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(contadorHistoria $contadorHistoria)
+    public function destroy($id)
     {
-        //
+        $contador = ContadorHistoria::find($id);
+        if($contador->projetos()->first() != null) {
+            $contador->projetos()->where('id_contador', $id)->delete();
+        }
+        $contador->delete();
+        return redirect()->route("contadores");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ContadorHistoria  $contadorHistoria
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, contadorHistoria $contadorHistoria)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ContadorHistoria  $contadorHistoria
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(contadorHistoria $contadorHistoria)
-    {
-        //
+    public function getContadorPorId($id) {
+        
+        $contador = DB::table('contador_historias')->where('id_contadorHistorias', $id)->first();
+        if($contador != null) {
+            return response()->json($contador);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
     public function getDisponiveis() {

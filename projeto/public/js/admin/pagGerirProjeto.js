@@ -105,8 +105,7 @@ function carregarProfessores(response) {
     let professores = response.professores
     if (professores != null && professores.length > 0) {
         for (professor of professores) {
-            let linha = criarLinha(professor, 'professor')
-            $('#tableBody').append(linha)
+            criarLinha(professor, 'professor')
         }
     }
 }
@@ -152,75 +151,100 @@ function criarLinha(elemento, tipo) {
         switch (tipo) {
             case 'entidade':
                 linha = linha + `<td>Entidade Oficial</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                         <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_entidadeOficial}, 
                             ${id_projeto}, ${ano}, \'entidade\')"><i
                                 class="material-icons" data-toggle="tooltip"
                                 title="Delete">&#xE872;</i></a>
                     <td>`
+                linha = linha + '</tr>'
                 break;
             case 'contador':
                 linha = linha + `<td>Contador</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                         <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_contadorHistorias}, 
                             ${id_projeto}, ${ano}, \'contador\')"><i
                                 class="material-icons" data-toggle="tooltip"
                                 title="Delete">&#xE872;</i></a>
                     <td>`
+                linha = linha + '</tr>'
                 break;
             case 'escola':
                 linha = linha + `<td>Escola Solidária</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_escolaSolidaria}, 
                                     ${id_projeto}, ${ano}, \'escola\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                linha = linha + '</tr>'
                 break;
             case 'ilustrador':
                 linha = linha + `<td>Ilustrador Solidário</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_ilustradorSolidario}, 
                                     ${id_projeto}, ${ano}, \'ilustrador\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                linha = linha + '</tr>'
                 break;
             case 'juri':
                 linha = linha + `<td>Juri</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_juri}, 
                                     ${id_projeto}, ${ano}, \'juri\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                linha = linha + '</tr>'
                 break;
             case 'professor':
-                linha = linha + `<td>Professor</td>`
-                linha = linha + `<td>
+                var cargoUrl = `cargosProfessor/getPorIdProfessor/` + elemento.id_professor + "-" + id_projeto + "-" + ano;
+                $.ajax({
+                    url: cargoUrl,
+                    method: "GET",
+                    dataType: "json",
+                    success: function (response) {
+                        linha = linha + `<td>Professor</td>`
+                        linha = linha + `<td>${response.nomeCargo}</td>`
+                        linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_professor}, 
                                     ${id_projeto}, ${ano}, \'professor\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                        linha = linha + '</tr>'
+                        $('#tableBody').append(linha)
+                    },
+                })
                 break;
             case 'profFacul':
                 linha = linha + `<td>Professor de Faculdade</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_professorFaculdade}, 
                                     ${id_projeto}, ${ano}, \'profFacul\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                linha = linha + '</tr>'
                 break;
             case 'universidade':
                 linha = linha + `<td>Universidade</td>`
+                linha = linha + `<td>Participante</td>`
                 linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_universidade}, 
                                     ${id_projeto}, ${ano}, \'universidade\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+                linha = linha + '</tr>'
                 break;
         }
     }
@@ -231,15 +255,15 @@ function criarLinha(elemento, tipo) {
         linha = linha + '<td> --- </td>'
         linha = linha + `<td>${elemento.regiao}</td>`
         linha = linha + `<td>RBE</td>`
+        linha = linha + `<td>Participante</td>`
         linha = linha + `<td>
                                 <a href="#delete" class="delete" data-toggle="modal" onclick="remover(${elemento.id_rbe}, 
                                     ${id_projeto}, ${ano}, \'rbe\')"><i
                                         class="material-icons" data-toggle="tooltip"
                                         title="Delete">&#xE872;</i></a>
                             <td>`
+        linha = linha + '</tr>'
     }
-
-    linha = linha + '</tr>'
 
     return linha;
 }
@@ -691,6 +715,21 @@ function selecionar(id, nome) {
                     if (!response) {
                         $('#formAdd').attr('action', 'projetoProfessor/add')
                         existe = false;
+                        $.ajax({
+                            url: 'cargosProfessor/getAll',
+                            method: "GET",
+                            dataType: "json",
+                            success: function (response) {
+                               var inputCargo = `<br><br><label>Cargo do professor no projeto:</label>
+                                        <select name="cargo" id="cargos">
+                                        </select>`
+                                $('#divForm').append(inputCargo);
+                                for(cargo of response) {
+                                    opcao = `<option value="${cargo.id_cargoProfessor}">${cargo.nomeCargo}</option>`
+                                    $('#cargos').append(opcao);
+                                }
+                            },
+                        })
                     }
                     else {
                         var msg = '<h4>Participante selecionado a adicionar ao projeto:</h4><p style="font-size: 20px; color: red;">O participante selecionado já se encontra associado ao projeto!</p>'

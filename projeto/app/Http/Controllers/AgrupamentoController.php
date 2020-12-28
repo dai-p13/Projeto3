@@ -60,7 +60,7 @@ class AgrupamentoController extends Controller
         else {
             $novoCodPostalRua = new CodPostalRua();
             $novoCodPostalRua->codPostal = $codPostal;
-            $novoCodPostalRua->codPostalRua = $$codPostalRua;
+            $novoCodPostalRua->codPostalRua = $codPostalRua;
             $novoCodPostalRua->rua = $rua;
             $novoCodPostalRua->save();
             $agrupamento->codPostalRua = $codPostalRua;
@@ -111,7 +111,7 @@ class AgrupamentoController extends Controller
             else {
                 $novoCodPostalRua = new CodPostalRua();
                 $novoCodPostalRua->codPostal = $codPostal;
-                $novoCodPostalRua->codPostalRua = $$codPostalRua;
+                $novoCodPostalRua->codPostalRua = $codPostalRua;
                 $novoCodPostalRua->rua = $rua;
                 $novoCodPostalRua->save();
                 $agrupamento->codPostalRua = $codPostalRua;

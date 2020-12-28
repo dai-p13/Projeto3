@@ -28,6 +28,7 @@ class ProfessorController extends Controller
         $professor->telefone = $request->telefone;
         $professor->telemovel = $request->telemovel;
         $professor->email = $request->email;
+        $professor->disponivel = $request->disponibilidade;
         $professor->id_agrupamento = $request->id_agrupamento;
         
         $professor->save();
@@ -41,6 +42,7 @@ class ProfessorController extends Controller
         $telefone = $request->telefone;
         $telemovel = $request->telemovel;
         $email = $request->email;
+        $disponivel = $request->disponibilidade;
 
         $professor = Professor::find($id_professor);
         if($professor != null) {
@@ -48,6 +50,7 @@ class ProfessorController extends Controller
             $professor->telefone = $telefone;
             $professor->telemovel = $telemovel;
             $professor->email = $email;
+            $professor->disponivel = $disponivel;
 
             $professor->save();
             return redirect()->route("professores");
@@ -67,7 +70,8 @@ class ProfessorController extends Controller
             $professor->trocasAgrupamento()->where('id_professor', $id)->delete();
         }
         if($professor->agrupamento()->first() != null) {
-            $professor->agrupamento()->where('id_professor', $id)->delete();
+            $professor->id_agrupamento = null;
+            $professor->save();
         }
         $professor->delete();
         return redirect()->route("professores");

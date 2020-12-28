@@ -150,6 +150,9 @@ Route::post('admin/projetoUniversidade/add', 'ProjetoUniversidadeController@stor
 Route::post('admin/projetoProfFac/add', 'ProjetoProfessorFaculController@store')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetoProfessor/add', 'ProjetoProfessorController@store')->middleware(['checkLogInAdmin']);
 
+Route::get('admin/cargosProfessor/getAll', 'CargoProfController@getAll')->middleware(['checkLogInAdmin']);
+Route::get('admin/cargosProfessor/getPorIdProfessor/{id}-{id_projeto}-{ano}', 'CargoProfController@getPorIdProf')->middleware(['checkLogInAdmin']);
+
 //ROUTES PARA A REMOÇÃO DE ASSOCIAÇÕES AOS PROJETOS
 
 Route::post('admin/projetoEscola/delete/{id}-{id_projeto}-{ano}', 'ProjetoEscolaController@destroy')->middleware(['checkLogInAdmin']);

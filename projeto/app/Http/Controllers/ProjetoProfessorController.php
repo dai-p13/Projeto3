@@ -15,7 +15,7 @@ class ProjetoProfessorController extends Controller
         $projcontador->id_projeto = intval($request->id_projeto);
         $projcontador->id_professor = intval($request->id_elemento);
         $projcontador->anoParticipacao = intval($request->anoParticipacao);
-        $projcontador->id_cargo = intval($request->id_cargo);
+        $projcontador->id_cargo = intval($request->cargo);
 
         $projcontador->save();
         return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);

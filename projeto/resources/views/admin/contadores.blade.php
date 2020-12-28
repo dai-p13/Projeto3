@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerir Utilizadores</title>
+    <title>Gerir Contadores de Histórias</title>
     <link rel="stylesheet" href="{{ asset('fonts/font-roboto-varela-round.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/material_icons.css') }}">
@@ -35,11 +35,11 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h2>Gerir <b>Professores</b></h2>
+                                        <h2>Gerir <b>Contadores de Histórias</b></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <a href="#add" class="btn btn-success" data-toggle="modal"><i
-                                                class="material-icons">&#xE147;</i> <span>Criar um novo Professor</span></a>
+                                                class="material-icons">&#xE147;</i> <span>Criar um novo Contador de Histórias</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -48,9 +48,10 @@
                                     <tr>
                                         <th>Número identificador</th>
                                         <th>Nome</th>
-                                        <th>Telefone</th>
                                         <th>Telemovel</th>
+                                        <th>Telefone</th>
                                         <th>Email</th>
+                                        <th>Observações</th>
                                         <th>Disponibilidade</th>
                                         <th>Opções</th>
                                     </tr>
@@ -60,11 +61,12 @@
                                         if(isset($data)) {
                                             foreach($data as $linha) {
                                                 $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$linha->id_professor.'</td>';
+                                                $dados = $dados.'<td>'.$linha->id_contadorHistorias.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->telemovel);
                                                 $dados = $dados.verificaNull($linha->email);
+                                                $dados = $dados.verificaNull($linha->observacoes);
                                                 if($linha->disponivel == 0) {
                                                     $dados = $dados.'<td>Disponível</td>';
                                                 }
@@ -72,10 +74,10 @@
                                                     $dados = $dados.'<td>Indisponível</td>';    
                                                 }
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_professor.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_contadorHistorias.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_professor.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_contadorHistorias.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
@@ -100,10 +102,10 @@
                 <div id="add" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="professores/add">
+                            <form method="POST" action="contadores/add">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Adicionar Professor</h4>
+                                    <h4 class="modal-title">Adicionar Contador de Histórias</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -131,6 +133,10 @@
                                             <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Observações</label>
+                                        <textarea name="obs" class="form-control" placeholder="Observações"></textarea>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -146,7 +152,7 @@
                             <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Editar Professor</h4>
+                                    <h4 class="modal-title">Editar Contador de Histórias</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
@@ -174,6 +180,10 @@
                                             <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Observações</label>
+                                        <textarea id="observacoes" name="obs" class="form-control" placeholder="Observações"></textarea>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -189,12 +199,12 @@
                             <form method="POST" action="" id="formDelete">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Remover Professor</h4>
+                                    <h4 class="modal-title">Remover Contador de Histórias</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Tem a certeza que deseja remover o professor?</p>
+                                    <p>Tem a certeza que deseja remover o contador de histórias?</p>
                                     <p class="text-warning"><small>Esta ação não pode ser retrocedida.</small></p>
                                 </div>
                                 <div class="modal-footer">
@@ -209,7 +219,7 @@
         </div>
     </div>
     </div>
-    <script src="{{ asset('js/admin/pagProfessores.js') }}"></script>
+    <script src="{{ asset('js/admin/pagContadores.js') }}"></script>
 </body>
 
 </html>

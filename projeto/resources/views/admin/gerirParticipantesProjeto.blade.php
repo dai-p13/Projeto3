@@ -100,6 +100,7 @@
                                         <th>Email</th>
                                         <th>Regiao</th>
                                         <th>Tipo de Participante</th>
+                                        <th>Cargo</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">

@@ -23,7 +23,7 @@ class EscolaSolidaria extends Model
     ];
 
     public function professores() {
-        return $this->hasMany(EscolaSolidariaProfessor::class, 'id_escolaSolidaria');
+        return $this->hasMany(EscolaSolidariaProf::class, 'id_escola', 'id_escolaSolidaria');
     }
 
     public function projetos() {

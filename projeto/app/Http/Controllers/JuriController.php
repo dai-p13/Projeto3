@@ -7,34 +7,18 @@ use Illuminate\Http\Request;
 use DB;
 class JuriController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
+        $user = session()->get("utilizador");
         $juris = Juri::all();
-
-        return view('viewJuri', ['juris' => $juris]);
+        if($user->tipoUtilizador == 0) {
+            return view('admin/juris', ['data' => $juris]);
+        }
+        else {
+            return view('colaborador/contadores', ['data' => $juris]);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $juris = new Juri();
@@ -43,53 +27,54 @@ class JuriController extends Controller
         $juris->email = $request->email;
         $juris->telefone = $request->telefone;
         $juris->telemovel = $request->telemovel;
+        $juris->disponivel = $request->disponibilidade;
 
         $juris->save();
+        return redirect()->route("juris");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Juri  $juris
-     * @return \Illuminate\Http\Response
-     */
-    public function show(juris $juris)
+    public function update($id, Request $request)
     {
-        //
+        $id_juri = \intval($id);
+        $disponivel = $request->disponibilidade;
+        $nome = $request->nome;
+        $telefone = $request->telefone;
+        $telemovel = $request->telemovel;
+        $email = $request->email;
+        
+        $juri = Juri::find($id_juri);
+        if($juri != null) {
+            $juri->disponivel = $disponivel;
+            $juri->nome = $nome;
+            $juri->telefone = $telefone;
+            $juri->telemovel = $telemovel;
+            $juri->email = $email;
+
+            $juri->save();
+            return redirect()->route("juris");
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Juri  $juris
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(juris $juris)
+    public function destroy($id)
     {
-        //
+        $juri = Juri::find($id);
+        if($juri->projetos()->first() != null) {
+            $juri->projetos()->where('id_juri', $id)->delete();
+        }
+        $juri->delete();
+        return redirect()->route("juris");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Juri  $juris
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, juris $juris)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Juri  $juris
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(juris $juris)
-    {
-        //
+    public function getJuriPorId($id) {
+        
+        $juri = DB::table('juri')->where('id_juri', $id)->first();
+        if($juri != null) {
+            return response()->json($juri);  
+        }
+        else {
+            return null;
+        }
+        
     }
 
     public function getDisponiveis() {
