@@ -64,21 +64,26 @@
                                         use \App\Http\Controllers\CodPostalRuaController;
                                         if(isset($data)) {
                                             foreach($data as $linha) {
-                                                $codPostal = CodPostalController::getCodPostal($linha->codPostal);
-                                                $localidade = CodPostalController::getLocalidade($linha->codPostal);
-                                                $codPostalRua = CodPostalRuaController::getCodPostalRua($linha->codPostalRua);
-                                                $rua = CodPostalRuaController::getRua($linha->codPostalRua);
-                                                $numPorta = CodPostalRuaController::getNumPortaRua($linha->codPostalRua);
+                                                if($linha->codPostal != null) {
+                                                    $localidade = CodPostalController::getLocalidade($linha->codPostal);
+                                                    $codPostalRua = CodPostalRuaController::getCodPostalRua($linha->codPostalRua);
+                                                    $rua = CodPostalRuaController::getRua($linha->codPostalRua);    
+                                                }
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$linha->id_agrupamento.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->email);
                                                 $dados = $dados.verificaNull($linha->nomeDiretor);
-                                                $dados = $dados.'<td>'.$rua.'</td>';
-                                                $dados = $dados.'<td>'.$numPorta.'</td>';
-                                                $dados = $dados.'<td>'.$localidade.'</td>';
-                                                $dados = $dados.'<td>'.$codPostal.'-'.$codPostalRua.'</td>';
+                                                $dados = $dados.verificaNull($rua);
+                                                $dados = $dados.verificaNull($linha->numPorta);
+                                                $dados = $dados.verificaNull($localidade);
+                                                if($linha->codPostal != null && $linha->codPostalRua != null) {
+                                                    $dados = $dados.'<td>'.$linha->codPostal.'-'.$linha->codPostalRua.'</td>';
+                                                }
+                                                else {
+                                                    $dados = $dados.'<td> --- </td>';
+                                                }
                                                 $dados = $dados.'<td>
                                                         <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_agrupamento.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
@@ -144,10 +149,14 @@
                                         <label>Localidade</label>
                                         <input type="text" name="localidade" class="form-control">
                                     </div>
+                                    <br>
+                                    <label style="font-size: 18px">Código Postal</label>
+                                    <br><br>
                                     <div class="form-group">
-                                        <label>Código Postal</label>
-                                        <input type="text" name="codPostal">
-                                        <input type="text" name="codPostalRua">
+                                        <label>Primeiros dígitos</label>
+                                        <input type="text" name="codPostal" class="form-control">
+                                        <label>Segundos dígitos</label>
+                                        <input type="text" name="codPostalRua" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -187,20 +196,24 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Rua</label>
-                                        <input type="text" name="rua" class="form-control">
+                                        <input type="text" id="rua" name="rua" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Número da Porta</label>
-                                        <input type="text" name="numPorta" class="form-control">
+                                        <input type="text" id="numPorta" name="numPorta" class="form-control">
                                     </div>
                                     <div class="form-group">
                                         <label>Localidade</label>
-                                        <input type="text" name="localidade" class="form-control">
+                                        <input type="text" id="localidade" name="localidade" class="form-control">
                                     </div>
+                                    <br>
+                                    <label style="font-size: 18px">Código Postal</label>
+                                    <br><br>
                                     <div class="form-group">
-                                        <label>Código Postal</label>
-                                        <input type="text" id="codPostal" name="codPostal">
-                                        <input type="text" id="codPostalRua" name="codPostalRua">
+                                        <label>Primeiros dígitos</label>
+                                        <input type="text" id="codPostal" name="codPostal" class="form-control">
+                                        <label>Segundos dígitos</label>
+                                        <input type="text" id="codPostalRua" name="codPostalRua" class="form-control">
                                     </div>
                                 </div>
                                 <div class="modal-footer">

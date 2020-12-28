@@ -18,7 +18,6 @@ class CodPostalRua extends Model
         'codPostal',
         'codPostalRua',
         'rua',
-        'numPorta'
     ];
 
     public function codPostal() {

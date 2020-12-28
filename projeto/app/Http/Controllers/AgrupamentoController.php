@@ -25,25 +25,46 @@ class AgrupamentoController extends Controller
     public function store(Request $request)
     {
         $agrupamento = new Agrupamento();
-        $cod_postal = new CodPostal();
-        $codPostalRua = new CodPostalRua();
         
         $agrupamento->nome = $request->nome;
         $agrupamento->telefone = $request->telefone;
         $agrupamento->email = $request->email;
         $agrupamento->nomeDiretor = $request->nomeDiretor;
-        $agrupamento->codPostal = $request->codPostal;
-        $agrupamento->codPostalRua = $request->codPostalRua;
-        $cod_postal->codPostal = $request->codPostal;
-        $cod_postal->localidade = $request->localidade;
-        $codPostalRua->codPostalRua = $request->codPostalRua;
-        $codPostalRua->rua = $request->rua;
-        $codPostalRua->numPorta = $request->numPorta;
-        $codPostalRua->codPostal = $request->codPostal;
+        $agrupamento->numPorta = $request->numPorta;
 
+        $codPostal = $request->codPostal;
+        $codPostalRua = $request->codPostalRua;
+        $rua = $request->rua;
+        $localidade = $request->localidade;
         
-        $cod_postal->save();
-        $codPostalRua->save();
+        $cod_postal = CodPostal::find($codPostal);
+        $cod_postal_rua = DB::table('cod_postal_rua')
+                                    ->where([
+                                        ['cod_postal_rua.codPostal', '=', $codPostal],
+                                        ['cod_postal_rua.codPostalRua', '=', $codPostalRua],
+                                        ]);
+
+        if($cod_postal != null) {
+            $agrupamento->codPostal = $codPostal; 
+        }
+        else {
+            $novoCodPostal = new CodPostal();
+            $novoCodPostal->codPostal = $codPostal;
+            $novoCodPostal->localidade = $localidade;
+            $novoCodPostal->save();
+            $agrupamento->codPostal = $codPostal;
+        }
+        if($cod_postal_rua->first() != null) {
+            $agrupamento->codPostalRua = $codPostalRua;
+        }
+        else {
+            $novoCodPostalRua = new CodPostalRua();
+            $novoCodPostalRua->codPostal = $codPostal;
+            $novoCodPostalRua->codPostalRua = $$codPostalRua;
+            $novoCodPostalRua->rua = $rua;
+            $novoCodPostalRua->save();
+            $agrupamento->codPostalRua = $codPostalRua;
+        }
         $agrupamento->save();
         return redirect()->route("agrupamentos");
     }
@@ -57,25 +78,45 @@ class AgrupamentoController extends Controller
         $nomeDiretor = $request->nomeDiretor;
         $codPostal = $request->codPostal;
         $localidade = $request->localidade;
-        //$codPostalRua = $request->codPostalRua;
+        $codPostalRua = $request->codPostalRua;
+        $numPorta = $request->numPorta;
+        $rua = $request->rua;
 
         $agrupamento = Agrupamento::find($id_agrupamento);
         $cod_postal = CodPostal::find($codPostal);
+        $cod_postal_rua = DB::table('cod_postal_rua')
+                                    ->where([
+                                        ['cod_postal_rua.codPostal', '=', $codPostal],
+                                        ['cod_postal_rua.codPostalRua', '=', $codPostalRua],
+                                        ]);
         if($agrupamento != null) {
             $agrupamento->nome = $nome;
             $agrupamento->telefone = $telefone;
             $agrupamento->email = $email;
             $agrupamento->nomeDiretor = $nomeDiretor;
-            //$agrupamento->codPostalRua = $codPostalRua;
-
+            $agrupamento->numPorta = $numPorta;
+            if($cod_postal != null) {
+                $agrupamento->codPostal = $codPostal; 
+            }
+            else {
+                $novoCodPostal = new CodPostal();
+                $novoCodPostal->codPostal = $codPostal;
+                $novoCodPostal->localidade = $localidade;
+                $novoCodPostal->save();
+                $agrupamento->codPostal = $codPostal;
+            }
+            if($cod_postal_rua->first() != null) {
+                $agrupamento->codPostalRua = $codPostalRua;
+            }
+            else {
+                $novoCodPostalRua = new CodPostalRua();
+                $novoCodPostalRua->codPostal = $codPostal;
+                $novoCodPostalRua->codPostalRua = $$codPostalRua;
+                $novoCodPostalRua->rua = $rua;
+                $novoCodPostalRua->save();
+                $agrupamento->codPostalRua = $codPostalRua;
+            }
             $agrupamento->save();
-            
-        }
-        if($cod_postal != null) {
-            $cod_postal->codPostal = $codPostal;
-            $cod_postal->localidade = $localidade;
-                
-            $cod_postal->save();
         }
             
         return redirect()->route("agrupamentos");
@@ -85,7 +126,7 @@ class AgrupamentoController extends Controller
     {
         $agrupamento = Agrupamento::find($id);
         if($agrupamento->codpostal()->first() != null){
-            $agrupamento->codpostal()->where('id_agrupamento', $id)->delete();
+            //$agrupamento->codpostal()->where('id_agrupamento', $id)->delete(); //Não podemos apagar o código postal quando apagamos o agrupamento
         }
         if($agrupamento->escolas()->first() != null){
             $agrupamento->escolas()->where('id_agrupamento', $id)->delete();
