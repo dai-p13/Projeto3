@@ -22,26 +22,20 @@ function inicializarDataTable() {
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
-})
+});
 
 function editar(id) {
-    var url = "entidades/getPorId/" + id;
+    var url = "formacoes/getPorId/" + id;
     $.ajax({
         url: url,
         method: "GET",
         dataType: "json",
-        success: function (entidade) {
-            if (entidade != null) {
-                url = 'entidades/edit/' + entidade.id_entidadeOficial
+        success: function (formacao) {
+            if (formacao != null) {
+                url = 'formacoes/edit/' + formacao.id_formacao
                 $('#formEditar').attr('action', url)
-                $('#nome').val(entidade.nome)
-                $('#email').val(entidade.email)
-                $('#entidade').val(entidade.entidade)
-                $('#telefone').val(entidade.telefone)
-                $('#telemovel').val(entidade.telemovel)
-                var disp = entidade.disponivel
-                $('#disponibilidade').val(disp.toString())
-                $('#observacoes').val(entidade.observacoes)
+                $('#nomeInstituicao').val(formacao.nomeInstituicao)
+                $('#email').val(formacao.email)
             }
         },
         error: function (error) {
@@ -51,6 +45,6 @@ function editar(id) {
 }
 
 function remover(id) {
-    url = 'entidades/delete/' + id
+    url = 'formacoes/delete/' + id
     $('#formDelete').attr('action', url)
 }

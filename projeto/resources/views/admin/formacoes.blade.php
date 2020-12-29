@@ -35,11 +35,11 @@
                             <div class="table-title">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <h2>Gerir <b>Entidades Oficiais</b></h2>
+                                        <h2>Gerir <b>Formações</b></h2>
                                     </div>
                                     <div class="col-sm-6">
                                         <a href="#add" class="btn btn-success" data-toggle="modal"><i
-                                                class="material-icons">&#xE147;</i> <span>Criar uma nova Entidade Oficial</span></a>
+                                                class="material-icons">&#xE147;</i> <span>Criar uma nova Formação</span></a>
                                     </div>
                                 </div>
                             </div>
@@ -47,13 +47,8 @@
                                 <thead>
                                     <tr>
                                         <th>Número identificador</th>
-                                        <th>Nome</th>
+                                        <th>Nome da Instituição</th>
                                         <th>Email</th>
-                                        <th>Entidade</th>
-                                        <th>Telefone</th>
-                                        <th>Telemovel</th>
-                                        <th>Observações</th>
-                                        <th>Disponibilidade</th>
                                         <th>Opções</th>
                                     </tr>
                                 </thead>
@@ -62,24 +57,14 @@
                                         if(isset($data)) {
                                             foreach($data as $linha) {
                                                 $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$linha->id_entidadeOficial.'</td>';
-                                                $dados = $dados.'<td>'.$linha->nome.'</td>';
+                                                $dados = $dados.'<td>'.$linha->id_formacao.'</td>';
+                                                $dados = $dados.'<td>'.$linha->nomeInstituicao.'</td>';
                                                 $dados = $dados.verificaNull($linha->email);
-                                                $dados = $dados.verificaNull($linha->entidade);
-                                                $dados = $dados.verificaNull($linha->telefone);
-                                                $dados = $dados.verificaNull($linha->telemovel);
-                                                $dados = $dados.verificaNull($linha->observacoes);
-                                                if($linha->disponivel == 0) {
-                                                    $dados = $dados.'<td>Disponível</td>';
-                                                }
-                                                else {
-                                                    $dados = $dados.'<td>Indisponível</td>';    
-                                                }
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_entidadeOficial.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_formacao.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_entidadeOficial.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_formacao.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
@@ -104,44 +89,21 @@
                 <div id="add" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="entidades/add">
+                            <form method="POST" action="formacoes/add">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Adicionar Entidade Oficial</h4>
+                                    <h4 class="modal-title">Adicionar Formação</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>Nome</label>
-                                        <input type="text" name="nome" class="form-control" required>
+                                        <label>Nome da Instituição</label>
+                                        <input type="text" name="nomeInstituicao" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email" name="email" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Entidade</label>
-                                        <input type="text" name="entidade" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telefone</label>
-                                        <input type="tel" name="telefone" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telemóvel</label>
-                                        <input type="tel" name="telemovel" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Disponibilidade</label>
-                                        <select name="disponibilidade">
-                                            <option value="0">Disponivel</option>
-                                            <option value="1">Indisponivel</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Observações</label>
-                                        <textarea name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -158,41 +120,18 @@
                             <form method="POST" action="" id="formEditar">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Editar Entidade Oficial</h4>
+                                    <h4 class="modal-title">Editar Formação</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>Nome</label>
-                                        <input type="text" id="nome" name="nome" class="form-control" required>
+                                        <label>Nome da Instituição</label>
+                                        <input type="text" id="nomeInstituicao" name="nomeInstituicao" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
                                         <input type="email" id="email" name="email" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Entidade</label>
-                                        <input type="text" id="entidade" name="entidade" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telefone</label>
-                                        <input type="tel" id="telefone" name="telefone" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Telemóvel</label>
-                                        <input type="tel" id="telemovel" name="telemovel" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Disponibilidade</label>
-                                        <select name="disponibilidade">
-                                            <option value="0">Disponivel</option>
-                                            <option value="1">Indisponivel</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Observações</label>
-                                        <textarea id="observacoes" name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -209,12 +148,12 @@
                             <form method="POST" action="" id="formDelete">
                                 @csrf
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Remover Entidade Oficial</h4>
+                                    <h4 class="modal-title">Remover Formação</h4>
                                     <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Tem a certeza que deseja remover a entidade oficial?</p>
+                                    <p>Tem a certeza que deseja remover a formação?</p>
                                     <p class="text-warning"><small>Esta ação não pode ser retrocedida.</small></p>
                                 </div>
                                 <div class="modal-footer">
@@ -229,7 +168,7 @@
         </div>
     </div>
     </div>
-    <script src="{{ asset('js/admin/pagEntidades.js') }}"></script>
+    <script src="{{ asset('js/admin/pagFormacoes.js') }}"></script>
 </body>
 
 </html>

@@ -45,6 +45,7 @@ class EntidadeOficialController extends Controller
         $telefone = $request->telefone;
         $telemovel = $request->telemovel;
         $observacoes = $request->observacoes;
+        $disponivel = $request->disponibilidade;
 
         $entOficial = EntidadeOficial::find($id_entidadeOficial);
         if($entOficial != null){
@@ -53,6 +54,7 @@ class EntidadeOficialController extends Controller
             $entOficial->entidade = $entidade;
             $entOficial->telefone = $telefone;
             $entOficial->telemovel = $telemovel;
+            $entOficial->disponivel = $disponivel;
             $entOficial->observacoes = $observacoes;
 
             $entOficial->save();
@@ -70,11 +72,11 @@ class EntidadeOficialController extends Controller
         return redirect()->route("entidades");
     }
 
-    public function getEntidadePorId($id)
-    {
+    public function getEntidadePorId($id) {
+        
         $entidades = DB::table('entidade_oficial')->where('id_entidadeOficial', $id)->first();
         if($entidades != null) {
-            return response()->json($ilustrador);
+            return response()->json($entidades);
         }
         else{
             return null;

@@ -127,6 +127,12 @@ Route::get('admin/codPostal/getAll', 'CodPostalController@getAll')->middleware([
 Route::get('admin/codPostal/add', 'CodPostalController@store')->middleware(['checkLogInAdmin']);
 Route::get('admin/codPostal/getLocalidade/{codPostal}', 'CodPostalController@getLocalidade')->middleware(['checkLogInAdmin']);
 
+Route::get('admin/formacoes', 'FormacaoController@index')->name("formacoes")->middleware(['checkLogInAdmin']);
+Route::get('admin/formacoes/getPorId/{id}', 'FormacaoController@getFormacaoPorId')->middleware(['checkLogInAdmin']);
+Route::post('admin/formacoes/add', 'FormacaoController@store')->middleware(['checkLogInAdmin']);
+Route::post('admin/formacoes/edit/{id}', 'FormacaoController@update')->middleware(['checkLogInAdmin']);
+Route::post('admin/formacoes/delete/{id}', 'FormacaoController@destroy')->middleware(['checkLogInAdmin']);
+
 //ROUTES DE VERIFICAÇÃO DA EXISTÊNCIA DE ASSOCIAÇÕES AOS PROJETOS
 
 Route::get('admin/projetoEscola/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoEscolaController@verificaAssociacao')->middleware(['checkLogInAdmin']);
