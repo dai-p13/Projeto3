@@ -53,6 +53,7 @@
                                         <th>Telefone</th>
                                         <th>Telemovel</th>
                                         <th>Observações</th>
+                                        <th>Disponibilidade</th>
                                         <th>Opções</th>
                                     </tr>
                                 </thead>
@@ -68,11 +69,17 @@
                                                 $dados = $dados.verificaNull($linha->telefone);
                                                 $dados = $dados.verificaNull($linha->telemovel);
                                                 $dados = $dados.verificaNull($linha->observacoes);
+                                                if($linha->disponivel == 0) {
+                                                    $dados = $dados.'<td>Disponível</td>';
+                                                }
+                                                else {
+                                                    $dados = $dados.'<td>Indisponível</td>';    
+                                                }
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_ilustradorSolidario.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_entidadeOficial.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
-                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_ilustradorSolidario.')"><i
+                                                        <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_entidadeOficial.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
                                                     </td>';
@@ -126,6 +133,13 @@
                                         <input type="tel" name="telemovel" class="form-control">
                                     </div>
                                     <div class="form-group">
+                                        <label>Disponibilidade</label>
+                                        <select name="disponibilidade">
+                                            <option value="0">Disponivel</option>
+                                            <option value="1">Indisponivel</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Observações</label>
                                         <textarea name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
@@ -170,6 +184,13 @@
                                         <input type="tel" id="telemovel" name="telemovel" class="form-control">
                                     </div>
                                     <div class="form-group">
+                                        <label>Disponibilidade</label>
+                                        <select name="disponibilidade">
+                                            <option value="0">Disponivel</option>
+                                            <option value="1">Indisponivel</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Observações</label>
                                         <textarea id="observacoes" name="observacoes" class="form-control" placeholder="Observações"></textarea>
                                     </div>
@@ -208,7 +229,7 @@
         </div>
     </div>
     </div>
-    <script src="{{ asset('js/admin/pagIlustradores.js') }}"></script>
+    <script src="{{ asset('js/admin/pagEntidades.js') }}"></script>
 </body>
 
 </html>

@@ -39,6 +39,8 @@ function editar(id) {
                 $('#entidade').val(entidade.entidade)
                 $('#telefone').val(entidade.telefone)
                 $('#telemovel').val(entidade.telemovel)
+                var disp = entidade.disponivel
+                $('#disponibilidade').val(disp.toString())
                 $('#observacoes').val(entidade.observacoes)
             }
         },
