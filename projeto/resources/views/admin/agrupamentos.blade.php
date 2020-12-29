@@ -147,16 +147,16 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Localidade</label>
-                                        <input type="text" name="localidade" class="form-control">
+                                        <input type="text" name="localidade" class="form-control" required>
                                     </div>
                                     <br>
                                     <label style="font-size: 18px">Código Postal</label>
                                     <br><br>
                                     <div class="form-group">
                                         <label>Primeiros dígitos</label>
-                                        <input type="text" name="codPostal" class="form-control">
+                                        <input type="text" name="codPostal" class="form-control" required>
                                         <label>Segundos dígitos</label>
-                                        <input type="text" name="codPostalRua" class="form-control">
+                                        <input type="text" name="codPostalRua" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -204,16 +204,16 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Localidade</label>
-                                        <input type="text" id="localidade" name="localidade" class="form-control">
+                                        <input type="text" id="localidade" name="localidade" class="form-control" required>
                                     </div>
                                     <br>
                                     <label style="font-size: 18px">Código Postal</label>
                                     <br><br>
                                     <div class="form-group">
                                         <label>Primeiros dígitos</label>
-                                        <input type="text" id="codPostal" name="codPostal" class="form-control">
+                                        <input type="text" id="codPostal" name="codPostal" class="form-control" required>
                                         <label>Segundos dígitos</label>
-                                        <input type="text" id="codPostalRua" name="codPostalRua" class="form-control">
+                                        <input type="text" id="codPostalRua" name="codPostalRua" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

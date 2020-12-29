@@ -8,11 +8,13 @@
     <link rel="stylesheet" href="{{ asset('fonts/font-roboto-varela-round.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/material_icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet"
+        href="{{ asset('fonts/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/utilizadores.css') }}">
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet">
     <link href="{{asset('css/sideBarImg.css')}}" rel="stylesheet">
+    <link href="{{asset('css/form-pesquisa.css')}}" rel="stylesheet">
     <link type="text/css" href="{{asset('css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
     <script src="{{asset('js/jquery-3.5.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
@@ -58,9 +60,11 @@
                                 <tbody id="tableBody">
                                     <?php
                                         use \App\Http\Controllers\AgrupamentoController;
+                                        use \App\Http\Controllers\CodPostalController;
                                         if(isset($data)) {
                                             foreach($data as $linha) {
                                                 $nomeAgrupamento = AgrupamentoController::getNomeAgrupamentoPorId($linha->id_agrupamento);
+                                                $localidade = CodPostalController::getLocalidade($linha->codPostal);
                                                 $dados = '<tr>';
                                                 $dados = $dados.'<td>'.$linha->id_escolaSolidaria.'</td>';
                                                 $dados = $dados.'<td>'.$linha->nome.'</td>';
@@ -74,13 +78,15 @@
                                                 else {
                                                     $dados = $dados.'<td>Indisponível</td>';    
                                                 }
+                                                $url = 'gerirProfessoresEscola'.$linha->id_escolaSolidaria;
                                                 $dados = $dados.'<td>
-                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_escolaSolidaria.')"><i
+                                                        <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_escolaSolidaria.', '.$localidade.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Edit">&#xE254;</i></a>
                                                         <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_escolaSolidaria.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
+                                                        <a href="'.$url.'"><img src="http://projeto3/images/gerir_professores.png"></img></a>
                                                     </td>';
                                                 $dados = $dados.'</tr>';
                                                 echo $dados;
@@ -101,7 +107,7 @@
                     </div>
                 </div>
                 <div id="add" class="modal fade">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <form method="POST" action="escolas/add">
                                 @csrf
@@ -128,9 +134,9 @@
                                         <input type="tel" name="contactoAssPais" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>Agrupamento</label>
-                                        <select id="agrupamentosAdd" name="agrupamento">
-                                        </select>
+                                        <label>Agrupamento:</label>
+                                        <input type="text" value="" id="nomeAgrupamentoAdd" name="nomeAgrupamento" class="form-control">
+                                        <input type="hidden" value="" id="agrupamentoAdd" name="agrupamento">
                                     </div>
                                     <div class="form-group">
                                         <label>Disponibilidade</label>
@@ -139,6 +145,24 @@
                                             <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                    <div>
+                                        <label>Selecione o agrupamento da escola:</label>
+                                        <table class="display table table-striped table-bordered" id="tabelaAdd">
+                                            <thead id="tableHeadAdd">
+                                                <tr>
+                                                    <th>Nome</th>
+                                                    <th>Localidade</th>
+                                                    <th>Nome Diretor</th>
+                                                    <th>Selecionar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tableBodyAdd">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -149,7 +173,7 @@
                     </div>
                 </div>
                 <div id="edit" class="modal fade">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <form method="POST" action="" id="formEditar">
                                 @csrf
@@ -176,18 +200,38 @@
                                         <input type="tel" id="contactoAssPais" name="contactoAssPais" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <label>Agrupamento</label>
-                                        <select id="agrupamentos" name="agrupamento">
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
                                         <label>Disponibilidade</label>
                                         <select id="disponibilidade" name="disponibilidade">
                                             <option value="0">Disponivel</option>
                                             <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
-                                </div>
+                                    <div class="form-group">
+                                        <label>Agrupamento:</label>
+                                        <input type="text" value="" id="nomeAgrupamento" name="nomeAgrupamento" class="form-control">
+                                        <input type="hidden" value="" id="agrupamento" name="agrupamento">
+                                    </div>
+                                    <div class="form-group">
+                                        <div>
+                                            <label>Selecione o agrupamento da escola:</label>
+                                            <table class="display table table-striped table-bordered" id="tabelaEdit">
+                                                <thead id="tableHeadEdit">
+                                                    <tr>
+                                                        <th>Nome</th>
+                                                        <th>Localidade</th>
+                                                        <th>Nome Diretor</th>
+                                                        <th>Selecionar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableBodyEdit">
+                                                        <td>Nome</td>
+                                                        <td>Localidade</td>
+                                                        <td>Nome Diretor</td>
+                                                        <td>Selecionar</td>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
                                     <input type="submit" class="btn btn-info" value="Guardar Alterações">

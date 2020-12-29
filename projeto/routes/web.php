@@ -125,6 +125,7 @@ Route::post('admin/trocasAgrupamento/add', 'TrocaAgrupamentoController@store')->
 
 Route::get('admin/codPostal/getAll', 'CodPostalController@getAll')->middleware(['checkLogInAdmin']);
 Route::get('admin/codPostal/add', 'CodPostalController@store')->middleware(['checkLogInAdmin']);
+Route::get('admin/codPostal/getLocalidade/{codPostal}', 'CodPostalController@getLocalidade')->middleware(['checkLogInAdmin']);
 
 //ROUTES DE VERIFICAÇÃO DA EXISTÊNCIA DE ASSOCIAÇÕES AOS PROJETOS
 
@@ -165,9 +166,13 @@ Route::post('admin/projetoUniversidade/delete/{id}-{id_projeto}-{ano}', 'Projeto
 Route::post('admin/projetoProfFac/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorFaculController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetoProfessor/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorController@destroy')->middleware(['checkLogInAdmin']);
 
-Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
+
+
+//ROUTES PARA A GESTÃO DAS ESCOLAS DOS AGRUPAMENTOS
+
 
 // ROUTES DE LOGIN
 Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
+Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
 
 // ROUTES PARA O USER COLABORADOR
