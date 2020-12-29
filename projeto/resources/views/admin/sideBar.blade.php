@@ -15,6 +15,7 @@
         <a href="universidades" class="list-group-item list-group-item-action bg-light"><img src="{{asset('images/icons/universidade.png')}}" class="sideBarImg">Universidades</a>
         <a href="profsFaculdade" class="list-group-item list-group-item-action bg-light">Professores de Faculdades</a>
         <a href="trocasAgrupamento" class="list-group-item list-group-item-action bg-light">Trocas Agrupamento</a>
+        <a href="formacoes" class="list-group-item list-group-item-action bg-light">Formações</a>
       </div>
 </div>
 
