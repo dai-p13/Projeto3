@@ -19,7 +19,5 @@ class CheckUserColaboradorMiddleware
         else {
             return \redirect()->route("paginaLogin");
         }
-        
-       
     }
 }

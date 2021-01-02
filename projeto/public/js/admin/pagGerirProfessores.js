@@ -9,7 +9,7 @@ $("#menu-toggle").click(function (e) {
 
 $(document).ready(function () {
     id_escola = $('#idEscola').val()
-    /*
+    
     $.ajax({
         url: "gerirEscola/getProfessores",
         method: "GET",
@@ -23,7 +23,7 @@ $(document).ready(function () {
         error: function (error) {
         }
     })
-    */
+    
 
     $("#formAdd").submit(function (e) {
         if (existe) {

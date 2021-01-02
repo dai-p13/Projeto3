@@ -7,13 +7,6 @@ use Illuminate\Http\Request;
 use DB;
 class CodPostalRuaController extends Controller
 {
-    public function index()
-    {
-        $codPostalRuas = CodPostalRua::all();
-
-        return view('viewCodPostalRua', ['codPostalRuas' => $codPostalRuas]);
-    }
-
     public function store(Request $request)
     {
         $codPostalRua = new CodPostalRua();

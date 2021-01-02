@@ -32,7 +32,14 @@ class ProfessorController extends Controller
         $professor->id_agrupamento = $request->id_agrupamento;
         
         $professor->save();
-        return redirect()->route("professores");
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("professores");
+        }
+        else {
+            return redirect()->route("professoresColaborador");
+        }
     }
     
     public function update($id ,Request $request)
@@ -53,7 +60,14 @@ class ProfessorController extends Controller
             $professor->disponivel = $disponivel;
 
             $professor->save();
-            return redirect()->route("professores");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("professores");
+            }
+            else {
+                return redirect()->route("professoresColaborador");
+            }
         }
     }
     
@@ -74,7 +88,9 @@ class ProfessorController extends Controller
             $professor->save();
         }
         $professor->delete();
+
         return redirect()->route("professores");
+
     }
 
     public function getProfPorId($id) {

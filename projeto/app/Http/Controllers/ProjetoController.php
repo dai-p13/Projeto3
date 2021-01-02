@@ -84,7 +84,13 @@ class ProjetoController extends Controller
 
         \session(['id_projeto' => $id]);
 
-        return view('admin/gerirParticipantesProjeto', ['title' => 'Projeto: '.$projeto->nome]);
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return view('admin/gerirParticipantesProjeto', ['title' => 'Projeto: '.$projeto->nome]);
+        }
+        else {
+            return view('colaborador/gerirParticipantesProjeto', ['title' => 'Projeto: '.$projeto->nome]);
+        }
     }
 
     public function getParticipantes() {

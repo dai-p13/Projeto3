@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// ROUTES DE LOGIN
+Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
+Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
+Route::get('colaborador/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['CheckLogInColaborador']);
+
 Route::get('/', function () {
     return view("login");
 })->name("paginaLogin");
@@ -174,8 +179,6 @@ Route::post('admin/projetoUniversidade/delete/{id}-{id_projeto}-{ano}', 'Projeto
 Route::post('admin/projetoProfFac/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorFaculController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetoProfessor/delete/{id}-{id_projeto}-{ano}', 'ProjetoProfessorController@destroy')->middleware(['checkLogInAdmin']);
 
-
-
 //ROUTES PARA A GESTÃO DOS PROFESSORES DAS ESCOLAS
 
 Route::get('admin/gerirEscola{id}', 'EscolaSolidariaController@gerirEscola')->name("gerirEscola")->middleware(['checkLogInAdmin']);
@@ -192,8 +195,130 @@ Route::post('admin/gerirProjetosUser/projetosAssociados/destroy/{id}-{id_projeto
 Route::get('admin/gerirProjetosUser/projetos/getSemAssociacao/{id}','ProjetoController@getSemAssociacao')->middleware(['checkLogInAdmin']);
 Route::post('admin/gerirProjetosUser/gerirProjetosUtilizador/add','ProjetoUtilizadorController@store')->middleware(['checkLogInAdmin']);
 
-// ROUTES DE LOGIN
-Route::post('login', 'UtilizadorController@realizarLogin')->name('login');
-Route::get('admin/terminarSessao', 'UtilizadorController@realizarLogout')->middleware(['checkLogInAdmin']);
-
 // ROUTES PARA O USER COLABORADOR
+
+Route::get('colaborador/dashboardColaborador','ProjetoController@index')->name("dashboardColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetos/edit/{id}', 'ProjetoController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetos/add', 'ProjetoController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/gerirProjeto{id}', 'ProjetoController@gerirParticipantes')->name("gerirProjetoColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/gerirProjeto/getParticipantes', 'ProjetoController@getParticipantes')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/gerirProjeto/pesquisaParticipantes/{tipo}-{ano}-{pesq}', 'ProjetoController@participantesPesq')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/professores','ProfessorController@index')->name("professoresColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/professores/getPorId/{id}', 'ProfessorController@getProfPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/professores/getDisponiveis', 'ProfessorController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/professores/edit/{id}', 'ProfessorController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/professores/add', 'ProfessorController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/escolas','EscolaSolidariaController@index')->name("escolasColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/escolas/getPorId/{id}', 'EscolaSolidariaController@getEscolaPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/escolas/getDisponiveis', 'EscolaSolidariaController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/escolas/edit/{id}', 'EscolaSolidariaController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/escolas/add', 'EscolaSolidariaController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/agrupamentos','AgrupamentoController@index')->name("agrupamentosColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/agrupamentos/getAll', 'AgrupamentoController@getAll')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/agrupamentos/getAllComLocalidade', 'AgrupamentoController@getAllComLocalidade')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/agrupamentos/getPorId/{id}', 'AgrupamentoController@getAgrupamentoPorId')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/agrupamentos/edit/{id}', 'AgrupamentoController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/agrupamentos/add', 'AgrupamentoController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/ilustradores','IlustradorSolidarioController@index')->name("ilustradoresColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/ilustradores/getPorId/{id}', 'IlustradorSolidarioController@getIlustradorPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/ilustradores/getDisponiveis', 'IlustradorSolidarioController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/ilustradores/edit/{id}', 'IlustradorSolidarioController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/ilustradores/add', 'IlustradorSolidarioController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/contadores','ContadorHistoriaController@index')->name("contadoresColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/contadores/getPorId/{id}', 'ContadorHistoriaController@getContadorPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/contadores/getDisponiveis', 'ContadorHistoriaController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/contadores/edit/{id}', 'ContadorHistoriaController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/contadores/add', 'ContadorHistoriaController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/entidades','EntidadeOficialController@index')->name("entidadesColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/entidades/getPorId/{id}', 'EntidadeOficialController@getEntidadePorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/entidades/getDisponiveis', 'EntidadeOficialController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/entidades/edit/{id}', 'EntidadeOficialController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/entidades/add', 'EntidadeOficialController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/juris','JuriController@index')->name("jurisColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/juris/getPorId/{id}', 'JuriController@getJuriPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/juris/getDisponiveis', 'JuriController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/juris/edit/{id}', 'JuriController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/juris/add', 'JuriController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/rbes','RBEController@index')->name("rbesColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/rbes/getPorId/{id}', 'RBEController@getRbePorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/rbes/getDisponiveis', 'RBEController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/rbes/edit/{id}', 'RBEController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/rbes/add', 'RBEController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/universidades','UniversidadeController@index')->name("universidadesColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/universidades/getPorId/{id}', 'UniversidadeController@getUniversidadePorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/universidades/getDisponiveis', 'UniversidadeController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/universidades/edit/{id}', 'UniversidadeController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/universidades/add', 'UniversidadeController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/profsFaculdade','ProfessorFaculdadeController@index')->name("profsFaculdadeColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/profsFaculdade/getPorId/{id}', 'ProfessorFaculdadeController@getProfPorId')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/profsFaculdade/getDisponiveis', 'ProfessorFaculdadeController@getDisponiveis')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/profsFaculdade/edit/{id}', 'ProfessorFaculdadeController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/profsFaculdade/add', 'ProfessorFaculdadeController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/concelhos','ConcelhoController@index')->name("concelhosColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/concelhos/verificaRbe/{id}','ConcelhoController@verificaRbes')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/concelhos/getAll','ConcelhoController@getAll')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/concelhos/getPorId/{id}', 'ConcelhoController@getConcelhoPorId')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/concelhos/edit/{id}', 'ConcelhoController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/concelhos/add', 'ConcelhoController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/trocasAgrupamento', 'TrocaAgrupamentoController@index')->name("trocasAgrupamentoColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/trocasAgrupamento/getPorId/{id}', 'TrocaAgrupamentoController@getTrocaPorId')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/trocasAgrupamento/edit/{id}', 'TrocaAgrupamentoController@update')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/trocasAgrupamento/add', 'TrocaAgrupamentoController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/codPostal/getAll', 'CodPostalController@getAll')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/codPostal/add', 'CodPostalController@store')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/codPostal/getLocalidade/{codPostal}', 'CodPostalController@getLocalidade')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/formacoes', 'FormacaoController@index')->name("formacoesColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/formacoes/getPorId/{id}', 'FormacaoController@getFormacaoPorId')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/formacoes/add', 'FormacaoController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/formacoes/edit/{id}', 'FormacaoController@update')->middleware(['CheckLogInColaborador']);
+
+//ROUTES DE VERIFICAÇÃO DA EXISTÊNCIA DE ASSOCIAÇÕES AOS PROJETOS
+
+Route::get('colaborador/projetoEscola/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoEscolaController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoIlustrador/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoIlustradorController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoContador/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoContadorController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoEntidade/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoEntidadeController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoJuri/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoJuriController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoRbe/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoRBEController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoUniversidade/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoUniversidadeController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoProfFac/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoProfessorFaculController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/projetoProfessor/jaAssociado/{id}-{id_projeto}-{ano}', 'ProjetoProfessorController@verificaAssociacao')->middleware(['CheckLogInColaborador']);
+
+//ROUTES PARA A ADIÇÃO DE ASSOCIAÇÕES AOS PROJETOS
+
+Route::post('colaborador/projetoEscola/add', 'ProjetoEscolaController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoIlustrador/add', 'ProjetoIlustradorController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoContador/add', 'ProjetoContadorController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoEntidade/add', 'ProjetoEntidadeController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoJuri/add', 'ProjetoJuriController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoRbe/add', 'ProjetoRBEController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoUniversidade/add', 'ProjetoUniversidadeController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoProfFac/add', 'ProjetoProfessorFaculController@store')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/projetoProfessor/add', 'ProjetoProfessorController@store')->middleware(['CheckLogInColaborador']);
+
+Route::get('colaborador/cargosProfessor/getAll', 'CargoProfController@getAll')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/cargosProfessor/getPorIdProfessor/{id}-{id_projeto}-{ano}', 'CargoProfController@getPorIdProf')->middleware(['CheckLogInColaborador']);
+
+//ROUTES PARA A GESTÃO DOS PROFESSORES DAS ESCOLAS
+
+Route::get('colaborador/gerirEscola{id}', 'EscolaSolidariaController@gerirEscola')->name("gerirEscolaColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/gerirEscola/getProfessores', 'EscolaSolidariaController@getProfessores')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/professores/getDisponiveisSemEscola/{id}','ProfessorController@getDisponiveisSemEscola')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/gerirEscola/add','EscolaSolidariaController@associarProfessor')->middleware(['CheckLogInColaborador']);
+

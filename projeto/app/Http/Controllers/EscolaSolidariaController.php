@@ -14,7 +14,13 @@ class EscolaSolidariaController extends Controller
     {
         $escsolidarias = EscolaSolidaria::all();
 
-        return view('admin/escolasSolidarias', ['data' => $escsolidarias]);
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return view('admin/escolasSolidarias', ['data' => $escsolidarias]);
+        }
+        else {
+            return view('colaborador/escolasSolidarias', ['data' => $escsolidarias]);
+        }
     }
 
     public function store(Request $request)
@@ -29,7 +35,14 @@ class EscolaSolidariaController extends Controller
         $escsolidarias->disponivel = $request->disponibilidade;
 
         $escsolidarias->save();
-        return redirect()->route("escolas");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("escolas");
+        }
+        else {
+            return redirect()->route("escolasColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -52,7 +65,14 @@ class EscolaSolidariaController extends Controller
             $escola->disponivel = $disponibilidade;
 
             $escola->save();
-            return redirect()->route("escolas");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("escolas");
+            }
+            else {
+                return redirect()->route("escolasColaborador");
+            }
         }
     }
 
@@ -66,7 +86,9 @@ class EscolaSolidariaController extends Controller
             $escola->projetos()->where('id_escolaSolidaria', $id)->delete();
         }
         $escola->delete();
+        
         return redirect()->route("escolas");
+
     }
 
     public function getEscolaPorId($id) {
@@ -97,7 +119,13 @@ class EscolaSolidariaController extends Controller
 
         \session(['id_escola' => $id]);
 
-        return view('admin/gerirProfessoresEscola', ['title' => 'Escola: '.$escola->nome]);
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return view('admin/gerirProfessoresEscola', ['title' => 'Escola: '.$escola->nome]);
+        }
+        else {
+            return view('colaborador/gerirProfessoresEscola', ['title' => 'Escola: '.$escola->nome]);
+        }
 
     }
 
@@ -136,8 +164,14 @@ class EscolaSolidariaController extends Controller
         $novaAssoc->save();
 
         $nomeEscola = self::getNomeEscolaPorId($request->id_escola);
-       
-        return redirect()->route("gerirEscola", $request->id_escola);
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("gerirEscola", $request->id_escola);
+        }
+        else {
+            return redirect()->route("gerirEscolaColaborador", $request->id_escola);
+        }
     }
 
     public function deleteAssociacao($id_professor, $id_escola) {

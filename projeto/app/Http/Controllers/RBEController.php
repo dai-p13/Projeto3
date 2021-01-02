@@ -32,7 +32,14 @@ class RBEController extends Controller
         $rbe->disponivel = $request->disponibilidade;
 
         $rbe->save();
-        return redirect()->route("rbes");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("rbes");
+        }
+        else {
+            return redirect()->route("rbesColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -51,7 +58,14 @@ class RBEController extends Controller
             $rbe->disponivel = $disponivel;
 
             $rbe->save();
-            return redirect()->route("rbes");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("rbes");
+            }
+            else {
+                return redirect()->route("rbesColaborador");
+            }
         }
     }
 

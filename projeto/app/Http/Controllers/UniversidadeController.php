@@ -41,7 +41,14 @@ class UniversidadeController extends Controller
         $universidade->disponivel = $disponibilidade;
             
         $universidade->save();
-        return redirect()->route("universidades");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("universidades");
+        }
+        else {
+            return redirect()->route("universidadesColaborador");
+        }
         
     }
     
@@ -67,7 +74,14 @@ class UniversidadeController extends Controller
             $universidade->disponivel = $disponibilidade;
             
             $universidade->save();
-            return redirect()->route("universidades");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("universidades");
+            }
+            else {
+                return redirect()->route("universidadesColaborador");
+            }
         }
     }
     

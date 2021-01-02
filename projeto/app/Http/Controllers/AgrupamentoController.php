@@ -66,7 +66,14 @@ class AgrupamentoController extends Controller
             $agrupamento->codPostalRua = $codPostalRua;
         }
         $agrupamento->save();
-        return redirect()->route("agrupamentos");
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("agrupamentos");
+        }
+        else {
+            return redirect()->route("agrupamentosColaborador");
+        }
     }
     
     public function update($id ,Request $request)
@@ -119,7 +126,14 @@ class AgrupamentoController extends Controller
             $agrupamento->save();
         }
             
-        return redirect()->route("agrupamentos");
+       
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("agrupamentos");
+        }
+        else {
+            return redirect()->route("agrupamentosColaborador");
+        }
     }
     
     public function destroy($id)
@@ -140,7 +154,9 @@ class AgrupamentoController extends Controller
             $agrupamento->professores()->where('id_agrupamento', $id)->delete();
         }
         $agrupamento->delete();
+
         return redirect()->route("agrupamentos");
+
     }
 
     public static function getNomeAgrupamentoPorId($id) {

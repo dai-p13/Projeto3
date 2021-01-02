@@ -18,7 +18,14 @@ class ProjetoEntidadeController extends Controller
         $projentidade->anoParticipacao = intval($request->anoParticipacao);
 
         $projentidade->save();
-        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
+        }
+        else {
+            return redirect()->route("gerirProjetoColaborador", ['id' => intval($request->id_projeto)]);
+        }
     }
 
     public function destroy($id, $id_projeto, $ano)
@@ -32,6 +39,7 @@ class ProjetoEntidadeController extends Controller
         if($linha->first() != null) {
             $linha->delete(); 
         }
+
         return redirect()->route("gerirProjeto", ['id' => intval($id_projeto)]);
     }
 

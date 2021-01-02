@@ -30,7 +30,14 @@ class FormacaoController extends Controller
         $formacao->email = $request->email;
 
         $formacao->save();
-        return redirect()->route("formacoes");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("formacoes");
+        }
+        else {
+            return redirect()->route("formacoesColaborador");
+        }
     }
 
     
@@ -46,7 +53,14 @@ class FormacaoController extends Controller
             $formacao->email = $email;
 
             $formacao->save();
-            return redirect()->route("formacoes");
+
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("formacoes");
+            }
+            else {
+                return redirect()->route("formacoesColaborador");
+            }
         }
     }
 
@@ -58,6 +72,7 @@ class FormacaoController extends Controller
         $formacao->delete();
         
         return redirect()->route("formacoes");
+
     }
 
     public function getFormacaoPorId($id) {

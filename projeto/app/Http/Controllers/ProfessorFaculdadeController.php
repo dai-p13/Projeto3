@@ -36,7 +36,15 @@ class ProfessorFaculdadeController extends Controller
         $profacul->disponivel = $request->disponibilidade;
 
         $profacul->save();
-        return redirect()->route("profsFaculdade");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("profsFaculdade");
+        }
+        else {
+            return redirect()->route("profsFaculdadeColaborador");
+        }
+
     }
 
     public function update($id, Request $request)
@@ -61,7 +69,13 @@ class ProfessorFaculdadeController extends Controller
             $prof->disponivel = $disponibilidade;
 
             $prof->save();
-            return redirect()->route("profsFaculdade");
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("profsFaculdade");
+            }
+            else {
+                return redirect()->route("profsFaculdadeColaborador");
+            }
         }
     }
 
@@ -75,6 +89,8 @@ class ProfessorFaculdadeController extends Controller
             $profacul->universidades()->where('id_professorFaculdade', $id)->delete();
         } 
         $profacul->delete();
+        
+
         return redirect()->route("profsFaculdade");
     }
 

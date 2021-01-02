@@ -32,7 +32,14 @@ class ContadorHistoriaController extends Controller
         $contadorHistoria->observacoes = $request->obs;
 
         $contadorHistoria->save();
-        return redirect()->route("contadores");
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("contadores");
+        }
+        else {
+            return redirect()->route("contadoresColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -55,7 +62,14 @@ class ContadorHistoriaController extends Controller
             $contador->observacoes = $observacoes; 
 
             $contador->save();
-            return redirect()->route("contadores");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("contadores");
+            }
+            else {
+                return redirect()->route("contadoresColaborador");
+            }
         }
     }
 
@@ -66,7 +80,9 @@ class ContadorHistoriaController extends Controller
             $contador->projetos()->where('id_contador', $id)->delete();
         }
         $contador->delete();
+
         return redirect()->route("contadores");
+ 
     }
 
     public function getContadorPorId($id) {

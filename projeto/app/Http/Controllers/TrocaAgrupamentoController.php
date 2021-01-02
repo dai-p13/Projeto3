@@ -33,7 +33,14 @@ class TrocaAgrupamentoController extends Controller
         //$trocas->id_professor = $request->id_professor;
 
         $trocas->save();
-        return redirect()->route("trocasAgrupamento");
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("trocasAgrupamento");
+        }
+        else {
+            return redirect()->route("trocasAgrupamentoColaborador");
+        }
     }
     
     public function update($id, Request $request)
@@ -49,7 +56,14 @@ class TrocaAgrupamentoController extends Controller
             $troca->observacoes = $observacoes; 
 
             $troca->save();
-            return redirect()->route("trocasAgrupamento");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("trocasAgrupamento");
+            }
+            else {
+                return redirect()->route("trocasAgrupamentoColaborador");
+            }
         }
     }
     

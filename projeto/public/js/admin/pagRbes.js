@@ -93,7 +93,6 @@ function getNomeConcelho(id) {
         method: "GET",
         dataType: "json",
         success: function (concelho) {
-            var opcoes = ''
             if (concelho != null) {
                 nome = concelho.nome
             }

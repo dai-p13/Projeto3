@@ -41,7 +41,14 @@ class UtilizadorController extends Controller
             $user->email = $email; 
 
             $user->save();
-            return redirect()->route("utilizadores");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("utilizadores");
+            }
+            else {
+                return redirect()->route("utilizadoresColaborador");
+            }
         }
     }
 
@@ -69,7 +76,14 @@ class UtilizadorController extends Controller
             $user->email = $email; 
 
             $user->save();
-            return redirect()->route("utilizadores");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("utilizadores");
+            }
+            else {
+                return redirect()->route("utilizadoresColaborador");
+            }
         }
     }
 
@@ -89,7 +103,7 @@ class UtilizadorController extends Controller
                 return redirect()->route('dashboardAdmin');
             }
             else {
-                return redirect()->route("colaborador/pagInicial");
+                return redirect()->route("dashboardColaborador");
             } 
         }
 
@@ -105,7 +119,7 @@ class UtilizadorController extends Controller
                     return redirect()->route('dashboardAdmin');
                 }
                 else {
-                    return redirect()->route("colaborador/pagInicial");
+                    return redirect()->route("dashboardColaborador");
                 }   
             }
             else {
@@ -162,8 +176,20 @@ class UtilizadorController extends Controller
         if($user != null) {
             \session(['id_utilizador' => $id]);
 
-            return view('admin/gerirProjetosUtilizador', ['title' => 'Utilizador: '.$user->nomeUtilizador]);   
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return view('admin/gerirProjetosUtilizador', ['title' => 'Utilizador: '.$user->nomeUtilizador]); 
+            }
+            else {
+                return view('colaborador/gerirProjetosUtilizador', ['title' => 'Utilizador: '.$user->nomeUtilizador]); 
+            }  
         }
-        return redirect()->route("utilizadores");
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("utilizadores"); 
+        }
+        else {
+            return redirect()->route("utilizadoresColaborador");
+        } 
     }
 }

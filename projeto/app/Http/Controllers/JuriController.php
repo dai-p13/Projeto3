@@ -30,7 +30,14 @@ class JuriController extends Controller
         $juris->disponivel = $request->disponibilidade;
 
         $juris->save();
-        return redirect()->route("juris");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("juris");
+        }
+        else {
+            return redirect()->route("jurisColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -51,7 +58,14 @@ class JuriController extends Controller
             $juri->email = $email;
 
             $juri->save();
-            return redirect()->route("juris");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("juris");
+            }
+            else {
+                return redirect()->route("jurisColaborador");
+            }
         }
     }
 
@@ -62,7 +76,9 @@ class JuriController extends Controller
             $juri->projetos()->where('id_juri', $id)->delete();
         }
         $juri->delete();
+        
         return redirect()->route("juris");
+
     }
 
     public function getJuriPorId($id) {

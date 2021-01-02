@@ -33,7 +33,14 @@ class EntidadeOficialController extends Controller
         $entOficial->observacoes = $request->observacoes;
 
         $entOficial->save();
-        return redirect()->route("entidades");
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("entidades");
+        }
+        else {
+            return redirect()->route("entidadesColaborador");
+        }
     }
 
     public function update($id ,Request $request)
@@ -58,7 +65,14 @@ class EntidadeOficialController extends Controller
             $entOficial->observacoes = $observacoes;
 
             $entOficial->save();
-            return redirect()->route("entidades");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("entidades");
+            }
+            else {
+                return redirect()->route("entidadesColaborador");
+            }
         }
     }
 
@@ -69,7 +83,9 @@ class EntidadeOficialController extends Controller
             $entidades->projetos()->where('id_entidadeOficial', $id)->delete();
         }
         $entidades->delete();
+        
         return redirect()->route("entidades");
+
     }
 
     public function getEntidadePorId($id) {

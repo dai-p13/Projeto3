@@ -12,9 +12,17 @@ class ConcelhoController extends Controller
 {
     public function index()
     {
+        
         $concelhos = Concelho::all();
 
-        return view('admin/concelhos', ['data' => $concelhos]);
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+           return view('admin/concelhos', ['data' => $concelhos]);
+        }
+        else {
+            return view('colaborador/concelhos', ['data' => $concelhos]);
+        }
+        
     }
 
     public function store(Request $request)
@@ -25,7 +33,13 @@ class ConcelhoController extends Controller
 
         $concelho->save();
 
-        return redirect()->route("concelhos");
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+           return redirect()->route("concelhos");
+        }
+        else {
+            return redirect()->route("concelhosColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -38,7 +52,13 @@ class ConcelhoController extends Controller
             $concelho->nome = $nome;
 
             $concelho->save();
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
             return redirect()->route("concelhos");
+            }
+            else {
+                return redirect()->route("concelhosColaborador");
+            }
         }
     }
 
@@ -46,7 +66,8 @@ class ConcelhoController extends Controller
     {
         $concelho = Concelho::find($id);
         $concelho->delete(); 
-        return redirect()->route("concelhos");  
+        
+        return redirect()->route("concelhos");
     }
 
     public function verificaRbes($id) {

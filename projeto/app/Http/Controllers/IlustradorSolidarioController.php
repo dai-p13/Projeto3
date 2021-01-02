@@ -33,7 +33,14 @@ class IlustradorSolidarioController extends Controller
         $ilusolidario->observacoes = $request->obs;
 
         $ilusolidario->save();
-        return redirect()->route("ilustradores");
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("ilustradores");
+        }
+        else {
+            return redirect()->route("ilustradoresColaborador");
+        }
     }
 
     public function update($id, Request $request)
@@ -58,7 +65,14 @@ class IlustradorSolidarioController extends Controller
             $ilusolidario->observacoes = $observacoes; 
 
             $ilusolidario->save();
-            return redirect()->route("ilustradores");
+            
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("ilustradores");
+            }
+            else {
+                return redirect()->route("ilustradoresColaborador");
+            }
         }
     }
 
@@ -69,7 +83,10 @@ class IlustradorSolidarioController extends Controller
             $ilustrador->projetos()->where('id_ilustradorSolidario', $id)->delete();
         }
         $ilustrador->delete();
+
+        
         return redirect()->route("ilustradores");
+
     }
     
     public function getIlustradorPorId($id) {

@@ -16,7 +16,14 @@ class ProjetoRBEController extends Controller
         $projrede->anoParticipacao = intval($request->anoParticipacao);
 
         $projrede->save();
-        return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
+        
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
+        }
+        else {
+            return redirect()->route("gerirProjetoColaborador", ['id' => intval($request->id_projeto)]);
+        }
     }
 
     public function destroy($id, $id_projeto, $ano)
