@@ -59,44 +59,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tableBody">
-                                    <?php
-                                        if(isset($utilizadores)) {
-                                            foreach($utilizadores as $user) {
-                                                $dados = '<tr>';
-                                                $dados = $dados.'<td>'.$user->nomeUtilizador.'</td>';
-                                                $dados = $dados.'<td>'.$user->nome.'</td>';
-                                                $dados = $dados.'<td>'.$user->password.'</td>';
-                                                $dados = $dados.verificaNull($user->email);
-                                                $dados = $dados.verificaNull($user->telemovel);
-                                                $dados = $dados.verificaNull($user->telefone);
-                                                $dados = $dados.'<td>'.$user->departamento.'</td>';
-                                                if($user->tipoUtilizador == 0) {
-                                                    $dados = $dados.'<td>Administrador</td>';    
-                                                }
-                                                else {
-                                                    $dados = $dados.'<td>Colaborador</td>'; 
-                                                }
-                                                $dados = $dados.'<td>
-                                                        <a href="#editUtilizador" class="edit" data-toggle="modal" onclick="editarUtilizador('.$user->id_utilizador.')"><i
-                                                                class="material-icons" data-toggle="tooltip"
-                                                                title="Edit">&#xE254;</i></a>
-                                                        <a href="#deleteUtilizador" class="delete" data-toggle="modal" onclick="removerUtilizador('.$user->id_utilizador.')"><i
-                                                                class="material-icons" data-toggle="tooltip"
-                                                                title="Delete">&#xE872;</i></a>
-                                                    </td>';
-                                                $dados = $dados.'</tr>';
-                                                echo $dados;
-                                            }
-                                        }
-                                        function verificaNull($valor) {
-                                            if($valor != null) {
-                                                return '<td>'.$valor.'</td>';    
-                                            }
-                                            else {
-                                                return '<td> --- </td>';
-                                            }
-                                        }
-                                    ?>
+                                        
                                 </tbody>
                             </table>
                         </div>

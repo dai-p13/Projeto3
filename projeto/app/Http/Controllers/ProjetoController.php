@@ -78,7 +78,7 @@ class ProjetoController extends Controller
             return response()->json(array('sucesso' => true, 'projeto' => $objProjeto));
         }
     }
-
+    
     public function gerirParticipantes($id) {
         $projeto = Projeto::find($id);
 
@@ -539,5 +539,40 @@ class ProjetoController extends Controller
         );
 
         return $data;
+    }
+
+    public function existeAssociacao($id_utilizador, $id_projeto) {
+        
+        $projeto = DB::table('projeto')
+                    ->join('projeto_utilizador', 'projeto.id_projeto', '=', 'projeto_utilizador.id_projeto')
+                    ->where([
+                        ['projeto_utilizador.id_utilizador', '=', $id_utilizador],
+                        ['projeto_utilizador.id_projeto', '=', $id_projeto]
+                        ])
+                    ->first();
+
+        if($projeto != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function getSemAssociacao($id) {
+        $projetosReturn = array();
+        
+        $projetos = DB::table('projeto')
+                    ->select('projeto.id_projeto', 'projeto.nome', 'projeto.observacoes')
+                    ->get();
+
+        foreach($projetos as $proj) {
+            $existe = self::existeAssociacao($id, $proj->id_projeto);
+            if($existe == false) {
+                array_push($projetosReturn, $proj);
+            }
+        }
+        
+        return \json_encode($projetosReturn);
     }
 }

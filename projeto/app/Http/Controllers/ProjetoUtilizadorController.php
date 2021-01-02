@@ -4,37 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\ProjetoUtilizador;
 use Illuminate\Http\Request;
+use DB;
+use App\Models\Projeto;
 
 class ProjetoUtilizadorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $projutilizadores = ProjetoUtilizador::all();
-
-        return view('viewProjetoUtilizador', ['projutilizadores' => $projutilizadores]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $projutilizador = new ProjetoUtilizador();
@@ -43,50 +17,38 @@ class ProjetoUtilizadorController extends Controller
         $projutilizador->id_utilizador = $request->id_utilizador;
 
         $projutilizador->save();
+        return redirect()->route("projetosUtilizador", ['id' => $request->id_utilizador]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\ProjetoUtilizador  $projutilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function show(projutilizador $projutilizador)
+    public function destroy($id, $id_projeto)
     {
-        //
+        $linha = DB::table('projeto_utilizador')
+                    ->where([
+                        ['projeto_utilizador.id_projeto', '=', $id_projeto],
+                        ['projeto_utilizador.id_utilizador', '=', $id]
+                        ]);
+
+        if($linha->first() != null) {
+            $linha->delete(); 
+        }
+
+        return redirect()->route("projetosUtilizador", ['id' => $id]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\ProjetoUtilizador  $projutilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(projutilizador $projutilizador)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ProjetoUtilizador  $projutilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, projutilizador $projutilizador)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\ProjetoUtilizador  $projutilizador
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(projutilizador $projutilizador)
-    {
-        //
+    public function getProjetosAssociados($id) {
+        $linhas = DB::table('projeto_utilizador')
+            ->join('projeto', 'projeto_utilizador.id_projeto', '=', 'projeto.id_projeto')
+            ->select('projeto_utilizador.id_projeto' , 'projeto_utilizador.id_utilizador', 'projeto.nome')
+            ->where([
+            ['projeto_utilizador.id_utilizador', '=', $id],
+            ])
+            ->get();
+        
+        if(count($linhas) > 0) {
+            return \json_encode($linhas);
+        }
+        else {
+            return null;
+        }
     }
 }

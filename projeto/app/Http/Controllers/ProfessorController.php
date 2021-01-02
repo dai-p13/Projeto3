@@ -114,16 +114,42 @@ class ProfessorController extends Controller
         }
         
     }
+
+    public function existeAssociacao($id_professor, $id_escola) {
+        
+        $professor = DB::table('professor')
+                    ->join('escola_professor', 'professor.id_professor', '=', 'escola_professor.id_professor')
+                    ->where([
+                        ['escola_professor.id_professor', '=', $id_professor],
+                        ['escola_professor.id_escola', '=', $id_escola]
+                        ])
+                    ->first();
+
+        if($professor != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     
-    public function getDisponiveis() {
+    public function getDisponiveisSemEscola($id_escola) {
+        $profsSemEscola = array();
+        
         $profs = DB::table('professor')
-                    ->select('professor.id_professor', 'professor.telemovel', 'professor.telefone', 'professor.nome')
+                    ->select('professor.id_professor', 'professor.telemovel', 'professor.telefone', 'professor.email', 'professor.nome')
                     ->where([
                         ['professor.disponivel', '=', 0]
                         ])
-                    ->get();  
-    
-        return \json_encode($profs);
+                    ->get();
+
+        foreach($profs as $professor) {
+            $existe = self::existeAssociacao($professor->id_professor, $id_escola);
+            if($existe == false) {
+                array_push($profsSemEscola, $professor);
+            }
+        }
+        
+        return \json_encode($profsSemEscola);
     }
-    
 }

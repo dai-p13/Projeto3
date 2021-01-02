@@ -179,5 +179,21 @@ class AgrupamentoController extends Controller
         }
         
     }
+
+    public function getAllComLocalidade() {
+        $agrupamentos = DB::table('agrupamento')
+                ->join('cod_postal', 'agrupamento.codPostal', '=', 'cod_postal.codPostal')
+                ->select('agrupamento.id_agrupamento', 'agrupamento.nome' , 'agrupamento.telefone', 'agrupamento.telefone',
+                 'agrupamento.email', 'agrupamento.nomeDiretor', 'agrupamento.codPostal', 'agrupamento.codPostalRua',
+                 'agrupamento.numPorta', 'cod_postal.localidade')
+                ->get();
+        
+        if($agrupamentos != null) {
+            return  response()->json($agrupamentos);
+        }
+        else {
+            return null;
+        }
+    }
     
 }

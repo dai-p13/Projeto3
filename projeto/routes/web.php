@@ -35,6 +35,7 @@ Route::get('admin/gerirProjeto/pesquisaParticipantes/{tipo}-{ano}-{pesq}', 'Proj
 
 Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogInAdmin']);
+Route::get('admin/utilizadores/getAll', 'UtilizadorController@getAll')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/deleteUtilizador/{id}', 'UtilizadorController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/editUtilizador/{id}', 'UtilizadorController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/addUtilizador', 'UtilizadorController@store')->middleware(['checkLogInAdmin']);
@@ -55,6 +56,7 @@ Route::post('admin/escolas/add', 'EscolaSolidariaController@store')->middleware(
 
 Route::get('admin/agrupamentos','AgrupamentoController@index')->name("agrupamentos")->middleware(['checkLogInAdmin']);
 Route::get('admin/agrupamentos/getAll', 'AgrupamentoController@getAll')->middleware(['checkLogInAdmin']);
+Route::get('admin/agrupamentos/getAllComLocalidade', 'AgrupamentoController@getAllComLocalidade')->middleware(['checkLogInAdmin']);
 Route::get('admin/agrupamentos/getPorId/{id}', 'AgrupamentoController@getAgrupamentoPorId')->middleware(['checkLogInAdmin']);
 Route::post('admin/agrupamentos/delete/{id}', 'AgrupamentoController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/agrupamentos/edit/{id}', 'AgrupamentoController@update')->middleware(['checkLogInAdmin']);
@@ -174,8 +176,21 @@ Route::post('admin/projetoProfessor/delete/{id}-{id_projeto}-{ano}', 'ProjetoPro
 
 
 
-//ROUTES PARA A GESTÃO DAS ESCOLAS DOS AGRUPAMENTOS
+//ROUTES PARA A GESTÃO DOS PROFESSORES DAS ESCOLAS
 
+Route::get('admin/gerirEscola{id}', 'EscolaSolidariaController@gerirEscola')->name("gerirEscola")->middleware(['checkLogInAdmin']);
+Route::get('admin/gerirEscola/getProfessores', 'EscolaSolidariaController@getProfessores')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirEscola/delete/{id}-{id_escola}', 'EscolaSolidariaController@deleteAssociacao')->middleware(['checkLogInAdmin']);
+Route::get('admin/professores/getDisponiveisSemEscola/{id}','ProfessorController@getDisponiveisSemEscola')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirEscola/add','EscolaSolidariaController@associarProfessor')->middleware(['checkLogInAdmin']);
+
+//ROUTES PARA A GESTÃO DOS PROJETOS ASSOCIADOS AOS UTILIZADORES DO TIPO: COLABORADOR
+
+Route::get('admin/gerirProjetosUser/{id}', 'UtilizadorController@gerirProjetosUser')->name("projetosUtilizador")->middleware(['checkLogInAdmin']);
+Route::get('admin/gerirProjetosUser/getProjetosAssociados/{id}', 'ProjetoUtilizadorController@getProjetosAssociados')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirProjetosUser/projetosAssociados/destroy/{id}-{id_projeto}', 'ProjetoUtilizadorController@destroy')->middleware(['checkLogInAdmin']);
+Route::get('admin/gerirProjetosUser/projetos/getSemAssociacao/{id}','ProjetoController@getSemAssociacao')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirProjetosUser/gerirProjetosUtilizador/add','ProjetoUtilizadorController@store')->middleware(['checkLogInAdmin']);
 
 // ROUTES DE LOGIN
 Route::post('login', 'UtilizadorController@realizarLogin')->name('login');

@@ -1,6 +1,60 @@
 $(document).ready(function () {
-    inicializarDataTable();
+
+    $.ajax({
+        url: 'utilizadores/getAll',
+        method: "GET",
+        dataType: "json",
+        success: function (users) {
+            if (users != null) {
+                for (user of users) {
+                    criarLinha(user)
+                }
+                inicializarDataTable();
+            }
+        },
+        error: function (error) {
+
+        }
+    })
+
+
 });
+
+function criarLinha(user) {
+    var linha = '<tr>'
+    linha = linha + `<td>${user.nomeUtilizador}</td>`;
+    linha = linha + `<td>${user.nome}</td>`;
+    linha = linha + `<td>${user.password}</td>`;
+    linha = linha + verificaNull(user.email);
+    linha = linha + verificaNull(user.telemovel);
+    linha = linha + verificaNull(user.telefone);
+    linha = linha + `<td>${user.departamento}</td>`;
+    if(user.tipoUtilizador == 0) {
+        linha = linha + '<td>Administrador</td>';
+        linha = linha + `<td>
+            <a href="#editUtilizador" class="edit" data-toggle="modal" onclick="editarUtilizador(${user.id_utilizador})"><i
+                    class="material-icons" data-toggle="tooltip"
+                    title="Edit">&#xE254;</i></a>
+            <a href="#deleteUtilizador" class="delete" data-toggle="modal" onclick="removerUtilizador(${user.id_utilizador})"><i
+                    class="material-icons" data-toggle="tooltip"
+                    title="Delete">&#xE872;</i></a>
+            </td>`;
+    }
+    else {
+        let url = 'gerirProjetosUser/' + user.id_utilizador;
+        linha = linha + '<td>Colaborador</td>';
+        linha = linha + `<td>
+            <a href="#editUtilizador" class="edit" data-toggle="modal" onclick="editarUtilizador(${user.id_utilizador})"><i
+                    class="material-icons" data-toggle="tooltip"
+                    title="Edit">&#xE254;</i></a>
+            <a href="#deleteUtilizador" class="delete" data-toggle="modal" onclick="removerUtilizador(${user.id_utilizador})"><i
+                    class="material-icons" data-toggle="tooltip"
+                    title="Delete">&#xE872;</i></a>
+            <a href="${url}"><img src="http://projeto3/images/projetos.png"></img></a>
+            </td>`;
+    }
+    $('#tableBody').append(linha);
+}
 
 function inicializarDataTable() {
     $('#tabelaDados').DataTable({

@@ -13,9 +13,7 @@ class UtilizadorController extends Controller
     
     public function index()
     {
-        $utilizadores = Utilizador::all();
-
-        return view('admin.utilizadores', ['utilizadores' => $utilizadores]);
+        return view('admin.utilizadores');
     }
 
     public function store(Request $request)
@@ -146,5 +144,26 @@ class UtilizadorController extends Controller
             return null;
         }
         
+    }
+
+    public function getAll() {
+        $utilizadores = Utilizador::all();
+
+        if($utilizadores != null) {
+            return  response()->json($utilizadores); 
+        }
+        else {
+            return null;
+        }
+    }
+
+    public function gerirProjetosUser($id) {
+        $user = Utilizador::find($id);
+        if($user != null) {
+            \session(['id_utilizador' => $id]);
+
+            return view('admin/gerirProjetosUtilizador', ['title' => 'Utilizador: '.$user->nomeUtilizador]);   
+        }
+        return redirect()->route("utilizadores");
     }
 }

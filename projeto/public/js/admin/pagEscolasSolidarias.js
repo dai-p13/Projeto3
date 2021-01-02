@@ -1,4 +1,3 @@
-var carregamento = false;
 var idSelecionado = 0;
 
 $(document).ready(function () {
@@ -22,12 +21,18 @@ function inicializarDataTable(idTabela) {
     });
 }
 
+function destruirTabela(idTabela) {
+    if ($.fn.DataTable.isDataTable(idTabela)) {
+        $(idTabela).DataTable().clear().destroy();
+    }
+}
+
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
     $("#wrapper").toggleClass("toggled");
 });
 
-function editar(id, localidade) {
+function editar(id) {
     var url = "escolas/getPorId/" + id;
     $.ajax({
         url: url,
@@ -35,15 +40,26 @@ function editar(id, localidade) {
         dataType: "json",
         success: function (escola) {
             if (escola != null) {
-                url = 'escolas/edit/' + escola.id_escolaSolidaria
-                $('#formEditar').attr('action', url)
-                $('#nome').val(escola.nome)
-                $('#telefone').val(escola.telefone)
-                $('#telemovel').val(escola.telemovel)
-                $('#contactoAssPais').val(escola.contactoAssPais)
-                carregarAgrupamentos(false, localidade)
-                var disp = escola.disponivel
-                $('#disponibilidade').val(disp.toString())
+                getNomeAgrupamento = 'agrupamentos/getPorId/' + escola.id_agrupamento;
+                $.ajax({
+                    url: getNomeAgrupamento,
+                    method: "GET",
+                    dataType: "json",
+                    success: function (agrupamento) {
+                        url = 'escolas/edit/' + escola.id_escolaSolidaria
+                        $('#formEditar').attr('action', url)
+                        $('#nome').val(escola.nome)
+                        $('#telefone').val(escola.telefone)
+                        $('#telemovel').val(escola.telemovel)
+                        $('#contactoAssPais').val(escola.contactoAssPais)
+                        carregarAgrupamentosEdit()
+                        selecionar(false, escola.id_agrupamento, agrupamento.nome)
+                        var disp = escola.disponivel
+                        $('#disponibilidade').val(disp.toString())
+                    },
+                    error: function (error) {
+                    }
+                })
             }
         },
         error: function (error) {
@@ -56,60 +72,49 @@ function remover(id) {
     $('#formDelete').attr('action', url)
 }
 
-function carregarAgrupamentos(adicionar, localidade) {
-    if (adicionar) {
-        $('#tableBodyAdd').empty();
-        var tabela = $('#tableBodyAdd').dataTable();
-        tabela.fnDestroy();
-        $("#tableHeadAdd").empty();
-        let newheadAdd = `<tr>
-                    <th>Nome</th>
-                    <th>Localidade</th>
-                    <th>Nome Diretor</th>
-                    <th>Selecionar</th>
-                </tr>`;
-        $('#tableHeadAdd').append(newheadAdd)
-    }
-    else {
-        $('#tableBodyEdit').empty();
-        var tabela = $('#tableBodyEdit').dataTable();
-        tabela.fnDestroy();
-        $("#tableHeadEdit").empty();
-        let newheadEdit = `<tr>
-                    <th>Nome</th>
-                    <th>Localidade</th>
-                    <th>Nome Diretor</th>
-                    <th>Selecionar</th>
-                </tr>`;
-        $('#tableHeadEdit').append(newheadEdit)
-    }
+function carregarAgrupamentosAdd() {
     $.ajax({
-        url: 'agrupamentos/getAll',
+        url: 'agrupamentos/getAllComLocalidade',
         method: "GET",
         dataType: "json",
         success: function (agrupamentos) {
             if (agrupamentos != null) {
+                destruirTabela('#tabelaAdd')
                 for (elemento of agrupamentos) {
                     var linha = '<tr>'
                     linha = linha + `<td>${elemento.nome}</td>`
-                    linha = linha + verificaNull(localidade)
+                    linha = linha + verificaNull(elemento.localidade)
                     linha = linha + verificaNull(elemento.nomeDiretor)
-                    linha = linha + `<td><a onclick="selecionar(${adicionar}, ${elemento.id_agrupamento}, \'${elemento.nome}\')"><img src="http://projeto3/images/select.png"></img></a></td>`
+                    linha = linha + `<td><a onclick="selecionar(true, ${elemento.id_agrupamento}, \'${elemento.nome}\')"><img src="http://projeto3/images/select.png"></img></a></td>`
                     linha = linha + '</tr>'
-                    if (adicionar) {
-                        $('#tableBodyAdd').append(linha)
-                    }
-                    else {
-                        $('#tableBodyEdit').append(linha)
-                    }
+                    $('#tableBodyAdd').append(linha)
                 }
-                if (adicionar) {
-                    inicializada = 
-                    inicializarDataTable('#tabelaAdd')
+                inicializarDataTable('#tabelaAdd')
+            }
+        },
+        error: function (error) {
+        }
+    })
+}
+
+function carregarAgrupamentosEdit() {
+    $.ajax({
+        url: 'agrupamentos/getAllComLocalidade',
+        method: "GET",
+        dataType: "json",
+        success: function (agrupamentos) {
+            if (agrupamentos != null) {
+                destruirTabela('#tabelaEdit')
+                for (elemento of agrupamentos) {
+                    var linha = '<tr>'
+                    linha = linha + `<td>${elemento.nome}</td>`
+                    linha = linha + verificaNull(elemento.localidade)
+                    linha = linha + verificaNull(elemento.nomeDiretor)
+                    linha = linha + `<td><a onclick="selecionar(false, ${elemento.id_agrupamento}, \'${elemento.nome}\')"><img src="http://projeto3/images/select.png"></img></a></td>`
+                    linha = linha + '</tr>'
+                    $('#tableBodyEdit').append(linha)
                 }
-                else {
-                    inicializarDataTable('#tabelaEdit')
-                }
+                inicializarDataTable('#tabelaEdit')
             }
         },
         error: function (error) {
@@ -127,13 +132,13 @@ function verificaNull(valor) {
 }
 
 function selecionar(adicionar, id_agrupamento, nome) {
-    if(adicionar) {
+    if (adicionar) {
         $('#agrupamentoAdd').val(id_agrupamento)
         $('#nomeAgrupamentoAdd').val(nome)
     }
     else {
         $('#agrupamento').val(id_agrupamento)
-        $('#nomeAgrupamento').val(nome)    
+        $('#nomeAgrupamento').val(nome)
     }
-    
+
 }

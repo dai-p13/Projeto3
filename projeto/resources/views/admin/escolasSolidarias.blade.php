@@ -39,7 +39,7 @@
                                         <h2>Gerir <b>Escolas Solidárias</b></h2>
                                     </div>
                                     <div class="col-sm-6">
-                                        <a href="#add" class="btn btn-success" data-toggle="modal" onclick="carregarAgrupamentos(true)"><i
+                                        <a href="#add" class="btn btn-success" data-toggle="modal" onclick="carregarAgrupamentosAdd(true)"><i
                                             class="material-icons">&#xE147;</i> <span>Criar um nova Escola Solidária</span></a>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                                 else {
                                                     $dados = $dados.'<td>Indisponível</td>';    
                                                 }
-                                                $url = 'gerirProfessoresEscola'.$linha->id_escolaSolidaria;
+                                                $url = 'gerirEscola'.$linha->id_escolaSolidaria;
                                                 $dados = $dados.'<td>
                                                         <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_escolaSolidaria.', '.$localidade.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
@@ -135,12 +135,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Agrupamento:</label>
-                                        <input type="text" value="" id="nomeAgrupamentoAdd" name="nomeAgrupamento" class="form-control">
+                                        <input type="text" value="" id="nomeAgrupamentoAdd" name="nomeAgrupamento" class="form-control" readonly>
                                         <input type="hidden" value="" id="agrupamentoAdd" name="agrupamento">
                                     </div>
                                     <div class="form-group">
                                         <label>Disponibilidade</label>
-                                        <select name="disponibilidade">
+                                        <select name="disponibilidade" class="form-control">
                                             <option value="0">Disponivel</option>
                                             <option value="1">Indisponivel</option>
                                         </select>
@@ -201,14 +201,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Disponibilidade</label>
-                                        <select id="disponibilidade" name="disponibilidade">
+                                        <select id="disponibilidade" name="disponibilidade" class="form-control">
                                             <option value="0">Disponivel</option>
                                             <option value="1">Indisponivel</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Agrupamento:</label>
-                                        <input type="text" value="" id="nomeAgrupamento" name="nomeAgrupamento" class="form-control">
+                                        <input type="text" value="" id="nomeAgrupamento" name="nomeAgrupamento" class="form-control" readonly>
                                         <input type="hidden" value="" id="agrupamento" name="agrupamento">
                                     </div>
                                     <div class="form-group">
@@ -224,10 +224,6 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tableBodyEdit">
-                                                        <td>Nome</td>
-                                                        <td>Localidade</td>
-                                                        <td>Nome Diretor</td>
-                                                        <td>Selecionar</td>
                                                 </tbody>
                                             </table>
                                         </div>

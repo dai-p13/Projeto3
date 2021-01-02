@@ -6,6 +6,7 @@ use App\Models\EscolaSolidaria;
 use Illuminate\Http\Request;
 use DB;
 use Session;
+use App\Models\EscolaSolidariaProf;
 
 class EscolaSolidariaController extends Controller
 {
@@ -25,9 +26,10 @@ class EscolaSolidariaController extends Controller
         $escsolidarias->telemovel = $request->telemovel;
         $escsolidarias->contactoAssPais = $request->contactoAssPais;
         $escsolidarias->id_agrupamento = $request->agrupamento;
-        $escsolidarias = $request->disponibilidade;
+        $escsolidarias->disponivel = $request->disponibilidade;
 
         $escsolidarias->save();
+        return redirect()->route("escolas");
     }
 
     public function update($id, Request $request)
@@ -87,6 +89,73 @@ class EscolaSolidariaController extends Controller
                         ])
                     ->get();  
     
-    return \json_encode($ilustradores);
-}
+        return \json_encode($ilustradores);
+    }
+
+    public function gerirEscola($id) {
+        $escola = EscolaSolidaria::find($id);
+
+        \session(['id_escola' => $id]);
+
+        return view('admin/gerirProfessoresEscola', ['title' => 'Escola: '.$escola->nome]);
+
+    }
+
+    public function getProfessores() {
+        $id = intval(\session('id_escola'));
+        
+        $professores = DB::table('professor')
+                        ->join('escola_professor', 'professor.id_professor', '=', 'escola_professor.id_professor')
+                        ->select('professor.id_professor' , 'professor.nome', 'professor.telefone', 'professor.telemovel', 'professor.email')
+                        ->where([
+                            ['escola_professor.id_escola', '=', $id]
+                            ])
+                        ->get();
+
+
+        return response()->json($professores);  
+    }
+
+    public function getNomeEscolaPorId($id) {
+        $escola = EscolaSolidaria::find($id);
+        $nome = null;
+
+        if($escola != null) {
+            $nome = $escola->nome;
+        }
+
+        return $nome;
+    }
+
+    public function associarProfessor(Request $request) {
+        $novaAssoc = new EscolaSolidariaProf();
+
+        $novaAssoc->id_escola = $request->id_escola;
+        $novaAssoc->id_professor = $request->id_professor;
+
+        $novaAssoc->save();
+
+        $nomeEscola = self::getNomeEscolaPorId($request->id_escola);
+       
+        return redirect()->route("gerirEscola", $request->id_escola);
+    }
+
+    public function deleteAssociacao($id_professor, $id_escola) {
+        
+        $query = DB::table('escola_professor')
+                    ->where([
+                        ['escola_professor.id_escola', '=', $id_escola],
+                        ['escola_professor.id_professor', '=', $id_professor]
+                        ]);
+
+        $associacao = $query->first();
+
+        if($associacao != null) {
+            $query->delete();
+        }
+
+        $nomeEscola = self::getNomeEscolaPorId($id_escola);
+
+        return redirect()->route("gerirEscola", $id_escola);
+    }
 }
