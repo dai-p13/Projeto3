@@ -31,11 +31,10 @@ function downloadRegulamento(id) {
     $.ajax({
         url: url,
         method: "GET",
-        contentType: "application/pdf",
         success: function(response){
             if(response != null){
                 console.log(response)
-                window.location.href = response
+                window.location.href = url
             }
         },
         error: function(error){
