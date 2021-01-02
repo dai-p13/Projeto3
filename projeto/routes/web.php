@@ -33,6 +33,7 @@ Route::get('admin/projetos/getPorId/{id}', 'ProjetoController@getProjetoPorId')-
 Route::post('admin/projetos/delete/{id}', 'ProjetoController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetos/edit/{id}', 'ProjetoController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/projetos/add', 'ProjetoController@store')->middleware(['checkLogInAdmin']);
+Route::get('admin/projetos/getPdf/{id}', 'ProjetoController@getPdf')->middleware(['checkLogInAdmin']);
 
 Route::get('admin/gerirProjeto{id}', 'ProjetoController@gerirParticipantes')->name("gerirProjeto")->middleware(['checkLogInAdmin']);
 Route::get('admin/gerirProjeto/getParticipantes', 'ProjetoController@getParticipantes')->middleware(['checkLogInAdmin']);

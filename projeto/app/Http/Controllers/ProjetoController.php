@@ -581,4 +581,14 @@ class ProjetoController extends Controller
         
         return \json_encode($projetosReturn);
     }
+
+    public function getPdf($id){
+        //buscar projeto e caminho do pdf
+        $projetos = DB::table('projeto')
+                    ->select('projeto.regulamento')
+                    ->where('projeto.id_projeto', $id)
+                    ->get();
+
+        return $projetos;
+    }
 }
