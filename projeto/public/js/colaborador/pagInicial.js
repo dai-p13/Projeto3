@@ -25,7 +25,17 @@ function inicializarDataTable() {
 }
 
 function downloadRegulamento(id) {
-    alert("DOWNLOAD" + " || " + id);
+    var url = "projetos/getPdf/" + id;
+    $.ajax({
+        url: url,
+        method: "GET",
+        success: function(response){
+            window.location.href = response;
+        },
+        error: function(error){
+            
+        }
+    })
 }
 
 function editarProjeto(id) {

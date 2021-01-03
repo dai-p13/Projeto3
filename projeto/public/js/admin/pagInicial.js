@@ -32,10 +32,7 @@ function downloadRegulamento(id) {
         url: url,
         method: "GET",
         success: function(response){
-            if(response != null){
-                console.log(response)
-                window.location.href = url
-            }
+            window.location.href = response;
         },
         error: function(error){
             

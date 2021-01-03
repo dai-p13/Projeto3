@@ -584,11 +584,21 @@ class ProjetoController extends Controller
 
     public function getPdf($id){
         //buscar projeto e caminho do pdf
-        $projetos = DB::table('projeto')
+        $projeto = DB::table('projeto')
                     ->select('projeto.regulamento')
                     ->where('projeto.id_projeto', $id)
-                    ->get();
+                    ->first();
 
-        return $projetos;
+        if($projeto != null) {
+            if($projeto->regulamento != null) {
+                echo url($projeto->regulamento);
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
     }
 }

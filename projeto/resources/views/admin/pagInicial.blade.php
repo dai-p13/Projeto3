@@ -65,7 +65,7 @@
                                                 $dados = $dados.'<td>'.$projeto->nome.'</td>';
                                                 $dados = $dados.'<td>'.$projeto->objetivos.'</td>';
                                                 $dados = $dados.'<td><button id="'.$projeto->id_projeto.'" onclick="downloadRegulamento('.$projeto->id_projeto.')">
-                                                Download do Regulamento</button></td>';
+                                                Visualizar Regulamento</button></td>';
                                                 $dados = $dados.'<td>'.$projeto->publicoAlvo.'</td>';
                                                 $dados = $dados.verificaNull($projeto->observacoes);
                                                 $url = 'gerirProjeto'.$projeto->id_projeto;
