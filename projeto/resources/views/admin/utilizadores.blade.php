@@ -65,10 +65,30 @@
                         </div>
                     </div>
                 </div>
+                <div id="msg" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form>
+                                @csrf
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="titulo"></h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <p id="mensagem"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="OK">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div id="addUtilizador" class="modal fade">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form method="POST" action="utilizadores/addUtilizador">
+                            <form method="POST" action="utilizadores/addUtilizador" id="formAdd">
                                 @csrf
                                 <div class="modal-header">
                                     <h4 class="modal-title">Adicionar Utilizador</h4>
@@ -78,7 +98,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome de utilizador</label>
-                                        <input type="text" name="nomeUtilizador" class="form-control" required>
+                                        <input type="text" id="nomeUtilizadorAdd" name="nomeUtilizador" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
