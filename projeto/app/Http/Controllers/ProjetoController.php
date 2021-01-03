@@ -28,11 +28,12 @@ class ProjetoController extends Controller
 
         $projeto->nome = $request->nome;
         $projeto->objetivos = $request->objetivos;
-        $projeto->regulamento = $request->regulamento;
+        $projeto->regulamento = $request->regulamento->storeAs('regulamento', 'Regulamento.pdf', 'saves');
         $projeto->publicoAlvo = $request->publicoAlvo;
         $projeto->observacoes = $request->observacoes;
 
         $projeto->save();
+        return redirect()->route("dashboardAdmin");
     }
 
     public function update(Request $request, projeto $projeto)

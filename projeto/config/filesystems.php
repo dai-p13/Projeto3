@@ -51,6 +51,11 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
         ],
+        'saves' =>[
+            'driver' => 'local',
+            'root' => 'regulamento',
+            'visibility' => 'public',
+        ],
 
     ],
 
