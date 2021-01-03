@@ -188,6 +188,14 @@ Route::post('admin/gerirEscola/delete/{id}-{id_escola}', 'EscolaSolidariaControl
 Route::get('admin/professores/getDisponiveisSemEscola/{id}','ProfessorController@getDisponiveisSemEscola')->middleware(['checkLogInAdmin']);
 Route::post('admin/gerirEscola/add','EscolaSolidariaController@associarProfessor')->middleware(['checkLogInAdmin']);
 
+//ROUTES PARA A GESTÃO DOS PROFESSORES DAS UNIVERSIDADES
+
+Route::get('admin/gerirUniversidade{id}', 'UniversidadeController@gerirProfessoresUniversidade')->name("gerirUniversidade")->middleware(['checkLogInAdmin']);
+Route::get('admin/gerirUniversidade/getProfessores', 'UniversidadeProfFaculdadeController@getProfessores')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirUniversidade/delete/{id}-{id_universidade}', 'UniversidadeProfFaculdadeController@destroy')->middleware(['checkLogInAdmin']);
+Route::get('admin/profsFaculdade/getDisponiveisSemEscola/{id}','ProfessorFaculdadeController@getDisponiveisSemEscola')->middleware(['checkLogInAdmin']);
+Route::post('admin/gerirUniversidade/add','UniversidadeProfFaculdadeController@store')->middleware(['checkLogInAdmin']);
+
 //ROUTES PARA A GESTÃO DOS PROJETOS ASSOCIADOS AOS UTILIZADORES DO TIPO: COLABORADOR
 
 Route::get('admin/gerirProjetosUser/{id}', 'UtilizadorController@gerirProjetosUser')->name("projetosUtilizador")->middleware(['checkLogInAdmin']);
@@ -323,4 +331,12 @@ Route::get('colaborador/gerirEscola{id}', 'EscolaSolidariaController@gerirEscola
 Route::get('colaborador/gerirEscola/getProfessores', 'EscolaSolidariaController@getProfessores')->middleware(['CheckLogInColaborador']);
 Route::get('colaborador/professores/getDisponiveisSemEscola/{id}','ProfessorController@getDisponiveisSemEscola')->middleware(['CheckLogInColaborador']);
 Route::post('colaborador/gerirEscola/add','EscolaSolidariaController@associarProfessor')->middleware(['CheckLogInColaborador']);
+
+//ROUTES PARA A GESTÃO DOS PROFESSORES DAS UNIVERSIDADES
+
+Route::get('colaborador/gerirUniversidade{id}', 'UniversidadeController@gerirProfessoresUniversidade')->name("gerirUniversidadeColaborador")->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/gerirUniversidade/getProfessores', 'UniversidadeProfFaculdadeController@getProfessores')->middleware(['CheckLogInColaborador']);
+Route::get('colaborador/profsFaculdade/getDisponiveisSemEscola/{id}','ProfessorFaculdadeController@getDisponiveisSemEscola')->middleware(['CheckLogInColaborador']);
+Route::post('colaborador/gerirUniversidade/add','UniversidadeProfFaculdadeController@store')->middleware(['CheckLogInColaborador']);
+
 

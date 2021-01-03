@@ -114,4 +114,18 @@ class UniversidadeController extends Controller
     
         return \json_encode($juris);
     }
+
+    public function gerirProfessoresUniversidade($id) {
+        $universidade = Universidade::find($id);
+
+        \session(['id_universidade' => $id]);
+
+        $user = session()->get("utilizador");
+        if($user->tipoUtilizador == 0) {
+            return view('admin/gerirProfessoresUniversidade', ['title' => 'Universidade: <br><br>'.$universidade->nome.' - '.$universidade->tipo]);
+        }
+        else {
+            return view('colaborador/gerirProfessoresUniversidade', ['title' => 'Universidade: <br><br>'.$universidade->nome.' - '.$universidade->tipo]);
+        }
+    }
 }

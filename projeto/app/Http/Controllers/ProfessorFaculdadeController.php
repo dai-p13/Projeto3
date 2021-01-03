@@ -116,4 +116,40 @@ class ProfessorFaculdadeController extends Controller
     
         return \json_encode($professores);
     }
+
+    public function existeAssociacao($id_professor, $id_universidade) {
+        
+        $professor = DB::table('professor_faculdade')
+                    ->join('universidade_prof_faculdade', 'professor_faculdade.id_professorFaculdade', '=', 'universidade_prof_faculdade.id_professorFaculdade')
+                    ->where([
+                        ['universidade_prof_faculdade.id_professorFaculdade', '=', $id_professor],
+                        ['universidade_prof_faculdade.id_universidade', '=', $id_universidade]
+                        ])
+                    ->first();
+
+        if($professor != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    
+    public function getDisponiveisSemEscola($id_universidade) {
+        $profsSemUniversidade = array();
+        
+        $profs = DB::table('professor_faculdade')
+                    ->select('professor_faculdade.id_professorFaculdade', 'professor_faculdade.cargo', 
+                    'professor_faculdade.telemovel', 'professor_faculdade.telefone', 'professor_faculdade.email', 'professor_faculdade.nome')
+                    ->get();
+
+        foreach($profs as $professor) {
+            $existe = self::existeAssociacao($professor->id_professorFaculdade, $id_universidade);
+            if($existe == false) {
+                array_push($profsSemUniversidade, $professor);
+            }
+        }
+        
+        return \json_encode($profsSemUniversidade);
+    }
 }

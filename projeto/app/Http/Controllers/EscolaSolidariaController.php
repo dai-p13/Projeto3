@@ -188,8 +188,6 @@ class EscolaSolidariaController extends Controller
             $query->delete();
         }
 
-        $nomeEscola = self::getNomeEscolaPorId($id_escola);
-
         return redirect()->route("gerirEscola", $id_escola);
     }
 }

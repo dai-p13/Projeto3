@@ -12,6 +12,7 @@ class UniversidadeProfFaculdade extends Model
     protected $table = 'universidade_prof_faculdade';
     public $primaryKey = ['id_universidade', 'id_professorFaculdade'];
     public $timestamps = false;
+    public $incrementing = false;
 
     protected $fillable = [
         'id_professorFaculdade',

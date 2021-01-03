@@ -105,19 +105,6 @@ class ProfessorController extends Controller
         
     }
 
-    public function getNextPage() {
-
-        $professor = DB::table('professor')->simplePaginate(10);
-        
-        if($professor != null) {
-            return response()->json($professor);
-        }
-        else {
-            return null;
-        }
-        
-    }
-
     public function getNumProfs() {
 
         $professor = Professor::all();
@@ -154,9 +141,6 @@ class ProfessorController extends Controller
         
         $profs = DB::table('professor')
                     ->select('professor.id_professor', 'professor.telemovel', 'professor.telefone', 'professor.email', 'professor.nome')
-                    ->where([
-                        ['professor.disponivel', '=', 0]
-                        ])
                     ->get();
 
         foreach($profs as $professor) {

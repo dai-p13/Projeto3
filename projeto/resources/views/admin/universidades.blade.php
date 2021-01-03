@@ -75,6 +75,7 @@
                                                 else {
                                                     $dados = $dados.'<td>Indisponível</td>';    
                                                 }
+                                                $url = 'gerirUniversidade'.$linha->id_universidade;
                                                 $dados = $dados.'<td>
                                                         <a href="#edit" class="edit" data-toggle="modal" onclick="editar('.$linha->id_universidade.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
@@ -82,6 +83,7 @@
                                                         <a href="#delete" class="delete" data-toggle="modal" onclick="remover('.$linha->id_universidade.')"><i
                                                                 class="material-icons" data-toggle="tooltip"
                                                                 title="Delete">&#xE872;</i></a>
+                                                        <a href="'.$url.'"><img src="http://projeto3/images/gerir_professores.png"></img></a>
                                                     </td>';
                                                 $dados = $dados.'</tr>';
                                                 echo $dados;
