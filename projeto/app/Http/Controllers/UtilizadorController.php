@@ -41,14 +41,12 @@ class UtilizadorController extends Controller
             $user->email = $email; 
 
             $user->save();
-            
-            $user = session()->get("utilizador");
-            if($user->tipoUtilizador == 0) {
-                return redirect()->route("utilizadores");
-            }
-            else {
-                return redirect()->route("utilizadoresColaborador");
-            }
+
+            return redirect()->route("utilizadores");
+        }
+        else {
+            $msg = 'O nome de utilizador, '.$nomeUtilizador.', já está atribuido!';
+            return view('admin.utilizadores', ['msg' => $msg]);
         }
     }
 
@@ -171,6 +169,16 @@ class UtilizadorController extends Controller
         }
     }
 
+    public function existeUser($name) {
+        $user = DB::table('utilizador')->where('nomeUtilizador', $nome)->first();
+        if($user != null) {
+            return true; 
+        }
+        else {
+            return false;
+        }
+    }
+
     public function gerirProjetosUser($id) {
         $user = Utilizador::find($id);
         if($user != null) {
@@ -184,12 +192,5 @@ class UtilizadorController extends Controller
                 return view('colaborador/gerirProjetosUtilizador', ['title' => 'Utilizador: '.$user->nomeUtilizador]); 
             }  
         }
-        $user = session()->get("utilizador");
-        if($user->tipoUtilizador == 0) {
-            return redirect()->route("utilizadores"); 
-        }
-        else {
-            return redirect()->route("utilizadoresColaborador");
-        } 
     }
 }

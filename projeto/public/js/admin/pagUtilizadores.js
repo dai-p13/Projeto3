@@ -16,9 +16,12 @@ $(document).ready(function () {
 
         }
     })
-
-
 });
+
+function mensagem(msg) {
+    $('#mensagem').val(msg)
+    $('#msg').modal('show'); 
+}
 
 function criarLinha(user) {
     var linha = '<tr>'
@@ -29,7 +32,7 @@ function criarLinha(user) {
     linha = linha + verificaNull(user.telemovel);
     linha = linha + verificaNull(user.telefone);
     linha = linha + `<td>${user.departamento}</td>`;
-    if(user.tipoUtilizador == 0) {
+    if (user.tipoUtilizador == 0) {
         linha = linha + '<td>Administrador</td>';
         linha = linha + `<td>
             <a href="#editUtilizador" class="edit" data-toggle="modal" onclick="editarUtilizador(${user.id_utilizador})"><i

@@ -42,6 +42,7 @@ Route::get('admin/gerirProjeto/pesquisaParticipantes/{tipo}-{ano}-{pesq}', 'Proj
 Route::get('admin/utilizadores', 'UtilizadorController@index')->name("utilizadores")->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/getPorId/{id}', 'UtilizadorController@getUserPorId')->middleware(['checkLogInAdmin']);
 Route::get('admin/utilizadores/getAll', 'UtilizadorController@getAll')->middleware(['checkLogInAdmin']);
+Route::get('admin/utilizadores/existeUserNome/{nome}', 'UtilizadorController@existeUser')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/deleteUtilizador/{id}', 'UtilizadorController@destroy')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/editUtilizador/{id}', 'UtilizadorController@update')->middleware(['checkLogInAdmin']);
 Route::post('admin/utilizadores/addUtilizador', 'UtilizadorController@store')->middleware(['checkLogInAdmin']);

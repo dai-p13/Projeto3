@@ -1,6 +1,4 @@
 var id_escola = 0;
-var inicializada = false;
-var existe = false;
 
 $("#menu-toggle").click(function (e) {
     e.preventDefault();
@@ -21,13 +19,6 @@ $(document).ready(function () {
             inicializarDataTable('#tabelaProfsAssociados')
         },
         error: function (error) {
-        }
-    })
-    
-
-    $("#formAdd").submit(function (e) {
-        if (existe) {
-            return false;
         }
     })
 });
