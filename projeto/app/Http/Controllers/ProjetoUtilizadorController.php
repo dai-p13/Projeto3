@@ -17,14 +17,8 @@ class ProjetoUtilizadorController extends Controller
         $projutilizador->id_utilizador = $request->id_utilizador;
 
         $projutilizador->save();
-        
-        $user = session()->get("utilizador");
-        if($user->tipoUtilizador == 0) {
-            return redirect()->route("gerirProjeto", ['id' => intval($request->id_projeto)]);
-        }
-        else {
-            return redirect()->route("gerirProjetoColaborador", ['id' => intval($request->id_projeto)]);
-        }
+
+        return redirect()->route("projetosUtilizador", ['id' => intval($request->id_utilizador)]);
     }
 
     public function destroy($id, $id_projeto)

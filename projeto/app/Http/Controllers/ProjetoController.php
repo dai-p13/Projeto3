@@ -13,11 +13,18 @@ class ProjetoController extends Controller
     public function index()
     {
         $user = session()->get("utilizador");
-        $projetos = Projeto::all();
         if($user->tipoUtilizador == 0) {
+            $projetos = Projeto::all();
             return view('admin/pagInicial', ['projetos' => $projetos]);
         }
         else {
+            $projetos = DB::table('projeto')
+                    ->join('projeto_utilizador', 'projeto.id_projeto', '=', 'projeto_utilizador.id_projeto')
+                    ->select('projeto.id_projeto' , 'projeto.nome', 'projeto.objetivos', 'projeto.publicoAlvo', 'projeto.observacoes')
+                    ->where([
+                        ['projeto_utilizador.id_utilizador', '=', $user->id_utilizador]
+                        ])
+                    ->get();
             return view('colaborador/pagInicial', ['projetos' => $projetos]);
         }
     }

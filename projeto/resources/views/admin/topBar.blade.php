@@ -12,7 +12,7 @@
                 <a class="nav-link" href="#">Página Inicial<span class="sr-only"></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="terminarSessao">Terminar Sessão<span class="sr-only"></span></a>
+                <a class="nav-link" href="http://projeto3/admin/terminarSessao">Terminar Sessão<span class="sr-only"></span></a>
             </li>
         </ul>
     </div>
