@@ -35,17 +35,47 @@ class ProjetoController extends Controller
 
         $projeto->nome = $request->nome;
         $projeto->objetivos = $request->objetivos;
-        $projeto->regulamento = $request->regulamento->storeAs('regulamento', 'Regulamento.pdf', 'saves');
+        //$projeto->regulamento = $request->regulamento->storeAs('regulamento', 'Regulamento.pdf', 'saves');
         $projeto->publicoAlvo = $request->publicoAlvo;
         $projeto->observacoes = $request->observacoes;
 
         $projeto->save();
-        return redirect()->route("dashboardAdmin");
+        
+        $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("dashboardAdmin");
+            }
+            else {
+                return redirect()->route("dashboardColaborador");
+            }
     }
 
-    public function update(Request $request, projeto $projeto)
+    public function update($id, Request $request)
     {
-        //
+        $id_projeto = \intval($id);
+        $nome = $request->nome;
+        $objetivos = $request->objetivos;
+        $publicoAlvo = $request->publicoAlvo;
+        $observacoes = $request->observacoes;
+        
+        $projeto = Projeto::find($id_projeto);
+        if($projeto != null) {
+            $projeto->nome = $nome;
+            $projeto->objetivos = $objetivos;
+            //$projeto->regulamento = $request->regulamento->storeAs('regulamento', 'Regulamento.pdf', 'saves');
+            $projeto->publicoAlvo = $publicoAlvo;
+            $projeto->observacoes = $observacoes;
+
+            $projeto->save();
+
+            $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("dashboardAdmin");
+            }
+            else {
+                return redirect()->route("dashboardColaborador");
+            }
+        }
     }
 
     public function destroy($id)
@@ -67,9 +97,30 @@ class ProjetoController extends Controller
             if($projeto->professoresFacul()->first() != null) {
                 $projeto->professoresFacul()->where('id_projeto', $id)->delete();
             }
+            if($projeto->rbes()->first() != null) {
+                $projeto->rbes()->where('id_projeto', $id)->delete();
+            }
+            if($projeto->universidades()->first() != null) {
+                $projeto->universidades()->where('id_projeto', $id)->delete();
+            }
+            if($projeto->contadores()->first() != null) {
+                $projeto->contadores()->where('id_projeto', $id)->delete();
+            }
+            if($projeto->entidades()->first() != null) {
+                $projeto->entidades()->where('id_projeto', $id)->delete();
+            }
+            if($projeto->escolas()->first() != null) {
+                $projeto->escolas()->where('id_projeto', $id)->delete();
+            }
             $projeto->delete();    
         }
-        return redirect()->route("ilustradores");
+        $user = session()->get("utilizador");
+            if($user->tipoUtilizador == 0) {
+                return redirect()->route("dashboardAdmin");
+            }
+            else {
+                return redirect()->route("dashboardColaborador");
+            }
     }
 
     public function getProjetoPorId($id)

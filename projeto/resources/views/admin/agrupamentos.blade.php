@@ -123,7 +123,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome</label>
-                                        <input type="text" name="nome" class="form-control" required>
+                                        <input type="text" name="nome" class="form-control" maxlength="70" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Telefone</label>
@@ -131,11 +131,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" name="email" class="form-control">
+                                        <input type="email" name="email" class="form-control" >
                                     </div>
                                     <div class="form-group">
                                         <label>Nome do Diretor</label>
-                                        <input type="text" name="nomeDiretor" class="form-control">
+                                        <input type="text" name="nomeDiretor" class="form-control" >
                                     </div>
                                     <div class="form-group">
                                         <label>Rua</label>
@@ -147,7 +147,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Localidade</label>
-                                        <input type="text" name="localidade" class="form-control" required>
+                                        <input type="text" name="localidade" class="form-control">
                                     </div>
                                     <br>
                                     <label style="font-size: 18px">Código Postal</label>

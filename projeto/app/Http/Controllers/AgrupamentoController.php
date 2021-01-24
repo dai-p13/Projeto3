@@ -173,7 +173,12 @@ class AgrupamentoController extends Controller
 
     public function getAgrupamentoPorId($id) {
         
-        $agrupamento = DB::table('agrupamento')->where('id_agrupamento', $id)->first();
+        $agrupamento = DB::table('agrupamento')
+                ->join('cod_postal', 'agrupamento.codPostal', '=' , 'cod_postal.codPostal')
+                ->join('cod_postal_rua', 'agrupamento.codPostalRua', '=' ,'cod_postal_rua.codPostalRua')
+                ->select('agrupamento.*', 'cod_postal.localidade', 'cod_postal_rua.rua')
+                ->first();
+       
         if($agrupamento != null) {
             return response()->json($agrupamento);  
         }

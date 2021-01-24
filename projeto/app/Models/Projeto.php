@@ -22,7 +22,7 @@ class Projeto extends Model
     ];
 
     public function utilizadores() {
-        return $this->hasMany(Utilizador::class, 'id_projeto');
+        return $this->hasMany(ProjetoUtilizador::class, 'id_projeto');
     }
 
     public function ilustradores() {

@@ -38,6 +38,8 @@ function editar(id) {
                 $('#email').val(agrupamento.email)
                 $('#telefone').val(agrupamento.telefone)
                 $('#nomeDiretor').val(agrupamento.nomeDiretor)
+                $('#rua').val(agrupamento.rua)
+                $('#numPorta').val(agrupamento.numPorta)
                 $('#localidade').val(agrupamento.localidade)
                 $('#codPostal').val(agrupamento.codPostal)
                 $('#codPostalRua').val(agrupamento.codPostalRua)

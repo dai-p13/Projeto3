@@ -27,6 +27,7 @@ function inicializarDataTable() {
 function downloadRegulamento(id) {
     //alert("DOWNLOAD" + " || " + id);
     //ajax da route 
+    /*
     var url = "projetos/getPdf/" + id;
     $.ajax({
         url: url,
@@ -38,6 +39,7 @@ function downloadRegulamento(id) {
             
         }
     })
+    */
 }
 
 function editarProjeto(id) {
@@ -47,10 +49,10 @@ function editarProjeto(id) {
         method: "GET",
         dataType: "json",
         success: function (response) {
+            console.log(response)
             if (response != null) {
                 url = 'projetos/edit/' + response.projeto.id_projeto
                 $('#formEditar').attr('action', url)
-                $('#editPorjetoId').val(response.projeto.id_projeto)
                 $('#edit_Nome').val(response.projeto.nome)
                 $('#edit_Obj').val(response.projeto.objetivos)
                 $('#edit_PublicoAlvo').val(response.projeto.publicoAlvo)

@@ -110,7 +110,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome do Projeto</label>
-                                        <input type="text" nome="nome" class="form-control" required>
+                                        <input type="text" name="nome" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Objetivos</label>
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Regulamento</label>
-                                        <input type="file" name="regulamento" class="form-control-file" required>
+                                        <input type="file" name="regulamento" class="form-control-file">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -150,7 +150,7 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>Nome do Projeto</label>
-                                        <input id="edit_Nome" type="text" nome="nome" class="form-control" required>
+                                        <input id="edit_Nome" type="text" name="nome" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Objetivos</label>
@@ -166,9 +166,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Regulamento</label>
-                                        <input type="file" name="regulamento" class="form-control" required>
+                                        <input type="file" name="regulamento" class="form-control">
                                     </div>
-                                    <input type="hidden" id="editPorjetoId" name="id_projeto" value="">
                                 </div>
                                 <div class="modal-footer">
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
